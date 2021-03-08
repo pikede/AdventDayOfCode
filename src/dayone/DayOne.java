@@ -12,7 +12,7 @@ public class DayOne {
         List<Integer> listOfReports = new ArrayList<>();
 
         String content;
-        content = new String(Files.readAllBytes(Paths.get("src/file.txt")));
+        content = new String(Files.readAllBytes(Paths.get("src/dayone/file.txt")));
 
         String number = "";
         for (int i = 0; i < content.length(); i++) {
@@ -24,9 +24,9 @@ public class DayOne {
             }
         }
 
-        System.out.println(get2020ReportRepair(listOfReports, 2020)); //  ANS => 471019
-        System.out.println(get2020ReportRepairVariationTwo(listOfReports, 2020)); //  ANS => 471019
-        System.out.println(get2020ReportRepairPart2(listOfReports, 2020)); // ANS => 103927824
+//        System.out.println(get2020ReportRepair(listOfReports, 2020)); //  ANS => 471019
+//        System.out.println(get2020ReportRepairVariationTwo(listOfReports, 2020)); //  ANS => 471019
+//        System.out.println(get2020ReportRepairPart2(listOfReports, 2020)); // ANS => 103927824
     }
 
 
