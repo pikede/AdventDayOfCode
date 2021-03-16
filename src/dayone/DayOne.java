@@ -14,21 +14,21 @@ public class DayOne {
         String content;
         content = new String(Files.readAllBytes(Paths.get("src/dayone/file.txt")));
 
-        String number = "";
+        StringBuilder number = new StringBuilder();
+
         for (int i = 0; i < content.length(); i++) {
             if (Character.getNumericValue(content.charAt(i)) != -1) {
-                number += content.charAt(i);
+                number.append(content.charAt(i));
             } else {
-                listOfReports.add(Integer.valueOf(number));
-                number = "";
+                listOfReports.add(Integer.valueOf(number.toString()));
+                number = new StringBuilder();
             }
         }
 
-//        System.out.println(get2020ReportRepair(listOfReports, 2020)); //  ANS => 471019
-//        System.out.println(get2020ReportRepairVariationTwo(listOfReports, 2020)); //  ANS => 471019
-//        System.out.println(get2020ReportRepairPart2(listOfReports, 2020)); // ANS => 103927824
+        System.out.println(get2020ReportRepair(listOfReports, 2020)); //  ANS => 471019
+        System.out.println(get2020ReportRepairVariationTwo(listOfReports, 2020)); //  ANS => 471019
+        System.out.println(get2020ReportRepairPart2(listOfReports, 2020)); // ANS => 103927824
     }
-
 
     /*
     Finds two numbers that sums up to the target from the given list, and then multiplies those two numbers together
@@ -75,6 +75,7 @@ public class DayOne {
         return -1;
     }
 
+    // return element if it exist, else return -1 (not found)
     static int find(List<Integer> list, int target) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == target) {

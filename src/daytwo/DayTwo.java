@@ -19,9 +19,8 @@ public class DayTwo {
         char colon = ':';
         char space = ' ';
 
-        for (int i = 0; i < listOfPasswords.size(); i++) {
-            String passwordPolicy = listOfPasswords.get(i);
-
+        for (String passwordPolicy : listOfPasswords) {
+            // sample passwordPolicy -> 4-8 n: dnjjrtclnzdnghnbnn
             int dashIndex = passwordPolicy.indexOf(dash);        // index of dash position in password
             int spaceIndex = passwordPolicy.indexOf(space);      // index of first space position in password
             int colonIndex = passwordPolicy.indexOf(colon);      // index of colon position in password
@@ -53,8 +52,7 @@ public class DayTwo {
         char colon = ':';
         char space = ' ';
 
-        for (int i = 0; i < listOfPasswords.size(); i++) {
-            String passwordPolicy = listOfPasswords.get(i);
+        for (String passwordPolicy : listOfPasswords) {
 
             int dashIndex = passwordPolicy.indexOf(dash);        // index of dash position in password
             int spaceIndex = passwordPolicy.indexOf(space);      // index of first space position in password
