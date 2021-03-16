@@ -14,6 +14,7 @@ public class BinaryBoarding {
     private static int getMaxBoardingPassSeatId(List<String> textFile) {
         int maxSeatId = Integer.MIN_VALUE;
         int lastRowIndex = 7;
+        int lastColumnIndex = 9;
 
         for (String boardingPass : textFile) {
             int currentMax;
@@ -37,7 +38,6 @@ public class BinaryBoarding {
 
             // COLUMN SECTION
             int[] columnArr = {0, 7};  // array holding  the columns in the plane
-            int lastColumnIndex = 9;
             int currentColumnId;
             for (int column = 7; column <= lastColumnIndex; column++) {
                 if (boardingPass.charAt(column) == 'L') {
@@ -61,9 +61,13 @@ public class BinaryBoarding {
     }
 
     /*
-    @param low  -> low limit
-    @param high -> high limit
-    @param zoneChar -> sitting zoneChar
+    * @param low  -> low limit
+    * @param high -> high limit
+    * @param zoneChar -> sitting zoneChar,
+    * F -> Front,
+    * B -> Back (must be rounded up),
+    * L -> Left,
+    * R -> Right (must be rounded up)
      */
     static int getMedian(int low, int high, char zoneChar) {
         int n = high - low;

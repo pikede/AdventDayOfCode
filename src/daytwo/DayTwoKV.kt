@@ -22,7 +22,6 @@ private fun getNumberOfValidPasswordsPartOne(listOfPasswords: List<String>): Int
         val dashIndex = passwordPolicy.indexOf(dash)       // index of dash position in password
         val colonIndex = passwordPolicy.indexOf(colon)     // index of first space position in password
         val spaceIndex = passwordPolicy.indexOf(space)     // index of colon position in password
-
         val low = Integer.parseInt(passwordPolicy.substring(0, dashIndex))    // lower frequency
         val high = Integer.parseInt(passwordPolicy.substring(dashIndex + 1, spaceIndex))    // higher frequency
         val policyChar = passwordPolicy.substring(spaceIndex + 1, colonIndex)      // password character to examine

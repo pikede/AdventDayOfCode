@@ -6,9 +6,7 @@ import java.nio.file.Paths
 
 fun main() {
     val listOfReports = mutableListOf<Int>()
-
     val content = String(Files.readAllBytes(Paths.get("src/dayone/file.txt")))
-
     val number = StringBuilder()
 
     for (i in content.indices) {
