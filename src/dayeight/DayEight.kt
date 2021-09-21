@@ -5,7 +5,7 @@ import java.nio.file.Paths
 
 fun main() {
     val input = Files.readAllLines(Paths.get("src/dayeight/input"))
-    println(Accumulator(inputList = input).accumulateList())
+    println(Accumulator(inputList = input).accumulateList()) // ANS : 1553
     println(Accumulator(inputList = input).accumulateList2())
 }
 
