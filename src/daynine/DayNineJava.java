@@ -10,8 +10,10 @@ public class DayNineJava {
     public static void main(String[] args) throws IOException {
         List<String> inputFile = Files.readAllLines(Paths.get("src/daynine/file.txt"));
 
-        ExceptionNumber part1 = new ExceptionNumber(inputFile);
-        System.out.println(part1.getExceptionNumber());   //ANS -> 88311122
+        ExceptionNumber exceptionNumberObj = new ExceptionNumber(inputFile);
+        int exceptionNumber = exceptionNumberObj.getExceptionNumber();
+        System.out.println(exceptionNumber);   // ANS -> 88311122
+        System.out.println(exceptionNumberObj.getEncryptionWeakness(exceptionNumber));    // ANS  ->  13549369
     }
 }
 
@@ -44,6 +46,48 @@ class ExceptionNumber {
         }
 
         return -1;
+    }
+
+    int getEncryptionWeakness(int target) {
+
+        int start = 0, end = 1;
+        int sum;
+
+        for (int index = 0; index < input.size(); index++) {
+            int tempEnd = end;
+            sum =  getIntValueForIndex(start) + getIntValueForIndex(end);
+            while (tempEnd < input.size() && start < tempEnd) {
+                if (sum == target) {
+                    return getMinMaxSum(start, tempEnd);
+                } else if (sum > target) {
+                    // reduce window by moving window's starting position
+                    sum -= getIntValueForIndex(start++);
+                } else {
+                    // increase window by moving window's end position
+                    tempEnd++;
+                    sum += getIntValueForIndex(tempEnd);
+                }
+            }
+            end = tempEnd;
+        }
+        return -1;
+    }
+
+    // returns sum of max number and minimum number in contiguous set
+    int getMinMaxSum(int start, int end) {
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+
+        for (int i = start; i <= end; i++) {
+            int currentIndex = getIntValueForIndex(i);
+            if (min > currentIndex) {
+                min = currentIndex;
+            }
+            if (max < currentIndex) {
+                max = currentIndex;
+            }
+        }
+
+        return min + max;
     }
 
     private int getIntValueForIndex(int index) {
