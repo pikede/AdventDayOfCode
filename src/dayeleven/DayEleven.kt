@@ -18,7 +18,7 @@ class SeatingSystem(private val inputSeatPositions: List<String>) {
 
     fun getNumberOfOccupiedSeats(): Int {
         seatPositions.addAll(inputSeatPositions)
-        var tempMap = arrayListOf<String>()
+        val tempMap = arrayListOf<String>()
 
         do {
             if (tempMap.isNotEmpty()) {
@@ -31,12 +31,13 @@ class SeatingSystem(private val inputSeatPositions: List<String>) {
             for (rowx in seatPositions.indices) {
                 var line = ""
                 for (coly in seatPositions[rowx].indices) {
+                    val numberAdjacent : Int = getAdjacentOccupied(rowx, coly)
                     line += when {
-                        seatPositions[rowx][coly] == '#' && getAdjacentOccupied(rowx, coly) > 3 -> {
+                        seatPositions[rowx][coly] == '#' && numberAdjacent > 3 -> {
 //                        if 4 or more adjacent seats are occupied, set seat position to empty L
                             'L'
                         }
-                        seatPositions[rowx][coly] == 'L' && getAdjacentOccupied(rowx, coly) == 0 -> {
+                        seatPositions[rowx][coly] == 'L' && numberAdjacent == 0 -> {
                             // check adjacent
                             // if adjacent seats are empty, occupy this seat
                             '#'
@@ -79,7 +80,7 @@ class SeatingSystem(private val inputSeatPositions: List<String>) {
         var ans = 0
 
         seatPositions.addAll(inputSeatPositions)
-        var tempMap = arrayListOf<String>()
+        val tempMap = arrayListOf<String>()
 
         do {
             if (tempMap.isNotEmpty()) {
@@ -140,6 +141,6 @@ class SeatingSystem(private val inputSeatPositions: List<String>) {
     }
 
     private fun isValid(x: Int, y: Int): Boolean {
-        return x >= 0 && x < seatPositions.size && y >= 0 && y < seatPositions[0].length
+        return x >= 0 && x < seatPositions.size && y >= 0 && y < seatPositions[x].length
     }
 }
