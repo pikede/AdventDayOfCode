@@ -7,7 +7,7 @@ fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/daytwo/file.txt"))
     val p1 = Position(input)
     println(p1.partOne())    // 1924923
-    println(p1.partTwo())
+    println(p1.partTwo())    // 1982495697
 }
 
 class Position(private val input: List<String>) {
