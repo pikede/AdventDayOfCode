@@ -1,10 +1,10 @@
-package yeartwentyone
+package yeartwentyone.dayone
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/file.txt"))
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayone/file.txt"))
     println(partOne(input))   // 1548
     println(partTwo(input))   // 1589
 }
