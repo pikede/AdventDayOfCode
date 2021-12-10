@@ -32,7 +32,7 @@ class Bingo(val input: ArrayList<String>) {
                         if (input[index] == input.last()) {
                             board.add(input[index])
                         }
-                            numbersDrawn.add(Integer.parseInt(drawnNumbers[drawn]))
+                        numbersDrawn.add(Integer.parseInt(drawnNumbers[drawn]))
 
                         val playersBoard = BingoBoard(board, numbersDrawn)
                         playersBoard.createBingoBoard()
