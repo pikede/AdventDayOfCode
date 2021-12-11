@@ -5,12 +5,12 @@ import java.nio.file.Paths
 
 fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayfive/file.txt")) as ArrayList<String>
-    val one = Lines(input)
-    println(one.partOne())  //  7438
-    println(one.partTwo())  //  21406
+    val solution = HydrothermalVenture(input)
+    println(solution.partOne())  //  7438
+    println(solution.partTwo())  //  21406
 }
 
-class Lines(val input: ArrayList<String>) {
+class HydrothermalVenture(val input: ArrayList<String>) {
     private val allCoordinates = ArrayList<ArrayList<Int>>()
     private val requiredCoordinates = ArrayList<ArrayList<Int>>()
     private val requiredCoordinatesPartTwo = ArrayList<ArrayList<Int>>()
@@ -26,7 +26,7 @@ class Lines(val input: ArrayList<String>) {
         getRequiredPoints()
 
         val graph = Graph(requiredCoordinates, xMax + 1, yMax + 1)
-        graph.createGraph()
+        graph.plotGraph()
 
         return graph.getOverlappingPoints()
     }
@@ -35,7 +35,7 @@ class Lines(val input: ArrayList<String>) {
         getRequiredPointsPartTwo()
 
         val graph = Graph(requiredCoordinatesPartTwo, xMax + 1, yMax + 1)
-        graph.createGraphTwo()
+        graph.plotGraphTwo()
 
         return graph.getOverlappingPoints()
     }
@@ -52,6 +52,8 @@ class Lines(val input: ArrayList<String>) {
         }
     }
 
+    /* Gets vertical and horizontal coordinates
+    * */
     private fun getRequiredPoints() {
         for (i in allCoordinates) {
             xMax = maxOf(xMax, i[0], i[2])
@@ -62,6 +64,8 @@ class Lines(val input: ArrayList<String>) {
         }
     }
 
+    /* Gets vertical, horizontal, and diagonal coordinates
+    * */
     private fun getRequiredPointsPartTwo() {
         for (i in allCoordinates) {
             xMax = maxOf(xMax, i[0], i[2])
@@ -83,7 +87,7 @@ class Graph(
 ) {
     private val matrix = Array(rowSize) { Array(colSize) { 0 } }
 
-    fun createGraph() {
+    fun plotGraph() {
         for (i in requiredCoordinates) {
             when {
                 i[0] == i[2] -> {
@@ -106,7 +110,7 @@ class Graph(
         }
     }
 
-    fun createGraphTwo() {
+    fun plotGraphTwo() {
         for (i in requiredCoordinates) {
             when {
                 i[0] == i[2] -> {
