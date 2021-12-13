@@ -51,7 +51,6 @@ class Crabs(val input: ArrayList<String>) {
                 }
             }
             fuels.add(min)
-
         }
 
         return fuels.min() ?: -1
