@@ -13,6 +13,7 @@ fun main() {
 class Crabs(val input: ArrayList<String>) {
     private val positions = ArrayList<Int>()
     private val fuels = ArrayList<Int>()
+    var max : Int? = 0
 
     init {
         parseInput()
@@ -23,11 +24,11 @@ class Crabs(val input: ArrayList<String>) {
         for (i in splitInput) {
             positions.add(Integer.parseInt(i))
         }
+        max = positions.max() ?: 0
     }
 
     fun partOne(): Int {
-        val max = positions.max() ?: 0
-        for (i in 0..max) {
+        for (i in 0..max!!) {
             var sum = 0
             for (j in positions) {
                 val temp = abs(i - j)
@@ -40,9 +41,7 @@ class Crabs(val input: ArrayList<String>) {
     }
 
     fun partTwo(): Int {
-        val max = positions.max() ?: 0
-
-        for (i in 0..max) {
+        for (i in 0..max!!) {
         var min = 0
             for (j in positions) {
                 val temp = abs(i - j)
