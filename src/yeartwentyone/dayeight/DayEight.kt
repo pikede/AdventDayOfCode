@@ -26,9 +26,8 @@ class SegmentSearch(val input: ArrayList<String>) {
     fun partOne(): Int {
         val set = HashSet<Int>()
         set.add(2)
-        set.add(4)
         set.add(3)
-        set.add(2)
+        set.add(4)
         set.add(7)
 
         var cnt = 0
