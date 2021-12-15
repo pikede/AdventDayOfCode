@@ -12,6 +12,7 @@ fun main() {
 
 class SmokeBasin(val input: ArrayList<String>) {
     private val matrix = Array(input.size) { Array(input[0].length) { 0 } }
+    private val visited = Array(input.size) { Array(input[0].length) { false } }
 
     private val ROWS = arrayOf(-1, 0, 0, 1)
     private val COLS = arrayOf(0, -1, 1, 0)
@@ -44,12 +45,10 @@ class SmokeBasin(val input: ArrayList<String>) {
         var basinSizes = ArrayList<Int>()
 
         for (i in lowPointsList) {
-            val visited = Array(input.size) { Array(input[0].length) { false } }
             visited[i.first][i.second] = true
             val temp = ArrayList<Int>()
             temp.add(matrix[i.first][i.second])
-            var basinSize = getBasinSize(i.first, i.second, temp, visited)
-
+            var basinSize = getBasinSize(i.first, i.second, temp)
             basinSizes.add(basinSize.size)
         }
 
@@ -61,8 +60,7 @@ class SmokeBasin(val input: ArrayList<String>) {
     private fun getBasinSize(
         row: Int,
         col: Int,
-        basin: ArrayList<Int>,
-        visited: Array<Array<Boolean>>
+        basin: ArrayList<Int>
     ): ArrayList<Int> {
         for (i in ROWS.indices) {
             val x = ROWS[i] + row
@@ -71,7 +69,7 @@ class SmokeBasin(val input: ArrayList<String>) {
             if (isValid(x, y) && !visited[x][y] && matrix[x][y] != 9) {
                 visited[x][y] = true
                 basin.add(matrix[x][y])
-                getBasinSize(x, y, basin, visited)
+                getBasinSize(x, y, basin)
             }
         }
 
