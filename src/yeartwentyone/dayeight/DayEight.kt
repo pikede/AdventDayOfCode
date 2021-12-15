@@ -28,8 +28,10 @@ class SegmentSearch(val input: ArrayList<String>) {
 
         segments.forEach {
             for (i in it.split(" ")) {
-                when (i.length){
-                    2,3,4,7 -> {cnt++}
+                when (i.length) {
+                    2, 3, 4, 7 -> {
+                        cnt++
+                    }
                 }
             }
         }
