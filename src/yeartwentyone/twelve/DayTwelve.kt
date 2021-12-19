@@ -6,7 +6,7 @@ import java.nio.file.Paths
 fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/twelve/file.txt")) as ArrayList<String>
     println(CavePaths(input).partOne())  //  3713
-    println(CavePaths(input).partTwo())  //  3713
+    println(CavePaths(input).partTwo())  //  91292
 }
 
 class CavePaths(val input: ArrayList<String>) {
