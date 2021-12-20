@@ -7,7 +7,7 @@ import kotlin.math.abs
 fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/thirteen/file.txt")) as ArrayList<String>
     println(Fold(input).partOne())  //  810
-    println(Fold(input).partTwo())  //  HLBUBGFR
+    Fold(input).partTwo()  //  HLBUBGFR
 }
 
 class Fold(val input: ArrayList<String>) {
@@ -45,12 +45,11 @@ class Fold(val input: ArrayList<String>) {
             "y" -> paper.foldRow(firstInstruction.second)
         }
 
-//        paper.printFoldedMatrix()
-
         return paper.cntDots()
     }
 
-    fun partTwo(): Int {
+    // Prints out (#) and (.) letters
+    fun partTwo() {
         val paper = Paper(dotCoordinates, maxRow + 1, maxCol + 1)
 
         for (pair in instructions) {
@@ -61,8 +60,6 @@ class Fold(val input: ArrayList<String>) {
         }
 
         paper.printFoldedMatrix()
-
-        return paper.cntDots()
     }
 
 }
@@ -111,9 +108,7 @@ class Paper(coordinates: ArrayList<Pair<Int, Int>>, var maxROW: Int, var maxCOL:
     }
 
     private fun getFoldIndex(n: Int, max: Int): Int {
-        var newLocation = n - max
-
-        return abs(newLocation - max)
+        return abs(n - max - max)
     }
 
     fun cntDots(): Int {
