@@ -6,18 +6,14 @@ import java.nio.file.Paths
 
 fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/sixteen/file.txt")) as ArrayList
-
     println(Decoder(input))
 }
 
 class Decoder(packetInput: ArrayList<String>) {
-
     private var packet = StringBuilder()
 
     init {
-
         val binaryMap = hashMapOf<String, String>()
-
         binaryMap["0"] = "0000"
         binaryMap["1"] = "0001"
         binaryMap["2"] = "0010"
@@ -70,7 +66,6 @@ abstract class Parser {
             var typeId = BigInteger(input.substring(3, 6), 2).toInt()
 
             return if (typeId == 4) {
-                // literal value
                 Value(input.substring(6), version, typeId, 6)
             } else {
                 Operator(input.substring(7), version, typeId, input[6] == '1', 7)
@@ -100,6 +95,7 @@ class Operator() : Parser() {
             val numberOfPackets = BigInteger(this.packet.substring(0, 11), 2).toInt()
             var subPacket = this.packet.substring(11)
             this.size += 11
+
             for (i in 0 until numberOfPackets) {
                 val packetVersion = getParser(subPacket)
                 packetVersion.parse()
@@ -169,8 +165,6 @@ class Value() : Parser() {
         this.size = size
     }
 
-    private var parseValue = BigInteger.ZERO
-
     override fun parse() {
         val packetLiteralValue = StringBuilder()
 
@@ -186,7 +180,6 @@ class Value() : Parser() {
         }
 
         this.value = BigInteger(packetLiteralValue.toString(), 2)
-        this.parseValue = BigInteger(packetLiteralValue.toString(), 2)
     }
 
     override fun getVersionSum() = version
