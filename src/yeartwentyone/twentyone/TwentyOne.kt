@@ -22,21 +22,20 @@ fun main() {
             break
         }
     }
-
 }
 
-class Player(private val name: String, position: Int) {
-    private var space = position
+class Player(private val name: String, startingPosition: Int) {
+    private var space = startingPosition
     private var totalScore = 0
 
     fun movePosition(a: Int, b: Int, c: Int) {
-        val position = a + b + c + space
-//        space = if (position <= 10)
-//            position
+        val newPosition = a + b + c + space
+//        space = if (newPosition <= 10)
+//            newPosition
 //        else
-//            getPosition(position)
+//            getPosition(newPosition)
 
-        space = (position - 1) % 10 + 1
+        space = (newPosition - 1) % 10 + 1
         totalScore += space
     }
 
