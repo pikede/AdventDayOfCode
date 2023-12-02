@@ -6,7 +6,7 @@ import java.nio.file.Paths
 
 fun main() {
     val listOfReports = mutableListOf<Int>()
-    val content = String(Files.readAllBytes(Paths.get("src/yeartwenty/yeartwentyone.dayone/file.txt")))
+    val content = String(Files.readAllBytes(Paths.get("src/yeartwenty/dayone/file.txt")))
     val number = StringBuilder()
 
     for (i in content.indices) {
@@ -43,7 +43,6 @@ private fun get2020ReportRepairVariationTwo(listOfReports: List<Int>, target: In
     return -1
 }
 
-// return element if it exist, else return -1 (not found)
 private fun find(listOfReports: List<Int>, target: Int): Int {
     for (element in listOfReports) {
         if (element == target) {
