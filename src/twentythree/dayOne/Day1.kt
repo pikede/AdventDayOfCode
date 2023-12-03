@@ -73,15 +73,31 @@ fun getLastValue(line: String): Int {
 
 fun String.getIntValue(): Int {
     return when {
-        this.contains("one") -> 1
-        this.contains("two") -> 2
-        this.contains("three") -> 3
-        this.contains("four") -> 4
-        this.contains("five") -> 5
-        this.contains("six") -> 6
-        this.contains("seven") -> 7
-        this.contains("eight") -> 8
-        this.contains("nine") -> 9
+        this.containsNumber(NumberAsString.One) -> NumberAsString.One.intValue
+        this.containsNumber(NumberAsString.Two) -> NumberAsString.Two.intValue
+        this.containsNumber(NumberAsString.Three) -> NumberAsString.Three.intValue
+        this.containsNumber(NumberAsString.Four) -> NumberAsString.Four.intValue
+        this.containsNumber(NumberAsString.Five) -> NumberAsString.Five.intValue
+        this.containsNumber(NumberAsString.Six) -> NumberAsString.Six.intValue
+        this.containsNumber(NumberAsString.Seven) -> NumberAsString.Seven.intValue
+        this.containsNumber(NumberAsString.Eight) -> NumberAsString.Eight.intValue
+        this.containsNumber(NumberAsString.Nine) -> NumberAsString.Nine.intValue
         else -> -1
     }
+}
+
+private fun String.containsNumber(number: NumberAsString): Boolean {
+    return this.contains(number.name, true)
+}
+
+enum class NumberAsString(val intValue: Int) {
+    One(1),
+    Two(2),
+    Three(3),
+    Four(4),
+    Five(5),
+    Six(6),
+    Seven(7),
+    Eight(8),
+    Nine(9);
 }
