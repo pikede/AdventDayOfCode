@@ -9,9 +9,8 @@ fun main() {
     println(SeatingSystem(input).partTwo())     // ANS 2128
 }
 
-val row = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
-val col = intArrayOf(1, 1, 1, 0, 0, -1, -1, -1)
-
+private val row = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
+private val col = intArrayOf(1, 1, 1, 0, 0, -1, -1, -1)
 
 class SeatingSystem(private val inputSeatPositions: List<String>) {
     private var seatPositions = arrayListOf<String>()
