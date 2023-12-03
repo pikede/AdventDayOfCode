@@ -6,9 +6,9 @@ import java.nio.file.Paths
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daythree/file.txt"))
 
 fun main() {
-    val partChecker = PartChecker(input)
-    println(partChecker.getPartSum())
-    println(partChecker.getGearSum())
+    val partChecker = PartChecker(input) // doesn't count space complexity for input
+    println(partChecker.getPartSum()) // Time complexity: n * k * 8 -> nk | 1
+    println(partChecker.getGearSum()) // // Time complexity: n * k * 8 -> nk | nk store visited locations
 }
 
 class PartChecker(val input: MutableList<String>) {
@@ -126,7 +126,7 @@ class PartChecker(val input: MutableList<String>) {
         return Integer.parseInt(substring)
     }
 
-    private fun getEndIndex(row: Int, column: Int, visited: java.util.HashSet<Pair<Int, Int>>): Int {
+    private fun getEndIndex(row: Int, column: Int, visited: HashSet<Pair<Int, Int>>): Int {
         var end = column
         while (end + 1 in input.indices && input[row][end + 1].isDigit()) {
             end++
@@ -135,7 +135,7 @@ class PartChecker(val input: MutableList<String>) {
         return end
     }
 
-    private fun getStartIndex(row: Int, column: Int, visited: java.util.HashSet<Pair<Int, Int>>): Int {
+    private fun getStartIndex(row: Int, column: Int, visited: HashSet<Pair<Int, Int>>): Int {
         var start = column
         while (start - 1 in input.indices && input[row][start - 1].isDigit()) {
             start--
