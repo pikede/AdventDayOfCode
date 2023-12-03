@@ -30,15 +30,15 @@ class BallGame(val input: MutableList<String>) {
             for (countAndColour in splitBag) {
                 val ballCount = countAndColour.split(" ")
                 when {
-                    ballCount[1].contains("red", true) -> {
+                    ballCount[1].contains(BallColors.RED.name, true) -> {
                         val max = maxOf(Integer.parseInt(ballCount[0]), combination.red)
                         combination.red = max
                     }
-                    ballCount[1].contains("green") -> {
+                    ballCount[1].contains(BallColors.GREEN.name, true) -> {
                         val max = maxOf(Integer.parseInt(ballCount[0]), combination.green)
                         combination.green = max
                     }
-                    else -> {
+                    ballCount[1].contains(BallColors.BLUE.name, true) -> {
                         val max = maxOf(Integer.parseInt(ballCount[0]), combination.blue)
                         combination.blue = max
                     }
