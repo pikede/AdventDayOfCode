@@ -2,29 +2,19 @@ package twentythree.dayFive
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.concurrent.Executors
 
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFive/file.txt"))
 
 private fun main() {
     val farm = Farm(input)
     println(farm.getLowestSeedLocation())
-    println(farm.getLowestSeedLocationWithinRange())
+    println(farm.getLowestSeedLocationWithinRange())  // TODO runs forever run with a dispatcher
 }
 
 class Farm(private val inputIngredients: MutableList<String>) {
     private val ingredients = HashMap<String, ArrayList<IngredientRange>>()
     private val seeds = ArrayList<Long>()
-    private val visited = HashMap<String, Long>()
-    val startsSeen = HashSet<Long>()
-
-/*    seed-to-soil map:
-    soil-to-fertilizer map:
-    fertilizer-to-water map:
-    water-to-light map:
-    light-to-temperature map:
-    temperature-to-humidity map:
-    humidity-to-location map:
-    */
 
     init {
         parseFarmInputs()
@@ -101,55 +91,23 @@ class Farm(private val inputIngredients: MutableList<String>) {
     }
 
     fun getLowestSeedLocationWithinRange(): Long {
-        var lowestLocation = Long.MAX_VALUE
-        var i = 0
-        val visited = HashSet<Long>()
-        while (i in seeds.indices) {
-            val start = seeds[0]
-            val end = start + seeds[1]
-            visited.add(start)
-            for (seed in start until end) {
-                if (seed in visited) {
-                    continue
-                }
-                visited.add(seed)
-                val soil = getIngredientTypeB(seed, "seed-to-soil map:")
-                val fertilizer = getIngredientTypeB(soil, "soil-to-fertilizer map:")
-                val water = getIngredientTypeB(fertilizer, "fertilizer-to-water map:")
-                val light = getIngredientTypeB(water, "water-to-light map:")
-                val temperature = getIngredientTypeB(light, "light-to-temperature map:")
-                val humidity = getIngredientTypeB(temperature, "temperature-to-humidity map:")
-                val location = getIngredientTypeB(humidity, "humidity-to-location map:")
-                println("seed is at $seed $location")
-                lowestLocation = minOf(location, lowestLocation)
-            }
-            i += 2
-        }
-        return lowestLocation
-    }
+        val locations = ArrayList<Long>()
 
-    private fun getIngredientTypeB(currentSource: Long, prompt: String): Long {
-        val seenPrompt = "$currentSource$prompt"
-        if (seenPrompt in visited) {
-            return visited[seenPrompt]!!
-        }
-        val ingredient = ingredients[prompt]!!
-        if (currentSource < ingredient[0].source) {
-            visited[seenPrompt] = currentSource
-            return currentSource
-        }
-        for (ingredientRange in ingredient) {
-            val startSource = ingredientRange.source
-            val startDestination = ingredientRange.destination
-            val range = ingredientRange.range
-            if (currentSource in startDestination until startDestination + range) {
-                val typeNeeded = currentSource - startDestination + startSource
-                visited[seenPrompt] = typeNeeded
-                return typeNeeded
+        try {
+            val fixedPool = Executors.newFixedThreadPool(12)
+            var i = 0
+            while (i < seeds.size) {
+                val start = seeds[0]
+                val end = start + seeds[1]
+                fixedPool.submit(TestThread(ingredients, start, end))
+                i += 2
             }
+            fixedPool.shutdown()
+        } catch (e: Exception) {
+            println(e.stackTrace)
         }
-        visited[seenPrompt] = currentSource
-        return currentSource
+
+        return locations.min() ?: -1
     }
 
     private fun String.getLongValue() = this.toLong()
