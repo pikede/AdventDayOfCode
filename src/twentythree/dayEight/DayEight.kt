@@ -8,6 +8,7 @@ private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twent
 private fun main() {
     val map = Map(input)
     println(map.countStepsFromStartToEnd())
+    println(map.countStepsFromEveryNodeAToNodeZ())
 }
 
 class Map(private val inputDirections: MutableList<String>) {
@@ -33,26 +34,75 @@ class Map(private val inputDirections: MutableList<String>) {
     }
 
     fun countStepsFromStartToEnd(): Int {
-        val start = "AAA"
-        val end = "ZZZ"
+        val startingNode = "AAA"
+        val endNode = "ZZZ"
         var numberOfSteps = 0
-        var currentPosition = start
+        var currentNode = startingNode
         while (true) {
             for (i in instructions) {
-                if (currentPosition == end) {
+                if (currentNode == endNode) {
                     return numberOfSteps
                 }
-                currentPosition = when (i) {
-                    'R' -> directions[currentPosition]!!.right
-                    else -> directions[currentPosition]!!.left
+                currentNode = when (i) {
+                    'R' -> directions[currentNode]!!.right
+                    else -> directions[currentNode]!!.left
                 }
                 numberOfSteps++
             }
         }
         return numberOfSteps
     }
+
+    fun countStepsFromEveryNodeAToNodeZ(): Long {
+        val startingNodes = getStartingNodes()
+        val steps = ArrayList<Long>()
+        startingNodes.forEach {
+            steps += countStepsFromStartToEnd(it).toLong()
+        }
+        var lowestCommonMultiple = steps[0]
+        for (i in 1 until steps.size) {
+            lowestCommonMultiple = getLCM(lowestCommonMultiple, steps[i])
+        }
+        return lowestCommonMultiple
+    }
+
+    private fun getLCM(first: Long, second: Long): Long {
+        return (first * second) / getHCF(first, second)
+    }
+
+    // Also known as Greatest common divisor
+    private fun getHCF(first: Long, second: Long): Long {
+        var (a, b) = first to second
+        var temp: Long
+        while (b != 0L) {
+            temp = b
+            b = a % b
+            a = temp
+        }
+        return a
+    }
+
+    private fun countStepsFromStartToEnd(startingNode: String): Int {
+        var numberOfSteps = 0
+        var currentNode = startingNode
+        while (true) {
+            for (i in instructions) {
+                if (currentNode.last() == 'Z') {
+                    return numberOfSteps
+                }
+                currentNode = when (i) {
+                    'R' -> directions[currentNode]!!.right
+                    else -> directions[currentNode]!!.left
+                }
+                numberOfSteps++
+            }
+        }
+        return numberOfSteps
+    }
+
+    private fun getStartingNodes(): MutableList<String> {
+        return directions.filter { it.key.last() == 'A' }.keys.toMutableList()
+    }
 }
 
 data class Direction(val left: String, val right: String)
-
-// 9:45
