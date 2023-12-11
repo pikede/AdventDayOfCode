@@ -9,12 +9,13 @@ private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twent
 private fun main() {
     val farm = Farm(input)
     println(farm.getLowestSeedLocation())
-    println(farm.getLowestSeedLocationWithinRange())  // TODO runs forever run with a dispatcher
+    println(farm.getLowestSeedLocationWithinRange())
 }
 
 class Farm(private val inputIngredients: MutableList<String>) {
     private val ingredients = HashMap<String, ArrayList<IngredientRange>>()
     private val seeds = ArrayList<Long>()
+    val ranges = HashMap<String, ArrayList<Pair<Long, Long>>>()
 
     init {
         parseFarmInputs()
@@ -59,6 +60,8 @@ class Farm(private val inputIngredients: MutableList<String>) {
         ingredients[categoryPrompt] = category
     }
 
+    private fun String.getLongValue() = this.toLong()
+
     fun getLowestSeedLocation(): Long {
         var lowestLocation = Long.MAX_VALUE
         for (seed in seeds) {
@@ -91,26 +94,41 @@ class Farm(private val inputIngredients: MutableList<String>) {
     }
 
     fun getLowestSeedLocationWithinRange(): Long {
+        var i = 0
         val locations = ArrayList<Long>()
-
-        try {
-            val fixedPool = Executors.newFixedThreadPool(12)
-            var i = 0
-            while (i < seeds.size) {
-                val start = seeds[0]
-                val end = start + seeds[1]
-                fixedPool.submit(TestThread(ingredients, start, end))
-                i += 2
-            }
-            fixedPool.shutdown()
-        } catch (e: Exception) {
-            println(e.stackTrace)
+        while (i in seeds.indices) {
+            val start = seeds[i]
+            val end = seeds[i] + seeds[i + 1] - 1
+            val temp = ranges["seed"] ?: ArrayList()
+            temp.add(start to end)
+            ranges["seed"] = temp
+            val (soilA, soilB) = getStartToEnd(start, end, "seed-to-soil map:")
+            val (fertilizerA, fertilizerB) = getStartToEnd(soilA, soilB, "soil-to-fertilizer map:")
+            val (waterA, waterB) = getStartToEnd(fertilizerA, fertilizerB, "fertilizer-to-water map:")
+            val (lightA, lightB) = getStartToEnd(waterA, waterB, "water-to-light map:")
+            val (temperatureA, temperatureB) = getStartToEnd(lightA, lightB, "light-to-temperature map:")
+            val (humidityA, humidityB) = getStartToEnd(temperatureA, temperatureB, "temperature-to-humidity map:")
+            val (locationA, locationB) = getStartToEnd(humidityA, humidityB, "temperature-to-humidity map:")
+            locations.add(locationA)
+            locations.add(locationB)
+            i += 2
         }
-
-        return locations.min() ?: -1
+        ranges.forEach {
+            println("${it.key}  -> ${it.value}")
+        }
+        println("locations $locations")
+        println("min ${locations.sorted()}")
+        return locations.min() ?: 0L
     }
 
-    private fun String.getLongValue() = this.toLong()
+    private fun getStartToEnd(startSource: Long, endSource: Long, prompt: String): Pair<Long, Long> {
+        val start = getIngredientType(startSource, prompt)
+        val end = getIngredientType(endSource, prompt)
+        val temp = ranges[prompt] ?: ArrayList()
+        temp.add(start to end)
+        ranges[prompt] = temp
+        return start to end
+    }
 }
 
 data class IngredientRange(val source: Long, val destination: Long, var range: Long)

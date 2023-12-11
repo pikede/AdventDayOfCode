@@ -25,7 +25,7 @@ open class TestThread(
             val temperature = getIngredientTypeB(light, "light-to-temperature map:")
             val humidity = getIngredientTypeB(temperature, "temperature-to-humidity map:")
             val location = getIngredientTypeB(humidity, "humidity-to-location map:")
-            println(location)
+            println("location $location  -> lowestLocation is $lowestLocation")
             lowestLocation = minOf(location, lowestLocation)
         }
         println("lowest location $lowestLocation")
