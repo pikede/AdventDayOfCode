@@ -13,32 +13,24 @@ fun main() {
     println(maze.getFarthestLoopLength())
     println(maze.getLengthEnclosedInMainLoop())
 }
-/*
-| is a vertical pipe connecting north and south.
-- is a horizontal pipe connecting east and west.
-L is a 90-degree bend connecting north and east.
-J is a 90-degree bend connecting north and west.
-7 is a 90-degree bend connecting south and west.
-F is a 90-degree bend connecting south and east.
-. is ground; there is no pipe in this tile.
-S is the starting position of the animal; there is a pipe on this tile, but your sketch doesn't show what shape the pipe has.
- */
 
 class PipeMaze(private val mazeInput: MutableList<String>) {
     val rows = mazeInput.size
     private val columns = mazeInput[0].length
     private val maze = Array(rows) { IntArray(columns) }
     val loop = HashSet<Pair<Int, Int>>()
-    val invalid = HashSet<Pair<Int,Int>>()
+    val invalid = HashSet<Pair<Int, Int>>()
 
     fun getFarthestLoopLength(): Int {
         val startingPoint = getStartingPoint()
         val q = LinkedList<Pair<Int, Int>>()
         val visited = HashSet<Pair<Int, Int>>()
-        // mine left and up
+//        q.offer(startingPoint.copy(first = startingPoint.first + 1))
+//        q.offer(startingPoint.copy(second = startingPoint.second + 1))
         q.offer(startingPoint.copy(first = startingPoint.first - 1))
-        q.offer(startingPoint.copy(second = startingPoint.second - 1))
-//        visited.add(startingPoint)
+                q.offer(startingPoint.copy(first = startingPoint.first + 1))
+//        q.offer(startingPoint.copy(second = startingPoint.second - 1))
+//        q.offer(startingPoint.copy(second = startingPoint.second + 1))
         var steps = 1
         while (q.isNotEmpty()) {
             repeat(q.size) {
@@ -66,62 +58,43 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
         val temp = HashSet<Pair<Int, Int>>()
         for (r in maze.indices) {
             for (c in maze[r].indices) {
-                if ( (r to c).isZero() && r to c != getStartingPoint()) {
+                if ((r to c).isZero() && r to c != getStartingPoint()) {
                     temp.add(r to c)
                 }
             }
         }
-        var count = 0
-        for (i in temp) {
-            if (isEnclosed(i))
-                count++
-            else {
-                invalid.add(i)
-            }
-
-        }
         printMazeForEnclosedLoop()
-        return count
+        return getMatches(temp)
     }
 
-    private fun isEnclosed(pair: Pair<Int, Int>): Boolean {
-        val up = pair.copy(first = pair.first - 1)
-        var count = 0
-        while (isValid(up)) {
-            if (up in loop || up.isZero()) {
-                break
-            } else {
-                return false
+    private fun getMatches(temp: java.util.HashSet<Pair<Int, Int>>): Int {
+        var total = 0
+            for (i in loop) {
+                var left = count(0 to -1, i, temp)
+                var up = count(-1 to 0, i, temp)
+                var down = count(1 to 0, i, temp)
+                var right = count(0 to 1, i, temp)
+                total += left + right + up + down
             }
+        return total
+    }
+
+    private fun count(direction: Pair<Int, Int>, current: Pair<Int, Int>, temp: HashSet<Pair<Int, Int>>): Int {
+        var total = 0
+        var newRow = direction.first + current.first
+        var newCol = direction.second + current.second
+        while (isValid(newRow to newCol) && (newRow to newCol).isZero() && newRow to newCol in temp) {
+            println(newRow to newCol)
+            temp.remove((newRow to newCol))
+            total++
+            newRow += direction.first
+            newCol += direction.second
         }
 
-        val down = pair.copy(first = pair.first + 1)
-        while (isValid(down)) {
-            if (down in loop || down.isZero()) {
-                break
-            } else {
-                return false
-            }
+        if(!isValid(newRow to newCol)){
+            return 0
         }
-
-        val left = pair.copy(second = pair.second - 1)
-        while (isValid(left)) {
-            if (left in loop || left.isZero()) {
-                break
-            } else {
-                return false
-            }
-        }
-
-        val right = pair.copy(second = pair.second + 1)
-        while (isValid(right)) {
-            if (left in loop || left.isZero()) {
-                break
-            } else {
-                return false
-            }
-        }
-        return true
+        return total
     }
 
     private fun paintRows() {
