@@ -7,10 +7,10 @@ import kotlin.math.abs
 
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayEleven/file.txt"))
 
-
 private fun main() {
     val cosmicGrid = CosmicGrid(input)
-    println(cosmicGrid.sumGalaxiesShortestPath())
+    println(cosmicGrid.sumGalaxiesShortestPathWithExpansion(1))
+    println(cosmicGrid.sumGalaxiesShortestPathWithExpansion(999999))
 }
 
 class CosmicGrid(private val gridInput: MutableList<String>) {
@@ -21,9 +21,6 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
     init {
         getRowsMissingGalaxies()
         getColumnsMissingGalaxies()
-        fillMissingRowGalaxies()
-        fillMissingColumnGalaxies()
-//        printGrid()
     }
 
     private fun getRowsMissingGalaxies() {
@@ -32,7 +29,6 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
                 rowsNeedingGalaxies.add(rowIndex)
             }
         }
-//        rowsNeedingGalaxies.sort()
     }
 
     private fun getColumnsMissingGalaxies() {
@@ -44,68 +40,19 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
             }
             columnsNeedingGalaxies.add(c)
         }
-//        columnsNeedingGalaxies.sort()
     }
 
-    private fun fillMissingRowGalaxies() {
-        val emptyDottedRow = getDottedRow()
-        for ((rowsAdded, rowIndex) in rowsNeedingGalaxies.withIndex()) {
-            gridInput.add(rowIndex + rowsAdded, emptyDottedRow)
-        }
-    }
-
-    private fun getDottedRow(): String {
-        val rowSize = gridInput[0].length
-        val sb = StringBuilder()
-        repeat(rowSize) {
-            sb.append('.')
-        }
-        return sb.toString()
-    }
-
-    private fun fillMissingColumnGalaxies() {
-        for (row in gridInput.indices) {
-            for ((count, columnIndex) in columnsNeedingGalaxies.withIndex()) {
-                val sb = StringBuilder(gridInput[row])
-                sb.insert(columnIndex + count, '.')
-                gridInput[row] = sb.toString()
-            }
-        }
-    }
-
-    fun sumGalaxiesShortestPath(): Int {
+    fun sumGalaxiesShortestPathWithExpansion(delta: Long): Long {
         findGalaxies()
-        var totalSteps = 0
-        val galaxies = galaxiesLocation.toList().sortedBy { it.first }
-        for (i in galaxies.indices) {
-            for (j in i + 1 until galaxies.size) {
-                val steps = getDistanceBetweenGalaxies(galaxies[j], galaxies[i])
+        var totalSteps = 0L
+        val adjustedGalaxies = adjustGalaxiesLocation(galaxiesLocation, delta)
+        for (i in adjustedGalaxies.indices) {
+            for (j in i + 1 until adjustedGalaxies.size) {
+                val steps = getDistanceBetweenGalaxies(adjustedGalaxies[j], adjustedGalaxies[i])
                 totalSteps += steps
             }
         }
         return totalSteps
-    }
-
-    fun sumGalaxiesShortestPathWithExpansion(): Int {
-        findGalaxies()
-        var totalSteps = 0
-        val galaxies = galaxiesLocation.toList().sortedBy { it.first }
-        for (i in galaxies.indices) {
-            for (j in i + 1 until galaxies.size) {
-                val steps = getDistanceBetweenGalaxies(galaxies[j], galaxies[i])
-                totalSteps += steps
-            }
-        }
-        return totalSteps
-    }
-
-    private fun getDistanceBetweenGalaxies(
-        startLocation: Pair<Int, Int>,
-        endLocation: Pair<Int, Int>
-    ): Int {
-        val y = startLocation.second - endLocation.second
-        val x = startLocation.first - endLocation.first
-        return abs(x) + abs(y)
     }
 
     private fun findGalaxies() {
@@ -118,22 +65,42 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
         }
     }
 
-    private fun printGrid() {
-        var galaxyCount = 1
-        for (r in gridInput) {
-            for (c in r) {
-                val value = when {
-                    c == '#' -> galaxyCount++
-                    else -> '.'
-                }
-                print(value)
-            }
-            println()
+    private fun adjustGalaxiesLocation(galaxies: HashSet<Pair<Int, Int>>, delta: Long): List<Pair<Long, Long>> {
+        val newGalaxies = arrayListOf<Pair<Long, Long>>()
+        for (galaxy in galaxies) {
+            val newRow = getAdjustedRowIndex(galaxy.first, delta)
+            val newColumn = getAdjustedColumnIndex(galaxy.second, delta)
+            newGalaxies.add(newRow to newColumn)
         }
+        return newGalaxies
+    }
+
+    private fun getAdjustedRowIndex(rowIndex: Int, delta: Long): Long {
+        var count = 0
+        for (r in rowsNeedingGalaxies) {
+            if (rowIndex >= r) {
+                count++
+            }
+        }
+        return rowIndex + (delta * count)
+    }
+
+    private fun getAdjustedColumnIndex(columnIndex: Int, delta: Long): Long {
+        var count = 0
+        for (column in columnsNeedingGalaxies) {
+            if (columnIndex >= column) {
+                count++
+            }
+        }
+        return columnIndex + (delta * count)
+    }
+
+    private fun getDistanceBetweenGalaxies(
+        startLocation: Pair<Long, Long>,
+        endLocation: Pair<Long, Long>
+    ): Long {
+        val y = startLocation.second - endLocation.second
+        val x = startLocation.first - endLocation.first
+        return abs(x) + abs(y)
     }
 }
-// 9686930
-// 9698926
-// 9697640 -> to high
-// 9696140 -> too high
-// 9698222
