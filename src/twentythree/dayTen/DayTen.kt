@@ -5,6 +5,7 @@ import java.nio.file.Paths
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
+import kotlin.math.ceil
 
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTen/file.txt"))
 
@@ -15,27 +16,29 @@ fun main() {
 }
 
 class PipeMaze(private val mazeInput: MutableList<String>) {
-    val rows = mazeInput.size
+    private val rows = mazeInput.size
     private val columns = mazeInput[0].length
     private val maze = Array(rows) { IntArray(columns) }
-    val loop = HashSet<Pair<Int, Int>>()
-    val invalid = HashSet<Pair<Int, Int>>()
+    private val loop = ArrayList<Pair<Int, Int>>()
+    private val insideTheLoop = HashSet<Pair<Int, Int>>()
 
     fun getFarthestLoopLength(): Int {
         val startingPoint = getStartingPoint()
         val q = LinkedList<Pair<Int, Int>>()
         val visited = HashSet<Pair<Int, Int>>()
+//        q.offer(startingPoint.copy(second = startingPoint.second + 1))
 //        q.offer(startingPoint.copy(first = startingPoint.first + 1))
-//        q.offer(startingPoint.copy(second = startingPoint.second + 1))
+
         q.offer(startingPoint.copy(first = startingPoint.first - 1))
-                q.offer(startingPoint.copy(first = startingPoint.first + 1))
+        println(startingPoint)
 //        q.offer(startingPoint.copy(second = startingPoint.second - 1))
-//        q.offer(startingPoint.copy(second = startingPoint.second + 1))
+        loop.add(startingPoint)
         var steps = 1
         while (q.isNotEmpty()) {
             repeat(q.size) {
                 val node = q.poll()
                 loop.add(node)
+                visited.add(node)
                 maze[node.first][node.second] = steps
                 for (next in getNextDirection(node.first, node.second)) {
                     if (isValid(next) && next !in visited && next != startingPoint) {
@@ -49,85 +52,54 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
             }
             steps++
         }
-        return steps
+        println(steps)
+        return ceil(steps.toDouble() / 2.toDouble()).toInt()
     }
 
     fun getLengthEnclosedInMainLoop(): Int {
         paintRows()
         paintColumns()
-        val temp = HashSet<Pair<Int, Int>>()
-        for (r in maze.indices) {
-            for (c in maze[r].indices) {
-                if ((r to c).isZero() && r to c != getStartingPoint()) {
-                    temp.add(r to c)
-                }
+        for (i in 1 until loop.size) {
+            val point1 = loop[i - 1]
+            val point2 = loop[i]
+            when {
+                isRightOf(point1, point2) -> paintInside(point2.copy(first = point2.first + 1)) // down
+                isLeftOf(point1, point2) -> paintInside(point2.copy(first = point2.first - 1)) // up
+                isAboveOf(point1, point2) -> paintInside(point2.copy(second = point2.second + 1)) // right
+                isBelowOf(point1, point2) -> paintInside(point2.copy(second = point2.second - 1)) // left
             }
         }
+        println(insideTheLoop)
         printMazeForEnclosedLoop()
-        return getMatches(temp)
+        return insideTheLoop.size
     }
 
-    private fun getMatches(temp: java.util.HashSet<Pair<Int, Int>>): Int {
-        var total = 0
-            for (i in loop) {
-                var left = count(0 to -1, i, temp)
-                var up = count(-1 to 0, i, temp)
-                var down = count(1 to 0, i, temp)
-                var right = count(0 to 1, i, temp)
-                total += left + right + up + down
-            }
-        return total
-    }
-
-    private fun count(direction: Pair<Int, Int>, current: Pair<Int, Int>, temp: HashSet<Pair<Int, Int>>): Int {
-        var total = 0
-        var newRow = direction.first + current.first
-        var newCol = direction.second + current.second
-        while (isValid(newRow to newCol) && (newRow to newCol).isZero() && newRow to newCol in temp) {
-            println(newRow to newCol)
-            temp.remove((newRow to newCol))
-            total++
-            newRow += direction.first
-            newCol += direction.second
-        }
-
-        if(!isValid(newRow to newCol)){
-            return 0
-        }
-        return total
-    }
-
-    private fun paintRows() {
-        for (r in 0 until rows) {
-            if (maze[r][0] == 0) {
-                paint(r to 0)
-            }
-            if (maze[r][columns - 1] == 0) {
-                paint(r to columns - 1)
-            }
-        }
-    }
-
-    private fun paintColumns() {
-        for (c in 0 until columns) {
-            if (maze[0][c] == 0) {
-                paint(0 to c)
-            }
-            if (maze[rows - 1][c] == 0) {
-                paint(rows - 1 to c)
-            }
-        }
-    }
-
-    private fun paint(point: Pair<Int, Int>) {
-        if (!isValid(point) || !point.isZero()) {
+    private fun paintInside(point: Pair<Int, Int>) {
+        if (!isValid(point) || !point.isZero() || point in insideTheLoop) {
             return
         }
-        maze[point.first][point.second] = -1
-        paint(point.copy(first = point.first - 1))
-        paint(point.copy(first = point.first + 1))
-        paint(point.copy(second = point.second - 1))
-        paint(point.copy(second = point.second + 1))
+        insideTheLoop.add(point)
+//        maze[point.first][point.second] = 9
+        paintInside(point.copy(first = point.first - 1))
+        paintInside(point.copy(first = point.first + 1))
+        paintInside(point.copy(second = point.second - 1))
+        paintInside(point.copy(second = point.second + 1))
+    }
+
+    private fun isAboveOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+        return (point1.first - 1) == point2.first && point1.second == point2.second
+    }
+
+    private fun isBelowOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+        return (point1.first + 1) == point2.first && point1.second == point2.second
+    }
+
+    private fun isRightOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+        return point1.first == point2.first && (point1.second + 1) == point2.second
+    }
+
+    private fun isLeftOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+        return point1.first == point2.first && (point1.second - 1) == point2.second
     }
 
     private fun isValid(point: Pair<Int, Int>) =
@@ -186,15 +158,52 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
             for (c in maze[r].indices) {
                 when {
                     r to c == getStartingPoint() -> print("S")
-                    r to c in invalid -> print("*")
-                    maze[r][c] == 0 -> print("$")
+                    r to c in insideTheLoop -> print("$")
+                    r to c in loop -> print("*")
                     else -> print("${mazeInput[r][c]}")
                 }
             }
             println()
         }
     }
+
+    private fun paintRows() {
+        for (r in 0 until rows) {
+            if (maze[r][0] == 0) {
+                paint(r to 0)
+            }
+            if (maze[r][columns - 1] == 0) {
+                paint(r to columns - 1)
+            }
+        }
+    }
+
+    private fun paintColumns() {
+        for (c in 0 until columns) {
+            if (maze[0][c] == 0) {
+                paint(0 to c)
+            }
+            if (maze[rows - 1][c] == 0) {
+                paint(rows - 1 to c)
+            }
+        }
+    }
+
+    private fun paint(point: Pair<Int, Int>) {
+        if (!isValid(point) || !point.isZero()) {
+            return
+        }
+        maze[point.first][point.second] = -1
+        paint(point.copy(first = point.first - 1))
+        paint(point.copy(first = point.first + 1))
+        paint(point.copy(second = point.second - 1))
+        paint(point.copy(second = point.second + 1))
+    }
+
 }
 //739 --> too high
 
 // 431 too low
+
+// 452 | 453
+// 277
