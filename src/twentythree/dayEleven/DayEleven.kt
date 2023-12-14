@@ -24,11 +24,8 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
     }
 
     private fun getRowsMissingGalaxies() {
-        for (rowIndex in gridInput.indices) {
-            if (!gridInput[rowIndex].contains('#', true)) {
-                rowsNeedingGalaxies.add(rowIndex)
-            }
-        }
+        val missingRows = gridInput.indices.filter { !gridInput[it].contains("#") }
+        rowsNeedingGalaxies.addAll(missingRows)
     }
 
     private fun getColumnsMissingGalaxies() {
@@ -76,23 +73,13 @@ class CosmicGrid(private val gridInput: MutableList<String>) {
     }
 
     private fun getAdjustedRowIndex(rowIndex: Int, delta: Long): Long {
-        var count = 0
-        for (r in rowsNeedingGalaxies) {
-            if (rowIndex >= r) {
-                count++
-            }
-        }
-        return rowIndex + (delta * count)
+        val adjustedRowsCount = rowsNeedingGalaxies.count { rowIndex >= it }
+        return rowIndex + (delta * adjustedRowsCount)
     }
 
     private fun getAdjustedColumnIndex(columnIndex: Int, delta: Long): Long {
-        var count = 0
-        for (column in columnsNeedingGalaxies) {
-            if (columnIndex >= column) {
-                count++
-            }
-        }
-        return columnIndex + (delta * count)
+        val adjustedColumnCount = columnsNeedingGalaxies.count { columnIndex >= it }
+        return columnIndex + (delta * adjustedColumnCount)
     }
 
     private fun getDistanceBetweenGalaxies(

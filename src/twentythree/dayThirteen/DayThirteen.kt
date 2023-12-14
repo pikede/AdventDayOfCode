@@ -72,12 +72,8 @@ data class Notes(val note: MutableList<String>) {
             val before = pattern.drop(index)
             val after = pattern.reversed().drop(pattern.size - index)
             var count = 0
-            for (i in 0..minOf(before.lastIndex, after.lastIndex)) {
-                for (j in before[i].indices) {
-                    if (before[i][j] != after[i][j]) {
-                        count++
-                    }
-                }
+            for (rowIndex in 0..minOf(before.lastIndex, after.lastIndex)) {
+                count += before[rowIndex].indices.count { before[rowIndex][it] != after[rowIndex][it] }
             }
             if (count == 1) {
                 return index
