@@ -29,10 +29,9 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
 //        q.offer(startingPoint.copy(second = startingPoint.second + 1))
 //        q.offer(startingPoint.copy(first = startingPoint.first + 1))
 
-        q.offer(startingPoint.copy(first = startingPoint.first - 1))
-        println(startingPoint)
-//        q.offer(startingPoint.copy(second = startingPoint.second - 1))
-        loop.add(startingPoint)
+//        q.offer(startingPoint.copy(first = startingPoint.first - 1))
+        q.offer(startingPoint.copy(second = startingPoint.second - 1))
+//        loop.add(startingPoint)
         var steps = 1
         while (q.isNotEmpty()) {
             repeat(q.size) {
@@ -63,42 +62,88 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
             val point1 = loop[i - 1]
             val point2 = loop[i]
             when {
-                isRightOf(point1, point2) -> paintInside(point2.copy(first = point2.first + 1)) // down
-                isLeftOf(point1, point2) -> paintInside(point2.copy(first = point2.first - 1)) // up
-                isAboveOf(point1, point2) -> paintInside(point2.copy(second = point2.second + 1)) // right
-                isBelowOf(point1, point2) -> paintInside(point2.copy(second = point2.second - 1)) // left
+                mazeInput[point2.first][point2.second] == 'J' -> {
+                    if (isPositionedToRight(point2, point1)) {
+                        paintInside(point1.first + 1 to point1.second)
+                        paintInside(point1.first to point1.second + 1)
+                    } else {
+//                        addToInnerLoop(point1, point2)
+                    }
+                }
+                mazeInput[point2.first][point2.second] == 'F' -> {
+                    if (isPositionedToLeft(point2, point1)) {
+                        paintInside(point1.first - 1 to point1.second)
+                        paintInside(point1.first to point1.second - 1)
+                    } else {
+//                        addToInnerLoop(point1, point2)
+                    }
+                }
+                mazeInput[point2.first][point2.second] == '7' -> {
+                    if (isPositionedAbove(point2, point1)) {
+                        paintInside(point1.first - 1 to point1.second)
+                        paintInside(point1.first to point1.second + 1)
+                    } else {
+//                        addToInnerLoop(point1, point2)
+                    }
+                }
+                mazeInput[point2.first][point2.second] == 'L' -> {
+                    if (isPositionedBelow(point2, point1)) {
+                        paintInside(point1.first + 1 to point1.second)
+                        paintInside(point1.first to point1.second - 1)
+                    } else {
+//                        addToInnerLoop(point1, point2)
+                    }
+                }
+                else -> addToInnerLoop(point1, point2)
             }
+/*            when {
+                isPositionedToRight(point2, point1) -> paintInside(point1.first + 1 to point1.second) // down
+                isPositionedToLeft(point2, point1) -> paintInside(point1.first - 1 to point1.second) // up
+                isPositionedAbove(point2, point1) -> paintInside(point1.first to point1.second + 1) // right
+                isPositionedBelow(point2, point1) -> paintInside(point1.first to point1.second - 1) // left
+            }*/
         }
         println(insideTheLoop)
+        for(i in HashSet(insideTheLoop)){
+            paint(i)
+        }
         printMazeForEnclosedLoop()
         return insideTheLoop.size
     }
 
+    private fun addToInnerLoop(point1: Pair<Int, Int>, point2: Pair<Int, Int>) {
+        when {
+            isPositionedToRight(point2, point1) -> paintInside(point1.first + 1 to point1.second) // down
+            isPositionedToLeft(point2, point1) -> paintInside(point1.first - 1 to point1.second) // up
+            isPositionedAbove(point2, point1) -> paintInside(point1.first to point1.second + 1) // right
+            isPositionedBelow(point2, point1) -> paintInside(point1.first to point1.second - 1) // left
+        }
+    }
+
     private fun paintInside(point: Pair<Int, Int>) {
-        if (!isValid(point) || !point.isZero() || point in insideTheLoop) {
+        if (!isValid(point) || point in insideTheLoop || point in loop) {
             return
         }
         insideTheLoop.add(point)
-//        maze[point.first][point.second] = 9
-        paintInside(point.copy(first = point.first - 1))
-        paintInside(point.copy(first = point.first + 1))
-        paintInside(point.copy(second = point.second - 1))
-        paintInside(point.copy(second = point.second + 1))
+//        paintInside(point.copy(first = point.first - 1))
+//        paintInside(point.copy(first = point.first + 1))
+//        paintInside(point.copy(second = point.second - 1))
+//        paintInside(point.copy(second = point.second + 1))
     }
 
-    private fun isAboveOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+    private fun isPositionedAbove(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
         return (point1.first - 1) == point2.first && point1.second == point2.second
     }
 
-    private fun isBelowOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+    private fun isPositionedBelow(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
         return (point1.first + 1) == point2.first && point1.second == point2.second
     }
 
-    private fun isRightOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+    private fun isPositionedToRight(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
         return point1.first == point2.first && (point1.second + 1) == point2.second
     }
 
-    private fun isLeftOf(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
+    private fun isPositionedToLeft(point1: Pair<Int, Int>, point2: Pair<Int, Int>): Boolean {
         return point1.first == point2.first && (point1.second - 1) == point2.second
     }
 
@@ -106,6 +151,8 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
         point.first in mazeInput.indices && point.second in mazeInput[point.first].indices
 
     private fun Pair<Int, Int>.isZero() = maze[first][second] == 0
+
+    private fun Pair<Int, Int>.isDot() = mazeInput[first][second] == '.'
 
     private fun getStartingPoint(): Pair<Int, Int> {
         for (r in mazeInput.indices) {
@@ -158,6 +205,7 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
             for (c in maze[r].indices) {
                 when {
                     r to c == getStartingPoint() -> print("S")
+                    maze[r][c] == -1 -> print("0")
                     r to c in insideTheLoop -> print("$")
                     r to c in loop -> print("*")
                     else -> print("${mazeInput[r][c]}")
@@ -193,17 +241,11 @@ class PipeMaze(private val mazeInput: MutableList<String>) {
         if (!isValid(point) || !point.isZero()) {
             return
         }
+        insideTheLoop.add(point)
         maze[point.first][point.second] = -1
         paint(point.copy(first = point.first - 1))
         paint(point.copy(first = point.first + 1))
         paint(point.copy(second = point.second - 1))
         paint(point.copy(second = point.second + 1))
     }
-
 }
-//739 --> too high
-
-// 431 too low
-
-// 452 | 453
-// 277

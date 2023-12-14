@@ -7,12 +7,13 @@ private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twent
 
 private fun main() {
     val calculator = PermutationCalculator(input)
-    println(calculator.calculateArrangements())
-
+//    println(calculator.calculateArrangements())
+    println(calculator.calculateAppendedArrangements())
 }
 
 class PermutationCalculator(private val inputCombinations: MutableList<String>) {
-    private val springArrangements = ArrayList<Arrangements>()
+    private val regularSpringArrangements = ArrayList<Arrangements>()
+    private val appendedArrangements = ArrayList<Arrangements>()
 
     init {
         parseInput()
@@ -24,11 +25,31 @@ class PermutationCalculator(private val inputCombinations: MutableList<String>) 
             val springs = arrangementAndCount[0]
             val counts = getCounts(arrangementAndCount[1])
             val temp = Arrangements(springs, counts)
-            springArrangements.add(temp)
+            regularSpringArrangements.add(temp)
+            val appendedSprings = getAppendedSprings(springs)
+            val appendedCounts = getAppendedCounts(arrangementAndCount[1])
+            val tempAppended = Arrangements(appendedSprings, appendedCounts)
+            appendedArrangements.add(tempAppended)
         }
     }
 
-    private fun getCounts(counts: String): java.util.ArrayList<Int> {
+    private fun getAppendedCounts(counts: String): ArrayList<Int> {
+        val sb = StringBuilder(counts)
+        repeat(4) {
+            sb.append(",$counts")
+        }
+        return getCounts(sb.toString())
+    }
+
+    private fun getAppendedSprings(springs: String): String {
+        val sb = StringBuilder(springs)
+        repeat(4) {
+            sb.append("?$springs")
+        }
+        return sb.toString()
+    }
+
+    private fun getCounts(counts: String): ArrayList<Int> {
         val order = ArrayList<Int>()
         for (s in counts.split(",")) {
             order.add(s.toInt())
@@ -38,8 +59,19 @@ class PermutationCalculator(private val inputCombinations: MutableList<String>) 
 
     fun calculateArrangements(): Int {
         var totalArrangements = 0
-        for (i in springArrangements.indices) {
-            val arrangement = getArrangement(springArrangements[i])
+        for (i in regularSpringArrangements.indices) {
+            val arrangement = getArrangement(regularSpringArrangements[i])
+            totalArrangements += arrangement
+        }
+        return totalArrangements
+    }
+
+    // USE DP
+    fun calculateAppendedArrangements(): Int {
+        var totalArrangements = 0
+        for (i in appendedArrangements.indices) {
+            val arrangement = getArrangement(appendedArrangements[i])
+            println("${i + 1}  is $arrangement")
             totalArrangements += arrangement
         }
         return totalArrangements
@@ -47,35 +79,46 @@ class PermutationCalculator(private val inputCombinations: MutableList<String>) 
 
     private fun getArrangement(arrangement: Arrangements): Int {
         val ans = HashSet<String>()
-        val original = arrangement.springs.toCharArray()
         val copy = arrangement.springs.toCharArray().copyOf()
-        buildUsingBackTracking(0, original, ans, copy, arrangement.orders)
-        return ans.size
+        val map = HashMap<Int, Int>()
+        val count = arrangement.springs.count { it == '?' }
+        map[count] = 0
+        buildUsingBackTracking(0, ans, copy, arrangement.orders, map, count)
+        println(map)
+        return map[0]!! // ans.size
     }
 
     private fun buildUsingBackTracking(
         index: Int,
-        original: CharArray,
         ans: HashSet<String>,
         copy: CharArray,
-        orders: ArrayList<Int>
-    ) {
-        if (index >= original.size) {
+        orders: ArrayList<Int>,
+        map: HashMap<Int, Int>,
+        count: Int
+    ) : Int {
+        if (map[count] != null) {
+            return map[count]!!
+        }
+        if (index >= copy.size) {
             if (getOrder(copy) == orders) {
                 ans.add(String(copy))
+                map[count] = (map[count] ?: 0 ) + 1
             }
-            return
+            return map[count]!!
         }
+
         if (copy[index] == '?') {
             val hashCopy = copy.copyOf()
             hashCopy[index] = '#'
             val dotCopy = copy.copyOf()
             dotCopy[index] = '.'
-            buildUsingBackTracking(index + 1, original, ans, hashCopy, orders)
-            buildUsingBackTracking(index + 1, original, ans, dotCopy, orders)
+            buildUsingBackTracking(index + 1, ans, hashCopy, orders, map, count - 1)
+            buildUsingBackTracking(index + 1, ans, dotCopy, orders, map, count - 1)
         } else {
-            buildUsingBackTracking(index + 1, original, ans, copy, orders)
+            buildUsingBackTracking(index + 1, ans, copy, orders, map, count)
         }
+        map[count] = (map[count-1] ?:0) + 1
+        return count
     }
 
     private fun getOrder(copy: CharArray): List<Int> {
@@ -96,4 +139,5 @@ class PermutationCalculator(private val inputCombinations: MutableList<String>) 
     }
 }
 
-data class Arrangements(val springs: String, var orders: ArrayList<Int>)
+data class Arrangements(var springs: String, var orders: ArrayList<Int>)
+data class ArrangementInput(var Index: Int, var srings: CharArray)
