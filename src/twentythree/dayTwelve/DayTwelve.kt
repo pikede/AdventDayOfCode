@@ -99,19 +99,19 @@ class PermutationCalculator(private val inputCombinations: MutableList<String>) 
         } else {
             // Check cache and shortcut
             cache[map to damageList]?.let { return it }
-
-            val sum = if (damageList.isEmpty()) 0L
-            else if (map.length < damageList.first()) 0L
-            else if (map.substring(0, damageList.first()).contains('.')) 0L
-            else if (map.length == damageList.first()) {
-                if (damageList.size == 1) {
-                    1L
-                } else {
-                    0L
+            val sum = when {
+                damageList.isEmpty() -> 0L
+                map.length < damageList.first() -> 0L
+                map.substring(0, damageList.first()).contains('.') -> 0L
+                map.length == damageList.first() -> {
+                    if (damageList.size == 1) {
+                        1L
+                    } else {
+                        0L
+                    }
                 }
-            } else if (map[damageList.first()] == '#') 0L
-            else {
-                testSprings(map.substring(damageList.first()+1), damageList.drop(1))
+                map[damageList.first()] == '#' -> 0L
+                else -> testSprings(map.substring(damageList.first() + 1), damageList.drop(1))
             }
 
             cache[map to damageList] = sum
