@@ -43,10 +43,9 @@ class AsciiCalculator(private val input: MutableList<String>) {
             }
         }
         var sum = 0
-        boxes.forEach {
-            val boxIndex = it.key + 1
-            for ((index, focalLength) in it.value.values.withIndex()) {
-                sum += boxIndex * (index+1) * focalLength
+        boxes.entries.forEachIndexed { index, mutableEntry ->
+            mutableEntry.value.entries.forEachIndexed { labelIndex, (label, focalLength) ->
+                sum += (index+1) * (labelIndex + 1) * focalLength
             }
         }
         return sum
