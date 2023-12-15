@@ -12,19 +12,15 @@ private fun main() {
     println(asciiCalculator.calculateFocusSum())
 }
 
-class AsciiCalculator(private val input: MutableList<String>) {
+class AsciiCalculator(lenseInput: MutableList<String>) {
     private val sequence = ArrayList<String>()
 
     init {
-        sequence.addAll(input[0].split(","))
+        sequence.addAll(lenseInput[0].split(","))
     }
 
     fun calculateHashSum(): Int {
-        var sum = 0
-        sequence.forEach {
-            sum += getHash(it)
-        }
-        return sum
+        return sequence.fold(0) {acc, current -> acc + getHash(current) }
     }
 
     fun calculateFocusSum(): Int {
@@ -75,6 +71,6 @@ class Box {
     }
 }
 
-fun getHash(currentString: String): Int {
+private fun getHash(currentString: String): Int {
     return currentString.fold(0) { acc, current -> ((acc + current.toInt()) * 17) % 256 }
 }
