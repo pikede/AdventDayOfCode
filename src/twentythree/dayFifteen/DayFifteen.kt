@@ -1,5 +1,6 @@
 package twentythree.dayFifteen
 
+import twentythree.util.zipWithIndex
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -21,37 +22,59 @@ class AsciiCalculator(private val input: MutableList<String>) {
     fun calculateHashSum(): Int {
         var sum = 0
         sequence.forEach {
-            sum += getAsciiValue(it)
+            sum += getHash(it)
         }
         return sum
     }
 
     fun calculateFocusSum(): Int {
-        val boxes = (0..255).associateWith { mutableMapOf<String, Int>() }.toMutableMap()
-        sequence.forEach {
-            when {
-                it.contains('=') -> {
-                    val (label, focalLength) = it.split('=')
-                    val hash = getAsciiValue(label)
-                    boxes[hash]!![label] = focalLength.toInt()
-                }
-                it.contains('-') -> {
-                    val (label, _) = it.split('-')
-                    val hash = getAsciiValue(label)
-                    boxes[hash]!! -= label
-                }
-            }
-        }
-        var sum = 0
-        boxes.entries.forEachIndexed { index, mutableEntry ->
-            mutableEntry.value.entries.forEachIndexed { labelIndex, (label, focalLength) ->
-                sum += (index+1) * (labelIndex + 1) * focalLength
-            }
-        }
-        return sum
+        val box = Box()
+        return box.getFocusPower(sequence)
+    }
+}
+
+class Box {
+    private lateinit var boxOfLenses: MutableMap<Int, MutableMap<String, Int>>
+
+    init {
+        addEmptyBoxes()
     }
 
-    private fun getAsciiValue(currentString: String): Int {
-        return currentString.fold(0) { acc, current -> ((acc + current.toInt()) * 17) % 256 }
+    private fun addEmptyBoxes() {
+        boxOfLenses = (0..255).associateWith { mutableMapOf<String, Int>() }.toMutableMap()
     }
+
+    fun getFocusPower(sequences: MutableList<String>): Int {
+        addLensesToBoxes(sequences)
+        return getTotalFocusPower()
+    }
+
+    private fun addLensesToBoxes(sequences: MutableList<String>) {
+        sequences.forEach {
+            when {
+                it.contains("=") -> {
+                    val (lense, focalLength) = it.split("=")
+                    val hash = getHash(lense)
+                    boxOfLenses[hash]!![lense] = focalLength.toInt()
+                }
+                it.contains("-") -> {
+                    val (lense, _) = it.split("-")
+                    val hash = getHash(lense)
+                    boxOfLenses[hash]!! -= lense
+                }
+            }
+        }
+    }
+
+    private fun getTotalFocusPower(): Int {
+        return boxOfLenses.entries.fold(0) { acc, (index, lenses) ->
+            acc + lenses.values.zipWithIndex(index + 1) { slotIndex, (focalLength, box) ->
+                box * (slotIndex + 1) * focalLength
+            }.sum()
+        }
+    }
+}
+
+fun getHash(currentString: String): Int {
+    return currentString.fold(0) { acc, current -> ((acc + current.toInt()) * 17) % 256 }
 }
