@@ -2,7 +2,6 @@ package twentythree.dayFive
 
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.concurrent.Executors
 
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFive/file.txt"))
 
@@ -15,7 +14,7 @@ private fun main() {
 class Farm(private val inputIngredients: MutableList<String>) {
     private val ingredients = HashMap<String, ArrayList<IngredientRange>>()
     private val seeds = ArrayList<Long>()
-    val ranges = HashMap<String, ArrayList<Pair<Long, Long>>>()
+    private val ranges = HashMap<String, ArrayList<Pair<Long, Long>>>()
 
     init {
         parseFarmInputs()
@@ -101,7 +100,6 @@ class Farm(private val inputIngredients: MutableList<String>) {
             val end = seeds[i] + seeds[i + 1] - 1
             val temp = ranges["seed"] ?: ArrayList()
             temp.add(start to end)
-            ranges["seed"] = temp
             val (soilA, soilB) = getStartToEnd(start, end, "seed-to-soil map:")
             val (fertilizerA, fertilizerB) = getStartToEnd(soilA, soilB, "soil-to-fertilizer map:")
             val (waterA, waterB) = getStartToEnd(fertilizerA, fertilizerB, "fertilizer-to-water map:")
@@ -113,11 +111,6 @@ class Farm(private val inputIngredients: MutableList<String>) {
             locations.add(locationB)
             i += 2
         }
-        ranges.forEach {
-            println("${it.key}  -> ${it.value}")
-        }
-        println("locations $locations")
-        println("min ${locations.sorted()}")
         return locations.min() ?: 0L
     }
 

@@ -1,5 +1,6 @@
 package twentythree.dayFourteen
 
+import twentythree.util.printGrid
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -26,6 +27,7 @@ class RockTilt(private val input: MutableList<String>) {
                 rocks[r][c] = input[r][c]
             }
         }
+        rocks.printGrid()
     }
 
     fun getRockLoadSumAfterOneCycle(): Int {
