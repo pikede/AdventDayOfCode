@@ -8,6 +8,7 @@ private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twent
 private fun main() {
     val asciiCalculator = AsciiCalculator(input)
     println(asciiCalculator.calculateHashSum())
+    println(asciiCalculator.calculateFocusSum())
 }
 
 class AsciiCalculator(private val input: MutableList<String>) {
@@ -19,19 +20,39 @@ class AsciiCalculator(private val input: MutableList<String>) {
 
     fun calculateHashSum(): Int {
         var sum = 0
-        for (i in sequence) {
-            sum += getAsciiValue(i)
+        sequence.forEach {
+            sum += getAsciiValue(it)
+        }
+        return sum
+    }
+
+    fun calculateFocusSum(): Int {
+        val boxes = (0..255).associateWith { mutableMapOf<String, Int>() }.toMutableMap()
+        sequence.forEach {
+            when {
+                it.contains('=') -> {
+                    val (label, focalLength) = it.split('=')
+                    val hash = getAsciiValue(label)
+                    boxes[hash]!![label] = focalLength.toInt()
+                }
+                it.contains('-') -> {
+                    val (label, _) = it.split('-')
+                    val hash = getAsciiValue(label)
+                    boxes[hash]!! -= label
+                }
+            }
+        }
+        var sum = 0
+        boxes.forEach {
+            val boxIndex = it.key + 1
+            for ((index, focalLength) in it.value.values.withIndex()) {
+                sum += boxIndex * (index+1) * focalLength
+            }
         }
         return sum
     }
 
     private fun getAsciiValue(currentString: String): Int {
-        var sum = 0
-        currentString.forEach {
-            sum += it.toInt()
-            sum *= 17
-            sum %= 256
-        }
-        return sum
+        return currentString.fold(0) { acc, current -> ((acc + current.toInt()) * 17) % 256 }
     }
 }
