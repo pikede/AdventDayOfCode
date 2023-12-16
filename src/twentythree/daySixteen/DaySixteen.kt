@@ -13,6 +13,7 @@ private fun main() {
 }
 
 class BeamSplitter(val input: MutableList<String>) {
+
     fun getEnergizedCount(startingBeamDirection: BeamDirection): Int {
         val q = LinkedList<BeamDirection>()
         val energized = HashSet<Pair<Int, Int>>()
