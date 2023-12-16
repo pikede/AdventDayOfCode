@@ -7,14 +7,14 @@ import java.util.*
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daySixteen/file.txt"))
 
 private fun main() {
-    val beamSplitter = BeamSplitter(input)
-    println(beamSplitter.getEnergizedCount(BeamDirection(Direction.Right, 0 to 0)))
-    println(beamSplitter.getEnergizedRandomStart())
+    val beamSplitter = BeamEnergizeCounter(input)
+    println(beamSplitter.countEnergizedCellsBeamDirection(BeamDirection(Direction.Right, 0 to 0)))
+    println(beamSplitter.getMaxEnergizedFromBorders())
 }
 
-class BeamSplitter(val input: MutableList<String>) {
+class BeamEnergizeCounter(val input: MutableList<String>) {
 
-    fun getEnergizedCount(startingBeamDirection: BeamDirection): Int {
+    fun countEnergizedCellsBeamDirection(startingBeamDirection: BeamDirection): Int {
         val q = LinkedList<BeamDirection>()
         val energized = HashSet<Pair<Int, Int>>()
         q.offer(startingBeamDirection)
@@ -33,17 +33,17 @@ class BeamSplitter(val input: MutableList<String>) {
         return energized.size
     }
 
-    fun getEnergizedRandomStart(): Int {
+    fun getMaxEnergizedFromBorders(): Int {
         var max = 0
         val maxRows = input.size
         val maxColumns = input[0].length
         for (c in 0 until maxColumns) {
-            max = maxOf(max, getEnergizedCount(BeamDirection(Direction.Down, 0 to c)))
-            max = maxOf(max, getEnergizedCount(BeamDirection(Direction.Up, maxRows - 1 to c)))
+            max = maxOf(max, countEnergizedCellsBeamDirection(BeamDirection(Direction.Down, 0 to c)))
+            max = maxOf(max, countEnergizedCellsBeamDirection(BeamDirection(Direction.Up, maxRows - 1 to c)))
         }
         for (r in 0 until maxRows) {
-            max = maxOf(max, getEnergizedCount(BeamDirection(Direction.Right, r to 0)))
-            max = maxOf(max, getEnergizedCount(BeamDirection(Direction.Left, r to maxColumns - 1)))
+            max = maxOf(max, countEnergizedCellsBeamDirection(BeamDirection(Direction.Right, r to 0)))
+            max = maxOf(max, countEnergizedCellsBeamDirection(BeamDirection(Direction.Left, r to maxColumns - 1)))
         }
         return max - 1
     }
