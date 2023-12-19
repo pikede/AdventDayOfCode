@@ -7,7 +7,7 @@ private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twent
 
 private fun main() {
     val calculator = WorkFlowCalculator(input)
-        println(calculator.runInstruction())
+    println(calculator.runInstruction())
 }
 
 private class WorkFlowCalculator(val input: MutableList<String>) {
