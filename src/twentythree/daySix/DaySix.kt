@@ -1,19 +1,12 @@
 package twentythree.daySix
 
-import java.nio.file.Files
-import java.nio.file.Paths
-
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFour/file.txt"))
-
 private fun main() {
-    // todo read and porse inputs
     val record = RaceRecords()
     println(record.countRecordWithoutKerning())
     println(record.countRecordWithKerning())
 }
 
 class RaceRecords {
-    // TODO parse inputs and remove hardcoding
     fun countRecordWithoutKerning(): Int {
         val races = ArrayList<RacesRecords>()
         races.add(RacesRecords(44, 208))
@@ -23,7 +16,6 @@ class RaceRecords {
         return countRecords(races)
     }
 
-    // TODO parse inputs and remove hardcoding
     fun countRecordWithKerning(): Int {
         val races = ArrayList<RacesRecords>()
         races.add(RacesRecords(44806572, 208158110501102))

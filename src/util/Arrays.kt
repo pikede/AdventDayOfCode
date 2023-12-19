@@ -1,4 +1,4 @@
-package twentythree.util
+package util
 
 fun Array<CharArray>.printGrid() {
     for (row in this.iterator()) {
@@ -8,3 +8,6 @@ fun Array<CharArray>.printGrid() {
         println()
     }
 }
+
+fun isValid(row: Int, column: Int, input: Array<CharArray>) =
+    row in input.indices && column in input[row].indices
