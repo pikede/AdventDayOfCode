@@ -6,116 +6,118 @@ import java.nio.file.Paths
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayNineteen/file.txt"))
 
 private fun main() {
-    val calculator = WorkFlowCalculator(input)
-    println(calculator.runInstruction())
+    val calculator = WorkflowCalculator(input)
+    println(calculator.part1())
 }
 
-private class WorkFlowCalculator(val input: MutableList<String>) {
-    val workFlows = HashMap<String, WorkFlow>()
-    val parts = mutableListOf<Part>()
+typealias ruleList = ArrayList<Part>
+
+private class WorkflowCalculator(val input: MutableList<String>) {
+    private val workflows = HashMap<String, Workflow>()
+    private val parts = ruleList()
 
     init {
         parseInput()
     }
 
     private fun parseInput() {
-        var partsStartIndex = input.indexOf("")
+        val partsStartIndex = input.indexOf("")
         input.forEachIndexed { index, s ->
             when {
                 s.isEmpty() -> {}
                 else -> {
                     if (index < partsStartIndex) {
-                        addWorkFlow(s)
+                        addWorkflow(s)
                     } else {
-                        addPart(s)
+                        addPartRanges(s)
                     }
                 }
             }
         }
     }
 
-    private fun addWorkFlow(s: String) {
-        val (workFlow, instruction) = s.replace("}", "").split("{")
+    private fun addWorkflow(s: String) {
+        val (Workflow, instruction) = s.replace("}", "").split("{")
         val rules = instruction.split(",").toMutableList()
-        workFlows[workFlow] = WorkFlow(rules)
+        workflows[Workflow] = Workflow(rules)
     }
 
-    private fun addPart(s: String) {
-        val part = mutableMapOf<String, Int>()
+    private fun addPartRanges(s: String) {
+        val part = mutableMapOf<Char, Int>()
         s.replace("{", "").replace("}", "").split(",").forEach {
             val (name, value) = it.split("=")
-            part[name] = Integer.parseInt(value)
+            part[name.first()] = Integer.parseInt(value)
         }
         parts.add(Part(part))
     }
 
-    fun runInstruction(): Int {
-        var total = 0
-        for (part in parts) {
-            total += runWorkflow(part, workFlows["in"]!!.rules)
-        }
-        return total
+    fun part1(): Int {
+        val startRule = workflows["in"]!!.rules
+        return parts.fold(0) { acc, part -> acc + runWorkflow(part, startRule) }
     }
 
     private fun runWorkflow(part: Part, start: MutableList<String>): Int {
         for (i in start) {
-            when {
-                i == "A" -> return part.partSum()
-                i == "R" -> return 0
-                i.contains("<") -> {
-                    val (partName, criteria) = i.split("<")
-                    val (amount, instruction) = criteria.split(":")
-                    val amountInt = Integer.parseInt(amount)
-                    val partAmount = part.getPartAmount(partName) ?: continue
-                    if (partAmount < amountInt) {
-                        return when (instruction) {
-                            "A" -> {
-                                part.partSum()
-                            }
-                            "R" -> {
-                                0
-                            }
-                            else -> {
-                                runWorkflow(part, workFlows[instruction]!!.rules)
-                            }
-                        }
-                    }
-                }
-                i.contains(">") -> {
-                    val (partName, criteria) = i.split(">")
-                    val (amount, instruction) = criteria.split(":")
-                    val amountInt = Integer.parseInt(amount)
-                    val partAmount = part.getPartAmount(partName) ?: continue
-                    if (partAmount > amountInt) {
-                        return when (instruction) {
-                            "A" -> {
-                                part.partSum()
-                            }
-                            "R" -> {
-                                0
-                            }
-                            else -> {
-                                runWorkflow(part, workFlows[instruction]!!.rules)
-                            }
-                        }
-                    }
-                }
+            when (i) {
+                "A" -> return part.partSum()
+                "R" -> return 0
                 else -> {
-                    return runWorkflow(part, workFlows[i]!!.rules)
+                    when {
+                        !i.contains('>') && !i.contains('<') -> {
+                            return runWorkflow(part, workflows[i]!!.rules)
+                        }
+                        else -> {
+                            val (partName, criteria) = i.split(">", "<")
+                            val (amount, instruction) = criteria.split(":")
+                            val amountIntValue = Integer.parseInt(amount)
+                            val partAmount = part.getPartAmount(partName.first())!!
+                            val rating = getRating(instruction, part) {
+                                runWorkflow(
+                                    part,
+                                    workflows[instruction]!!.rules
+                                )
+                            }
+                            val isLessThan = isLessThan(i, partAmount, amountIntValue)
+                            val isGreaterThan = isGreaterThan(i, partAmount, amountIntValue)
+                            if (isLessThan || isGreaterThan) {
+                                return rating
+                            }
+                        }
+                    }
                 }
             }
         }
         return 0
     }
+
+    private fun isLessThan(i: String, partAmount: Int, amount: Int) = i.contains("<") && partAmount < amount
+
+    private fun isGreaterThan(i: String, partAmount: Int, amount: Int) = i.contains(">") && partAmount > amount
+
+    private fun getRating(instruction: String, part: Part, continueWorkflow: () -> Int) = when (instruction) {
+        Rating.Accepted.type -> {
+            part.partSum()
+        }
+        Rating.Rejected.type -> {
+            0
+        }
+        else -> {
+            continueWorkflow()
+        }
+    }
 }
 
-private data class WorkFlow(val rules: MutableList<String>)
+data class Workflow(val rules: MutableList<String>)
 
-private data class Part(val map: MutableMap<String, Int>) {
 
-    fun getPartAmount(name: String) = map[name]
+data class Part(val map: MutableMap<Char, Int>) {
+
+    fun getPartAmount(name: Char) = map[name]
 
     fun partSum() = map.values.sum()
 }
-// TODO create work flow parser
-// Todo create parts parser
+
+enum class Rating(val type: String) {
+    Accepted("A"),
+    Rejected("R");
+}

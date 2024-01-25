@@ -15,4 +15,8 @@ fun <T> Array<ArrayList<T>>.printGrid() {
 fun isValid(row: Int, column: Int, input: MutableList<String>) =
     row in input.indices && column in input[row].indices
 
+fun isValid(rowToColumn: Pair<Int, Int>, input: MutableList<String>) =
+    isValid(rowToColumn.first, rowToColumn.second, input)
+
 fun MutableList<String>.intValueOf(row: Int, column: Int) = this[row][column] - '0'
+fun MutableList<String>.getValueOf(row: Int, column: Int) = this[row][column]
