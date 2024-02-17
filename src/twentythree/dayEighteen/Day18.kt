@@ -1,9 +1,6 @@
 package twentythree.dayEighteen
 
-import util.Move
-import util.Point2D
-import util.isValid
-import util.printGrid
+import util.*
 import java.lang.Math.abs
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -11,194 +8,70 @@ import java.nio.file.Paths
 private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayEighteen/file.txt"))
 
 fun main() {
-    val lavaCalculator = LavaCalculator(input)
-    println(lavaCalculator.getFilledSize())
+    println(part1(input))
+    println(part2(input))
 }
 
-class LavaCalculator(val input: MutableList<String>) {
-    private val coordinates = ArrayList<LagoonCoordinates>()
-    private lateinit var grid: Grid
+fun part1(input: List<String>): Long {
+    return shoelaceDig(input.map(::DigLine))
+}
 
-    init {
-        parseInput()
-        addEdges()
-    }
+fun part2(input: List<String>): Long {
+    return shoelaceDig(input.map(::DigLine).map { it.fixLine() })
+}
 
-    private fun addEdges() {
-        grid = Grid()
-        for (i in coordinates) {
-            grid.move(i.direction, quantity = i.quantity)
+data class DigLine(val direction: Compass, val steps: Int, val color: String) {
+
+    fun fixLine(): DigLine {
+        val direction = when (color.takeLast(1).toInt()) {
+            0 -> Compass.East
+            1 -> Compass.South
+            2 -> Compass.West
+            3 -> Compass.North
+            else -> throw IllegalArgumentException("Bad direction")
         }
-        grid.addEdges()
-    }
-
-    fun getFilledSize(): Int {
-        grid.fillGrid()
-//        grid.printGrid()
-//        return grid.getArea()
-        return 0
-    }
-
-    private fun parseInput() {
-        for (i in input) {
-            val lagoon = i.split(" ")
-            val direction = lagoon[0][0]
-            val quantity = Integer.parseInt(lagoon[1])
-            val colorCode = lagoon[2]
-            val lagoonCoordinates = LagoonCoordinates(direction, quantity, colorCode)
-            coordinates.add(lagoonCoordinates)
-        }
+        val steps = color.dropLast(1).toInt(16)
+        return DigLine(direction, steps, color)
     }
 }
 
-data class LagoonCoordinates(val direction: Char, val quantity: Int, val colorCode: String)
-
-private class Grid {
-    lateinit var grid: Array<CharArray>
-    val coordinates = arrayListOf<Pair<Point2D, Move?>>(Point2D(0, 0) to null)
-
-    fun move(direction: Char, quantity: Int) {
-        var start = coordinates.last().first.copy()
-
-        val move = when (direction) {
-            'R' -> Move.right
-            'L' -> Move.left
-            'U' -> Move.up
-            else -> Move.down
-        }
-        repeat(quantity) {
-            start = start.applyMove(move)
-        }
-        coordinates.add(start.copy() to move)
+fun DigLine(line: String): DigLine {
+    val (rawDirection, stepsChar, colorString) = line.split(" ")
+    val direction = when (rawDirection) {
+        "U" -> Compass.North
+        "R" -> Compass.East
+        "D" -> Compass.South
+        "L" -> Compass.West
+        else -> throw IllegalArgumentException("Bad direction")
     }
-
-    fun addEdges() {
-        initializeGrid()
-        val rows = grid.size
-        val columns = grid[0].size
-        for (index in 1..coordinates.lastIndex) {
-            var (x1, y1) = coordinates[index - 1].first
-            var (x2, y2) = coordinates[index].first
-            if (x1 < 0) {
-                x1 += columns
-            }
-            if (x2 < 0) {
-                x2 += columns
-            }
-            if (y1 < 0) {
-                y1 += rows
-            }
-            if (y2 < 0) {
-                y2 += rows
-            }
-            val yStart = minOf(y1, y2)
-            val yEnd = maxOf(y1, y2)
-            val xStart = minOf(x1, x2)
-            val xEnd = maxOf(x1, x2)
-
-            if (y1 == y2) {
-                fillColumns(yStart, xStart, xEnd)
-            } else {
-                fillRows(yStart, yEnd, xStart)
-            }
-        }
-        val points = coordinates.map { it.first.y to it.first.x }
-        println("area is ${area(points)}")
-    }
-
-    private fun fillColumns(row: Int, startColumn: Int, endColumn: Int) {
-        for (c in startColumn..endColumn) {
-            grid[row][c] = '#'
-        }
-    }
-
-    private fun fillRows(startRow: Int, endRow: Int, column: Int) {
-        for (r in startRow..endRow) {
-            grid[r][column] = '#'
-        }
-    }
-
-    private fun initializeGrid() {
-        val maxX = coordinates.maxBy { it.first.x }?.first?.x ?: 0
-        val minX = coordinates.minBy { it.first.x }?.first?.x ?: 0
-        val maxY = coordinates.maxBy { it.first.y }?.first?.y ?: 0
-        val minY = coordinates.minBy { it.first.y }?.first?.y ?: 0
-        val y = abs(minY) + maxY + 1
-        val x = abs(minX) + maxX + 1
-        println(x)
-        println(y)
-        grid = Array(y) { CharArray(x) { '.' } }
-    }
-
-    fun fillGrid() {
-        for (i in 1..coordinates.lastIndex) {
-            val start = coordinates[i - 1]
-            val end = coordinates[i]
-            val move = when (start.second) {
-                Move.right -> Move.down
-                Move.up -> Move.right
-                Move.down -> Move.left
-                Move.left -> Move.up
-                else -> {
-                    Move.down
-                }
-            }
-            println(start)
-            floodFill(start, end, move)
-        }
-        printGrid()
-    }
-
-    private fun floodFill(start: Pair<Point2D, Move?>, end: Pair<Point2D, Move?>, fillMove: Move) {
-        var tempStart = start.first
-        while (isValid(tempStart.y, tempStart.x, grid) && tempStart != end.first) {
-            tempStart = tempStart.applyMove(start.second ?: Move.right)
-            fill(tempStart.copy(), fillMove)
-        }
-    }
-
-    private fun fill(current: Point2D, move: Move) {
-        var start = current
-        start.applyMove(move)
-        while (!isBorder(start) && isValid(start.y, start.x, grid) && start.valueOf(grid) != '#') {
-            grid[start.y][start.x] = '#'
-            start = start.applyMove(move)
-            println("starts $start")
-        }
-    }
-
-    fun isBorder(start: Point2D) = coordinates.any { it.first == start }
-
-    fun printGrid() {
-        grid.printGrid()
-    }
-
-    fun getArea(): Int {
-        return grid.fold(0) { acc, currentRow ->
-            acc + currentRow.count { it == '#' }
-        }
-    }
-
-    private fun area(points: List<Pair<Int, Int>>): Long {
-        var sum = 0L
-        for (i in points.indices) {
-            val j = if (i + 1 < points.size) i + 1 else 0
-            sum += points[j].first.toLong() * points[i].second.toLong() -
-                    points[i].first.toLong() * points[j].second.toLong()
-        }
-        return abs(sum / 2)
-    }
+    val steps = stepsChar.toInt()
+    val color = colorString.filter { it !in "(#)" }
+    return DigLine(direction, steps, color)
 }
 
-// x -> 493
-// y -> 334
-// 121966
-// 72413  // too high
-// 70146  // not tried
-// 55798 too low
-// 90719 too high
-// 230888
-// 793235
-// 793418
-// 5165654
-// 5870648
+fun shoelaceDig(digs: List<DigLine>): Long {
+    var x = 0L
+    var y = 0L
+
+    // Add the first point to the back as well
+    val shoelace = (digs + digs.first()).windowed(2) { (_, end) ->
+        val (nextX, nextY) = when (end.direction) {
+            Compass.North -> x to (y + end.steps)
+            Compass.East -> (x + end.steps) to y
+            Compass.South -> x to (y - end.steps)
+            Compass.West -> (x - end.steps) to y
+        }
+        val determinant = (x * nextY) - (y * nextX)
+//        println("x1: $x, y1: $y, x2: $nextX, y2: $nextY, determinant: $determinant")
+        x = nextX
+        y = nextY
+        determinant
+    }
+        .sum()
+        .let { abs(it / 2) }
+
+    // Include the outline of the shape, off by 1 because of corners
+    val outline = digs.sumBy { it.steps } / 2 + 1
+
+    return shoelace + outline
+}
