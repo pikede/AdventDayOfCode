@@ -28,14 +28,17 @@ class Trajectories(val min: Double, val max: Double) {
         return intersections.size
     }
 
+    /*
+    [JAVADOC]
+    * x = intercept1-intercept2 / slope1-slope2
+    * y = m1 * x1 + s1
+    * if(x,y) in range of 7..27 true intersection else intersects but somewhere else
+    * both a and must cross in future
+    * */
     private fun intersection(
         a: Stone,
         b: Stone
     ): Boolean {
-        // x = intercept1-intercept2 / slope1-slope2
-        // y = m1 * x1 + s1
-        // if(x,y) in range of 7..27 true intersection else intersects but somewhere else
-        // both a and must cross in future
         val slope = b.slope() - a.slope()
         val yIntercept = a.yIntercept() - b.yIntercept()
         if (slope == 0.0 || b.slope() == a.slope()) {

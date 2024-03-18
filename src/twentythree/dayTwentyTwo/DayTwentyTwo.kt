@@ -1,6 +1,6 @@
 package twentythree.dayTwentyTwo
 
-import util.maxOf
+import utils.maxOf
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*

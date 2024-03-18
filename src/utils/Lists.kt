@@ -1,4 +1,4 @@
-package util
+package utils
 
 fun <T, R, V> Iterable<T>.zipWithIndex(other: R, transform: (Int, Pair<T, R>) -> V): List<V> =
     mapIndexed { index, it -> transform(index, it to other) }

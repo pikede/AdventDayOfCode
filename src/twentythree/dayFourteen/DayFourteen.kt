@@ -1,6 +1,6 @@
 package twentythree.dayFourteen
 
-import util.printGrid
+import utils.printGrid
 import java.nio.file.Files
 import java.nio.file.Paths
 

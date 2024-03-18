@@ -1,4 +1,4 @@
-package util
+package utils
 
 fun Array<CharArray>.printGrid() {
     for (row in this.iterator()) {

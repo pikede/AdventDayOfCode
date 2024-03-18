@@ -10,11 +10,11 @@ private fun main() {
     println(calculator.part1())
 }
 
-typealias ruleList = ArrayList<Part>
+typealias partList = ArrayList<Part>
 
 private class WorkflowCalculator(val input: MutableList<String>) {
     private val workflows = HashMap<String, Workflow>()
-    private val parts = ruleList()
+    private val parts = partList()
 
     init {
         parseInput()
@@ -23,14 +23,11 @@ private class WorkflowCalculator(val input: MutableList<String>) {
     private fun parseInput() {
         val partsStartIndex = input.indexOf("")
         input.forEachIndexed { index, s ->
-            when {
-                s.isEmpty() -> {}
-                else -> {
-                    if (index < partsStartIndex) {
-                        addWorkflow(s)
-                    } else {
-                        addPartRanges(s)
-                    }
+            if(s.isNotEmpty()){
+                if (index < partsStartIndex) {
+                    addWorkflow(s)
+                } else {
+                    addPartRanges(s)
                 }
             }
         }
@@ -95,20 +92,13 @@ private class WorkflowCalculator(val input: MutableList<String>) {
     private fun isGreaterThan(i: String, partAmount: Int, amount: Int) = i.contains(">") && partAmount > amount
 
     private fun getRating(instruction: String, part: Part, continueWorkflow: () -> Int) = when (instruction) {
-        Rating.Accepted.type -> {
-            part.partSum()
-        }
-        Rating.Rejected.type -> {
-            0
-        }
-        else -> {
-            continueWorkflow()
-        }
+        Rating.Accepted.type -> part.partSum()
+        Rating.Rejected.type -> 0
+        else -> continueWorkflow()
     }
 }
 
 data class Workflow(val rules: MutableList<String>)
-
 
 data class Part(val map: MutableMap<Char, Int>) {
 

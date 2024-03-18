@@ -1,4 +1,4 @@
-package util
+package utils
 
 /**
  * Transposes this map of collections into a map of lists with values from this map becoming keys in the resulting map,

@@ -1,6 +1,6 @@
 package twentythree.dayEighteen
 
-import util.*
+import utils.*
 import java.lang.Math.abs
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -62,7 +62,6 @@ fun shoelaceDig(digs: List<DigLine>): Long {
             Compass.West -> (x - end.steps) to y
         }
         val determinant = (x * nextY) - (y * nextX)
-//        println("x1: $x, y1: $y, x2: $nextX, y2: $nextY, determinant: $determinant")
         x = nextX
         y = nextY
         determinant

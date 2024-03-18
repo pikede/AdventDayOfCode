@@ -1,6 +1,8 @@
 package twentythree.dayTwentyOne
 
-import util.isValid
+import utils.Move
+import utils.isValid
+import utils.move
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
@@ -12,7 +14,7 @@ private fun main() {
 }
 
 private class Pedometer(val map: MutableList<String>) {
-    val grid = map //getCharArrayGrid(map)
+    val grid = map
 
     fun part1(limit: Int): Int {
         val start = getStart()
@@ -24,33 +26,34 @@ private class Pedometer(val map: MutableList<String>) {
             map[i] = hashSetOf()
             map[i - 1]!!.forEach { currentPosition ->
                 for (next in getNextPositions(currentPosition)) {
-                    if (isGarden(next)) {
+                    if (isPositionAGarden(next)) {
                         map[i]!!.add(next)
                     }
                 }
             }
         }
-        return map[limit]!!.size + 1 // for start
+        return map[limit]!!.size + 1 // add 1 for start
     }
 
-    private fun isGarden(next: Pair<Int, Int>): Boolean {
+    private fun isPositionAGarden(next: Pair<Int, Int>): Boolean {
         return isValid(next, grid) && grid[next.first][next.second] == '.'
     }
 
-    fun getNextPositions(current: Pair<Int, Int>): HashSet<Pair<Int, Int>> {
-        val (row, column) = current
-        val up = row - 1 to column
-        val down = row + 1 to column
-        val left = row to column - 1
-        val right = row to column + 1
-        return hashSetOf(up, left, right, down)
+    @OptIn(ExperimentalStdlibApi::class)
+    fun getNextPositions(current: Pair<Int, Int>): Set<Pair<Int, Int>> {
+        return buildSet {
+            add(current.move(Move.up))
+            add(current.move(Move.down))
+            add(current.move(Move.left))
+            add(current.move(Move.right))
+        }
     }
 
     private fun getStart(): Pair<Int, Int> {
-        grid.forEachIndexed { row, chars ->
-            val column = chars.indexOf('S')
-            if (column != -1) {
-                return row to column
+        grid.forEachIndexed { rowIndex, chars ->
+            val columnIndex = chars.indexOf('S')
+            if (columnIndex != -1) {
+                return rowIndex to columnIndex
             }
         }
         return -1 to -1

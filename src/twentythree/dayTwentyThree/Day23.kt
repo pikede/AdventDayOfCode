@@ -1,6 +1,6 @@
 package twentythree.dayTwentyThree
 
-import util.*
+import utils.*
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -21,15 +21,13 @@ val slopes = buildList {
 private fun main() {
     val walker = Walker(input)
     println(walker.getMaxStepsFromStartToEnd())
-//    println(walker.getMaxStepsFromStartToEndWithoutSlopes())
+    println(walker.getMaxStepsFromStartToEndWithoutSlopes())
     println(walker.getMaxStepsFromStartToEndOfSlopes())
 }
 
 private class Walker(val input: MutableList<String>) {
     val start = 0 to input[0].indexOf(".")
     val end = input.lastIndex to input.last().indexOf('.')
-    val allSteps = HashSet<Pair<Int, Int>>()
-
 
     fun getMaxStepsFromStartToEnd(): Int {
         val ans = HashSet<MutableList<Pair<Int, Int>>>()
@@ -37,6 +35,7 @@ private class Walker(val input: MutableList<String>) {
         return ans.maxBy { it.size }!!.size
     }
 
+    // TODO complete part 2 by fixing this or deleting it
     fun getMaxStepsFromStartToEndOfSlopes(): Int {
         val ans = HashSet<MutableList<Pair<Int, Int>>>()
         backtrack(start, ans, arrayListOf())
@@ -52,13 +51,9 @@ private class Walker(val input: MutableList<String>) {
                 }
             }
             max = maxOf(temp.size, max)
-            printGrid(temp)
-            println(max)
-            println()
         }
 
         return max
-//        return ans.maxBy { it.size }!!.size
     }
 
     fun getSlopePaths(start: Pair<Int, Int>): HashSet<MutableList<Pair<Int, Int>>> {
@@ -86,21 +81,21 @@ private class Walker(val input: MutableList<String>) {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getNext(node: Pair<Int, Int>): List<Pair<Int, Int>> {
-        val up = node.getUp()
-        val down = node.getDown()
-        val left = node.getLeft()
-        val right = node.getRight()
         val (y, x) = node
-        return when (input[y][x]) {
-            '^' -> listOf(up)
-            '<' -> listOf(left)
-            '>' -> listOf(right)
-            'v' -> listOf(down)
-            else -> listOf(up, left, right, down)
+        return buildList {
+            when (input[y][x]) {
+                '^' -> add(node.moveUp())
+                '<' -> add(node.moveLeft())
+                '>' -> add(node.moveRight())
+                'v' -> add(node.moveDown())
+                else -> addAll(listOf(node.moveUp(), node.moveLeft(), node.moveRight(), node.moveDown()))
+            }
         }
     }
 
+    // TODO complete part 2 by fixing this or deleting it 
     fun getMaxStepsFromStartToEndWithoutSlopes(): Int {
         val points = mutableListOf<Pair<Int, Int>>()
         input.mapIndexed { index, it ->
@@ -126,14 +121,13 @@ private class Walker(val input: MutableList<String>) {
                 backtrackWithoutSlope(pair, intersections, temp, arrayListOf())
                 temp.forEach { (node, size) ->
                     if (node != it && it to node !in cache) {
-                        cache[it to node] = cache.getOrDefault(it to node, arrayListOf()).also {
-                            it.add(size - 1)
+                        cache[it to node] = cache.getOrDefault(it to node, arrayListOf()).apply {
+                            add(size - 1)
                         }
                     }
                 }
             }
         }
-        println(cache)
         return 0
     }
 
@@ -157,42 +151,18 @@ private class Walker(val input: MutableList<String>) {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getNextWithoutSlope(node: Pair<Int, Int>): List<Pair<Int, Int>> {
-        val up = node.getUp()
-        val down = node.getDown()
-        val left = node.getLeft()
-        val right = node.getRight()
-        return listOf(up, left, right, down).filter { isValid(it, input) }.filter { !isForest(it) }
+        return buildList {
+            add(node.moveUp())
+            add(node.moveDown())
+            add(node.moveLeft())
+            add(node.moveRight())
+        }.filter { isValid(it, input) && !isForest(it) }
     }
 
     private fun isForest(next: Pair<Int, Int>): Boolean {
         return input.getValueOf(next.first, next.second) == '#'
-    }
-
-    fun printGrid() {
-        for (r in input.indices) {
-            for (c in input[r].indices) {
-                val temp = when {
-                    r to c in allSteps -> 'O'
-                    else -> input[r][c]
-                }
-                print("$temp ")
-            }
-            println()
-        }
-    }
-
-    fun printGrid(temp: HashSet<Pair<Int, Int>>) {
-        for (r in input.indices) {
-            for (c in input[r].indices) {
-                val i = when {
-                    r to c in temp -> 'O'
-                    else -> input[r][c]
-                }
-                print("$i ")
-            }
-            println()
-        }
     }
 }
 // start to intersection

@@ -1,7 +1,7 @@
 package twentythree.dayTwenty
 
-import util.lcm
-import util.transpose
+import utils.lcm
+import utils.transpose
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
@@ -154,12 +154,12 @@ private fun part2(input: List<String>): Long {
     var count = 0L
 
     val inverse = modules.mapValues { (_, module) -> module.outputs.map(Module::name) }.transpose()
-    val prevs = inverse.getValue(inverse.getValue("rx").first()).associateWith { 0L }.toMutableMap()
+    val prev = inverse.getValue(inverse.getValue("rx").first()).associateWith { 0L }.toMutableMap()
     val cycles = mutableMapOf<String, Long>()
 
     while (!receiver.isActivated) {
-        button.press(++count, prevs, cycles)
-        if (cycles.size == prevs.size) {
+        button.press(++count, prev, cycles)
+        if (cycles.size == prev.size) {
             return lcm(cycles.values.map { it.toBigInteger() }).toLong()
         }
     }

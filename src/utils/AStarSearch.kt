@@ -1,4 +1,4 @@
-package util
+package utils
 
 import java.util.*
 
@@ -26,12 +26,12 @@ fun <Node> aStarSearch(
         }
         next(current)
             .forEach { (neighbor, cost) ->
-                val possibleNewCostToNeighbor = costFromStart[current]?.plus(cost) ?: Int.MAX_VALUE
-                val currentCostToNeighbor = costFromStart[neighbor] ?: Int.MAX_VALUE
-                if (possibleNewCostToNeighbor < currentCostToNeighbor) {
-                    costFromStart[neighbor] = possibleNewCostToNeighbor
+                val possibleStartCostToNeighbor = costFromStart[current]?.plus(cost) ?: Int.MAX_VALUE
+                val currentStartCostToNeighbor = costFromStart[neighbor] ?: Int.MAX_VALUE
+                if (possibleStartCostToNeighbor < currentStartCostToNeighbor) {
+                    costFromStart[neighbor] = possibleStartCostToNeighbor
                     estimatedTotalCost[neighbor] =
-                        possibleNewCostToNeighbor + heuristicCostToEnd(neighbor)
+                        possibleStartCostToNeighbor + heuristicCostToEnd(neighbor)
                     cameFrom[neighbor] = current
                     if (neighbor !in openVertices) openVertices.add(neighbor)
                 }

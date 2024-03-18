@@ -102,7 +102,7 @@ class SequenceCalculator(private val inputSequences: MutableList<String>) {
     }
 }
 
-data class Sequence(private val values: ArrayList<Long>) {
+private data class Sequence(private val values: ArrayList<Long>) {
 
     fun hasNotFinished() = values.any { it != 0L }
 
@@ -111,7 +111,7 @@ data class Sequence(private val values: ArrayList<Long>) {
     fun getFirstValue() = values.first()
 
     fun addToSequence(value: Long) {
-        values.add(value)
+        values += value
     }
 
     fun addToSequence(index: Int, value: Long) {
