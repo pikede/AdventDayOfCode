@@ -42,7 +42,7 @@ class ScratchCards(private val scratchCards: MutableList<String>) {
 
     private fun parseAllScratchCards() {
         for (card in scratchCards) {
-            val (cardIdentifier, cardNumbers) = card.split(":")
+            val (_, cardNumbers) = card.split(":")
             val (winners, played) = cardNumbers.split("|")
             val winnerCards = parseCardNumbers(winners)
             val playersCards = parseCardNumbers(played)

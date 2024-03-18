@@ -1,6 +1,6 @@
 package twentythree.dayFifteen
 
-import twentythree.util.zipWithIndex
+import utils.zipWithIndex
 import java.nio.file.Files
 import java.nio.file.Paths
 
