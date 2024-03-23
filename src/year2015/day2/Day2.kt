@@ -13,11 +13,28 @@ fun main() {
 }
 
 class Day2Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
+    private val boxesDimensions by lazy {
+        puzzleInput.map { dimension ->
+            dimension.split("x").map { it.toInt() }
+        }
+    }
+
     override fun part1(): Any {
-        TODO("Not yet implemented")
+        return boxesDimensions.fold(0) { totalSurfaceArea, currentBox ->
+            val (l, w, h) = currentBox
+            val areaOfSmallestSide = minOf(h * l, l * w, w * h)
+            val currentSurfaceArea = areaOfSmallestSide + (2 * l * w) + (2 * w * h) + (2 * h * l)
+            currentSurfaceArea + totalSurfaceArea
+        }
     }
 
     override fun part2(): Any {
-        TODO("Not yet implemented")
+        return boxesDimensions.fold(0) { totalRibbonLength, currentBox ->
+            val (l, w, h) = currentBox
+            val boxVolume = l * w * h
+            val smallestBoxPerimeter = minOf(2 * (l + w), 2 * (l + h), 2 * (h + w))
+            val currentRibbonLength = boxVolume + smallestBoxPerimeter
+            currentRibbonLength + totalRibbonLength
+        }
     }
 }
