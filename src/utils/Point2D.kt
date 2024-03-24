@@ -46,3 +46,13 @@ data class Move(val dx: Int, val dy: Int) {
         val right = Move(1, 0)
     }
 }
+
+fun Char.getMoveByArrowDirection(): Move {
+    return when (this) {
+        '^' -> up
+        '<' -> left
+        '>' -> right
+        'v' -> down
+        else -> throw Exception("Invalid Direction")
+    }
+}
