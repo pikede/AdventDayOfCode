@@ -12,33 +12,36 @@ fun main() {
 private class Day4Solution : AOCPuzzle {
 
     override fun part1(): Any {
-        return day4("yzbqklnj", "00000")
+        val secretKeyInput = "yzbqklnj"
+        val startingZeroes = "00000"
+        return loop(0, md5It(0, secretKeyInput), secretKeyInput, startingZeroes)
     }
 
     override fun part2(): Any {
-        return day4("yzbqklnj", "000000")
+        val secretKeyInput = "yzbqklnj"
+        val startingZeroes = "000000"
+        return day4(secretKeyInput, startingZeroes)
     }
 
-    fun md5(input: String): String {
+    fun day4(secretKeyInput: String, match: String): Int {
+        return loop(0, md5It(0, secretKeyInput), secretKeyInput, match)
+    }
+
+    fun md5It(n: Int, secretKeyInput: String): String {
+        return md5("$secretKeyInput$n")
+    }
+
+    private fun md5(secretKeyInput: String): String {
         val md = MessageDigest.getInstance("MD5")
-        val digest = md.digest(input.toByteArray())
+        val digest = md.digest(secretKeyInput.toByteArray())
         return digest.joinToString("") { "%02x".format(it) }
     }
 
-    fun day4(input: String, match: String): Int {
-        fun md5It(n: Int, input: String): String {
-            return md5("$input$n")
+    private tailrec fun loop(i: Int, hash: String, secretKeyInput: String, match: String): Int {
+        return if (hash.startsWith(match)) {
+            i
+        } else {
+            loop(i + 1, md5It(i + 1, secretKeyInput), secretKeyInput, match)
         }
-
-        tailrec fun loop(i: Int, hash: String): Int {
-            return if (hash.startsWith(match)) {
-                i
-            } else {
-                loop(i + 1, md5It(i + 1, input))
-            }
-        }
-
-        return loop(0, md5It(0, input))
     }
 }
-// 61 62 63 64 65 66 -> 
