@@ -12,7 +12,7 @@ fun main() {
     println(solution.part2())
 }
 
-class Day1Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
+private class Day1Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part1(): Int {
         return puzzleInput.fold(0) { acc, curr ->
             val currentFloor = curr.count { it == '(' } - curr.count { it == ')' }
