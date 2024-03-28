@@ -13,7 +13,7 @@ fun main() {
     println(solution.part2())
 }
 
-class Day5Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
+private class Day5Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part1(): Any {
         return puzzleInput.fold(0) { niceStrings, currentString ->
             niceStrings + if (currentString.hasMinVowels() && currentString.hasConsecutive() && currentString.containsInvalid()) 1 else 0
@@ -24,7 +24,7 @@ class Day5Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
         return puzzleInput.fold(0) { niceStrings, currentString ->
             niceStrings + if (currentString.hasPairWithoutOverlap() && currentString.repeatsWithLetterInBetween()) 1 else 0
         }
-    } // 57, 50, 53
+    }
 }
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -49,7 +49,7 @@ private fun String.hasPairWithoutOverlap(): Boolean {
     return total >= 2
 }
 
-fun hasNonOverlap(locations: HashSet<Int>): Int {
+private fun hasNonOverlap(locations: HashSet<Int>): Int {
     val set = HashSet<Int>()
     for (i in locations) {
         set += locations - i - (i - 1) - (i + 1)

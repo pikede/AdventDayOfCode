@@ -12,7 +12,7 @@ fun main() {
     println(solution.part2())
 }
 
-class Day2Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
+private class Day2Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
     private val boxesDimensions by lazy {
         puzzleInput.map { dimension ->
             dimension.split("x").map { it.toInt() }

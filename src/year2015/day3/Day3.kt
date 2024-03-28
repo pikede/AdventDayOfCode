@@ -14,7 +14,7 @@ fun main() {
     println(solution.part2())
 }
 
-class Day3Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
+private class Day3Solution(private val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part1(): Any {
         var startingPosition = Point2D(0, 0)
         val housesVisited = HashSet<Point2D>()
