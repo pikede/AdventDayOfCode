@@ -34,10 +34,10 @@ private fun String.hasPairWithoutOverlap(): Boolean {
     }
     val pairs = HashMap<String, ArrayList<Int>>()
     for (i in this.indices) {
-        if(i + 2 > this.length){
+        if (i + 2 > this.length) {
             break
         }
-        val candidate = this.substring(i, i+2)
+        val candidate = this.substring(i, i + 2)
         pairs[candidate] = pairs.getOrDefault(candidate, ArrayList()).also { it.add(i) }
     }
     var total = 0
@@ -52,7 +52,7 @@ private fun String.hasPairWithoutOverlap(): Boolean {
 fun hasNonOverlap(locations: HashSet<Int>): Int {
     val set = HashSet<Int>()
     for (i in locations) {
-        set += locations - i  - (i - 1) - (i + 1)
+        set += locations - i - (i - 1) - (i + 1)
     }
     return set.size
 }
@@ -84,15 +84,6 @@ private fun String.hasConsecutive(): Boolean {
         }
     }
     return false
-/*
-        TODO use windowed too
-//        this.windowed(2, 1) {
-//            if(it[0] == it[1]){
-//                 true
-//            } else {
-//                fasle
-//            }
-//        }*/
 }
 
 private fun String.containsInvalid(): Boolean {
