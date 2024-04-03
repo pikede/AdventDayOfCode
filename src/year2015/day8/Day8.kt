@@ -14,16 +14,7 @@ fun main() {
 }
 
 private class Day8Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
-    override fun part1(): Any {
-        var codeTotal = 0
-        var inMemoryTotal = 0
-
-        puzzleInput.forEach {
-            codeTotal += it.length
-            inMemoryTotal += it.getValueInMemory()
-        }
-        return codeTotal - inMemoryTotal
-    }
+    override fun part1() = puzzleInput.fold(0) { acc, input -> acc + input.length - input.getValueInMemory() }
 
     private fun String.getValueInMemory(): Int {
         val stack = Stack<Char>()
@@ -55,16 +46,7 @@ private class Day8Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
         return stack.size
     }
 
-    override fun part2(): Any {
-        var codeTotal = 0
-        var encodedLength = 0
-
-        puzzleInput.forEach {
-            codeTotal += it.length
-            encodedLength += it.getEncodedLength()
-        }
-        return encodedLength - codeTotal
-    }
+    override fun part2() = puzzleInput.fold(0) { acc, input -> acc + input.getEncodedLength() - input.length }
 
     private fun String.getEncodedLength(): Int {
         val stack = Stack<Char>()
