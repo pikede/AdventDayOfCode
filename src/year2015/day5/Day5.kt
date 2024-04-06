@@ -49,6 +49,7 @@ private fun String.hasPairWithoutOverlap(): Boolean {
     return total >= 2
 }
 
+// Todo rename
 private fun hasNonOverlap(locations: HashSet<Int>): Int {
     val set = HashSet<Int>()
     for (i in locations) {
