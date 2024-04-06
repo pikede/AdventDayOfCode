@@ -43,18 +43,17 @@ private fun String.hasPairWithoutOverlap(): Boolean {
     var total = 0
     for ((_, candidate) in pairs) {
         if (locations.size >= 2) {
-            total += hasNonOverlap(candidate.toHashSet())
+            total += countNonOverlaps(candidate.toHashSet())
         }
     }
     return total >= 2
 }
 
-private fun hasNonOverlap(locations: HashSet<Int>): Int {
-    val set = HashSet<Int>()
+private fun countNonOverlaps(locations: HashSet<Int>): Int {
     for (i in locations) {
-        set += locations - i - (i - 1) - (i + 1)
+        locations += locations - i - (i - 1) - (i + 1)
     }
-    return set.size
+    return locations.size
 }
 
 private fun String.repeatsWithLetterInBetween(): Boolean {

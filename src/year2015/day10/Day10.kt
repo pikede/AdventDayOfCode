@@ -21,25 +21,26 @@ private class Day10Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
         return runGameNTimes(50)
     }
 
-    fun runGameNTimes(n: Int) : Int {
-        val sb = StringBuilder(puzzleInput[0])
+    fun runGameNTimes(n: Int): Int {
+        val currentLevel = StringBuilder(puzzleInput[0])
         repeat(n) {
             var i = 0
-            val temp = StringBuilder()
-            while (i in sb.indices) {
-                var count = 1
-                val say = sb[i]
-                while (i + 1 in sb.indices && sb[i] == sb[i + 1]) {
+            val nextLevel = buildString {
+                while (i in currentLevel.indices) {
+                    var count = 1
+                    val say = currentLevel[i]
+                    while (i + 1 in currentLevel.indices && currentLevel[i] == currentLevel[i + 1]) {
+                        i++
+                        count++
+                    }
+                    append("$count$say")
                     i++
-                    count++
                 }
-                temp.append("$count$say")
-                i++
             }
-            sb.clear()
-            sb.append(temp.toString())
+            currentLevel.clear()
+            currentLevel.append(nextLevel)
         }
-        return sb.length
+        return currentLevel.length
     }
 }
 
