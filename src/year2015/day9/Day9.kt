@@ -61,7 +61,7 @@ private class Day9Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part2() = paths.maxBy { it.getPathTotalCost() } ?: 0
 }
 
-data class Path(val visitedLocations: ArrayList<String> = arrayListOf(), var cost: Int = 0) {
+private data class Path(val visitedLocations: ArrayList<String> = arrayListOf(), var cost: Int = 0) {
 
     fun isVisitable(location: String) = location !in visitedLocations
 
