@@ -40,7 +40,7 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
         }
     }
 
-    fun getSumOfIntegers(puzzleObject: Any?): Int {
+    private fun getSumOfIntegers(puzzleObject: Any?): Int {
         var total = 0
         return when (puzzleObject) {
             is Int -> puzzleObject
