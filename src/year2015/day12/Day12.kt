@@ -17,13 +17,17 @@ fun main() {
 
 private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part1(): Any {
-        return puzzleInput.fold(0) { totalSum, integerCandidate ->
-            val candidates = integerCandidate.split("{", "[", ":", "\"", "}", "]", ",")
-            var sum = 0
-            candidates.forEach {
-                sum += it.getIntValue()
-            }
-            totalSum + sum
+        val candidates = puzzleInput[0].split("{", "[", ":", "\"", "}", "]", ",")
+        return candidates.fold(0) { acc, it ->
+            acc + it.getIntValue()
+        }
+    }
+
+    private fun String.getIntValue(): Int {
+        return try {
+            Integer.parseInt(this)
+        } catch (e: Exception) {
+            0
         }
     }
 
@@ -37,41 +41,34 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     }
 
     fun getValue(puzzleObject: Any?): Int {
-        if (puzzleObject is Int) return puzzleObject
-        if (puzzleObject is String) return 0
         var total = 0
-        if (puzzleObject is JSONArray) {
-            for (i in 0 until puzzleObject.length()) {
-                try {
-                    val `val` = getValue(puzzleObject[i])
-                    total += `val`
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+        return when (puzzleObject) {
+            is Int -> puzzleObject
+            is String -> 0
+            is JSONArray -> {
+                for (i in 0 until puzzleObject.length()) {
+                    try {
+                        val `val` = getValue(puzzleObject[i])
+                        total += `val`
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
                 }
+                return total
             }
-            return total
-        }
-        if (puzzleObject is JSONObject) {
-            val names = puzzleObject.names()
-            for (i in 0 until names.length()) {
-                val name = names?.get(i) as String
-                total += if (puzzleObject[name] == "red") {
-                    return 0
-                } else {
-                    getValue(puzzleObject[name])
+            is JSONObject -> {
+                val names = puzzleObject.names()
+                for (i in 0 until names.length()) {
+                    val name = names?.get(i) as String
+                    total += if (puzzleObject[name] == "red") {
+                        return 0
+                    } else {
+                        getValue(puzzleObject[name])
+                    }
                 }
+                return total
             }
-            return total
-        }
-        return 0
-    }
-
-    private fun String.getIntValue(): Int {
-        return try {
-            Integer.parseInt(this)
-        } catch (e: Exception) {
-            0
+            else -> 0
         }
     }
 }
-
