@@ -19,11 +19,11 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part1(): Any {
         val candidates = puzzleInput[0].split("{", "[", ":", "\"", "}", "]", ",")
         return candidates.fold(0) { acc, it ->
-            acc + it.getIntValue()
+            acc + it.getIntegerValue()
         }
     }
 
-    private fun String.getIntValue(): Int {
+    private fun String.getIntegerValue(): Int {
         return try {
             Integer.parseInt(this)
         } catch (e: Exception) {
@@ -34,13 +34,13 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     override fun part2(): Any {
         val array = JSONArray(puzzleInput[0])
         return try {
-            getValue(array)
+            getSumOfIntegers(array)
         } catch (e: Exception) {
             0
         }
     }
 
-    fun getValue(puzzleObject: Any?): Int {
+    fun getSumOfIntegers(puzzleObject: Any?): Int {
         var total = 0
         return when (puzzleObject) {
             is Int -> puzzleObject
@@ -48,7 +48,7 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
             is JSONArray -> {
                 for (i in 0 until puzzleObject.length()) {
                     try {
-                        val `val` = getValue(puzzleObject[i])
+                        val `val` = getSumOfIntegers(puzzleObject[i])
                         total += `val`
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -63,7 +63,7 @@ private class Day12Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
                     total += if (puzzleObject[name] == "red") {
                         return 0
                     } else {
-                        getValue(puzzleObject[name])
+                        getSumOfIntegers(puzzleObject[name])
                     }
                 }
                 return total
