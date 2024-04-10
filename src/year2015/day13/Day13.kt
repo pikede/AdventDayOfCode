@@ -12,7 +12,6 @@ fun main() {
     println(solution.part2())
 }
 
-// TODO delete DS_store from files and repository 
 private class Day13Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     private val scores = HashMap<String, HashMap<String, Int>>()
 
