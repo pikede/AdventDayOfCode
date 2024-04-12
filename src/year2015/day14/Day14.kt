@@ -39,8 +39,8 @@ private class Day14Solution : AOCPuzzle {
         for (i in 0 until RaceTimeLimit) {
             for (deer in reindeers) {
                 if (deer.isTimeOver().not()) {
-                    if (deer.shouldRest()) {
-                        deer.rest()
+                    if (deer.shouldRestV2()) {
+                        deer.restV2()
                     } else {
                         deer.run()
                     }
@@ -94,7 +94,7 @@ private data class Reindeer(val name: String, val speed: Int, val time: Int, val
 
     fun shouldRestV1() = currentTime == time
 
-    fun rest() {
+    fun restV2() {
         totalTime += currentTime
         currentTime = 0
         currentRestTime++
@@ -107,7 +107,7 @@ private data class Reindeer(val name: String, val speed: Int, val time: Int, val
 
     fun getCurrentDistance() = totalDistanceRun
 
-    fun shouldRest() = currentTime == time || currentRestTime in 1..restTime
+    fun shouldRestV2() = currentTime == time || currentRestTime in 1..restTime
 
     fun resetCurrentTime() {
         currentTime = 0
