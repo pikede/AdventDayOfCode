@@ -125,5 +125,5 @@ private data class Reindeer(val name: String, val speed: Int, val time: Int, val
 
     fun getTotalPoints() = totalPointsAwarded
 
-    fun isTimeOver() = totalRestTime + totalTime >= 2503
+    fun isTimeOver() = totalRestTime + totalTime >= RaceTimeLimit
 }
