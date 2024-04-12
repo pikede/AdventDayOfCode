@@ -13,20 +13,21 @@ private fun main() {
     println(solution.part2())
 }
 
-// TODO create version 1 and version 2 implementations for run/rest
 private class Day14Solution : AOCPuzzle {
 
     override fun part1(): Any {
         val reindeers = getReindeers()
-        for (i in 0 until 1000) {
+        while (reindeers.any { it.isTimeOver().not() }) {
             for (deer in reindeers) {
-                if (deer.isTimeOver().not()) {
-                    if (deer.shouldRestV1()) {
+                if (deer.isTimeOver()) {
+                    continue
+                }
+                when {
+                    deer.shouldRestV1() -> {
                         deer.restV1()
                         deer.resetCurrentTime()
-                    } else {
-                        deer.run()
                     }
+                    else -> deer.run()
                 }
             }
         }
@@ -36,14 +37,14 @@ private class Day14Solution : AOCPuzzle {
 
     override fun part2(): Any {
         val reindeers = getReindeers()
-        for (i in 0 until RaceTimeLimit) {
+        while (reindeers.any { it.isTimeOver().not() }) {
             for (deer in reindeers) {
-                if (deer.isTimeOver().not()) {
-                    if (deer.shouldRestV2()) {
-                        deer.restV2()
-                    } else {
-                        deer.run()
-                    }
+                if (deer.isTimeOver()) {
+                    continue
+                }
+                when {
+                    deer.shouldRestV2() -> deer.restV2()
+                    else -> deer.run()
                 }
             }
             awardCurrentRaceLeaders(reindeers)
