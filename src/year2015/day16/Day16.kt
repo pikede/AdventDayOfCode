@@ -5,6 +5,10 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 private val questionInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/file.txt"))
+private const val CATS = "cats"
+private const val TREES = "trees"
+private const val GOLDFISH = "goldfish"
+private const val POMERANIANS = "pomeranians"
 
 private fun main() {
     val solution = Day16Solution()
@@ -21,7 +25,7 @@ private class Day16Solution : AOCPuzzle {
             val originalGift = giftLine.replace("Sue ", "")
             val endOfName = originalGift.indexOf(":")
             val name = originalGift.substring(0, endOfName)
-            val suesGifts = SuesGifts(name)
+            val gifts = Gifts(name)
             val otherGifts = originalGift.split("$name: ")[1]
             otherGifts.split(", ").map {
                 if (it.isEmpty()) {
@@ -29,9 +33,9 @@ private class Day16Solution : AOCPuzzle {
                 }
                 val (giftName, quantity) = it.split(": ")
                 val giftQuantity = quantity.toInt()
-                suesGifts.addGift(giftName, giftQuantity)
+                gifts.addGift(giftName, giftQuantity)
             }
-            add(suesGifts)
+            add(gifts)
         }
     }
     val target = givenGift()
@@ -43,7 +47,7 @@ private class Day16Solution : AOCPuzzle {
         for (gift in gifts) {
             if (target.countMatch(gift) > maxScore) {
                 maxScore = target.countMatch(gift)
-                name = gift.name
+                name = gift.getGiftName()
             }
         }
         return name
@@ -54,20 +58,20 @@ private class Day16Solution : AOCPuzzle {
         var maxScore = 0
         for (gift in gifts) {
             var score = 0
-            for (name in giftType) {
-                score += if (gift.countMatchUsingRanges(name, target)) 1 else 0
+            for (giftName in giftType) {
+                score += if (gift.countMatchUsingRanges(giftName, target)) 1 else 0
             }
             if (maxScore < score) {
-                name = gift.name
                 maxScore = score
+                name = gift.getGiftName()
             }
         }
         return name
     }
 
-    private fun givenGift(): SuesGifts {
+    private fun givenGift(): Gifts {
         val giftsLimits: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/limits.txt"))
-        val gift = SuesGifts("limit")
+        val gift = Gifts("limit")
         giftsLimits.forEach {
             it.split(": ").let { (name, quantity) ->
                 gift.addGift(name, quantity.toInt())
@@ -78,38 +82,38 @@ private class Day16Solution : AOCPuzzle {
     }
 }
 
-private fun SuesGifts.countMatch(other: SuesGifts): Int {
+private fun Gifts.countMatch(other: Gifts): Int {
     var count = 0
-    for ((gift, quantity) in this.getGiftNameAndQuantity()) {
-        if (quantity == other.getQuantity(gift)) {
+    for ((giftName, quantity) in this.getGiftNameAndQuantity()) {
+        if (quantity == other.getQuantity(giftName)) {
             count++
         }
     }
     return count
 }
 
-private fun SuesGifts.countMatchUsingRanges(name: String, target: SuesGifts) = when {
-    (name == "cats" || name =="trees") && hasGift(name) -> {
+private fun Gifts.countMatchUsingRanges(name: String, target: Gifts) = when {
+    (name == CATS || name == TREES) && hasGift(name) -> {
         getQuantity(name) > target.getQuantity(name)
     }
-    (name == "goldfish" || name =="pomeranians") && hasGift(name) -> {
+    (name == GOLDFISH || name == POMERANIANS) && hasGift(name) -> {
         getQuantity(name) < target.getQuantity(name)
     }
     hasGift(name) -> getQuantity(name) == target.getQuantity(name)
     else -> true
 }
 
-data class SuesGifts(var name: String, private val map: HashMap<String, Int> = hashMapOf()) {
+class Gifts(private var name: String, private val map: HashMap<String, Int> = hashMapOf()) {
 
     fun getGiftNameAndQuantity() = map
+
+    fun getQuantity(giftName: String) = map[giftName] ?: 0
+
+    fun hasGift(giftName: String) = giftName in map
+
+    fun getGiftName() = name
 
     fun addGift(giftType: String, giftAmount: Int) {
         map[giftType] = giftAmount
     }
-
-    fun getQuantity(giftName: String): Int {
-        return map[giftName] ?: 0
-    }
-
-    fun hasGift(giftName: String) = giftName in map
 }
