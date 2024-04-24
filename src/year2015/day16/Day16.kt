@@ -26,7 +26,7 @@ private class Day16Solution : AOCPuzzle {
             val originalGift = giftLine.replace("Sue ", "")
             val endOfName = originalGift.indexOf(":")
             val name = originalGift.substring(0, endOfName)
-            val gifts = Gifts(name)
+            val gifts = AuntSueGift(name)
             val otherGifts = originalGift.split("$name: ")[1]
             otherGifts.split(", ").map {
                 if (it.isEmpty()) {
@@ -48,7 +48,7 @@ private class Day16Solution : AOCPuzzle {
         for (gift in gifts) {
             if (target.countMatch(gift) > maxScore) {
                 maxScore = target.countMatch(gift)
-                name = gift.getGiftName()
+                name = gift.getAuntsName()
             }
         }
         return name
@@ -64,14 +64,14 @@ private class Day16Solution : AOCPuzzle {
             }
             if (maxScore < score) {
                 maxScore = score
-                name = gift.getGiftName()
+                name = gift.getAuntsName()
             }
         }
         return name
     }
 
-    private fun givenGift(): Gifts {
-        val gift = Gifts("limit")
+    private fun givenGift(): AuntSueGift {
+        val gift = AuntSueGift("limit")
         originalSueGift.forEach {
             it.split(": ").let { (name, quantity) ->
                 gift.addGift(name, quantity.toInt())
@@ -82,7 +82,7 @@ private class Day16Solution : AOCPuzzle {
     }
 }
 
-private fun Gifts.countMatch(other: Gifts): Int {
+private fun AuntSueGift.countMatch(other: AuntSueGift): Int {
     var count = 0
     for ((giftName, quantity) in this.getGiftNameAndQuantity()) {
         if (quantity == other.getQuantity(giftName)) {
@@ -92,7 +92,7 @@ private fun Gifts.countMatch(other: Gifts): Int {
     return count
 }
 
-private fun Gifts.countMatchUsingRanges(name: String, target: Gifts) = when {
+private fun AuntSueGift.countMatchUsingRanges(name: String, target: AuntSueGift) = when {
     (name == CATS || name == TREES) && hasGift(name) -> {
         getQuantity(name) > target.getQuantity(name)
     }
@@ -103,7 +103,7 @@ private fun Gifts.countMatchUsingRanges(name: String, target: Gifts) = when {
     else -> true
 }
 
-class Gifts(private var name: String, private val map: HashMap<String, Int> = hashMapOf()) {
+class AuntSueGift(private var auntsName: String, private val map: HashMap<String, Int> = hashMapOf()) {
 
     fun getGiftNameAndQuantity() = map
 
@@ -111,7 +111,7 @@ class Gifts(private var name: String, private val map: HashMap<String, Int> = ha
 
     fun hasGift(giftName: String) = giftName in map
 
-    fun getGiftName() = name
+    fun getAuntsName() = auntsName
 
     fun addGift(giftType: String, giftAmount: Int) {
         map[giftType] = giftAmount
