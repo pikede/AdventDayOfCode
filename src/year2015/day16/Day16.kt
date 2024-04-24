@@ -4,7 +4,8 @@ import AOCPuzzle
 import java.nio.file.Files
 import java.nio.file.Paths
 
-private val questionInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/file.txt"))
+private val giftsFromOtherAunts: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/file.txt"))
+private val originalSueGift: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/limits.txt"))
 private const val CATS = "cats"
 private const val TREES = "trees"
 private const val GOLDFISH = "goldfish"
@@ -21,7 +22,7 @@ private class Day16Solution : AOCPuzzle {
 
     @OptIn(ExperimentalStdlibApi::class)
     val gifts = buildList {
-        questionInput.forEach { giftLine ->
+        giftsFromOtherAunts.forEach { giftLine ->
             val originalGift = giftLine.replace("Sue ", "")
             val endOfName = originalGift.indexOf(":")
             val name = originalGift.substring(0, endOfName)
@@ -70,9 +71,8 @@ private class Day16Solution : AOCPuzzle {
     }
 
     private fun givenGift(): Gifts {
-        val giftsLimits: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/limits.txt"))
         val gift = Gifts("limit")
-        giftsLimits.forEach {
+        originalSueGift.forEach {
             it.split(": ").let { (name, quantity) ->
                 gift.addGift(name, quantity.toInt())
                 giftType += name
