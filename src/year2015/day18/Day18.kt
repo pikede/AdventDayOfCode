@@ -1,6 +1,7 @@
 package year2015.day18
 
 import AOCPuzzle
+import utils.Move
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -92,7 +93,7 @@ private class Day18Solution : AOCPuzzle {
     }
 
     private fun countOnNeighbors(grid: ArrayList<MutableList<Char>>, row: Int, col: Int): Int {
-        val directions = listOf(-1 to -1, -1 to 0, -1 to 1, 0 to -1, 0 to 1, 1 to -1, 1 to 0, 1 to 1)
+        val directions =  listOf(Move.up, Move.left, Move.down, Move.right, Move.downLeft, Move.downRight, Move.upRight, Move.upLeft)
         var count = 0
         for ((y, x) in directions) {
             val r = y + row
