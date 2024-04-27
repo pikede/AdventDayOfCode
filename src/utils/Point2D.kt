@@ -38,12 +38,17 @@ fun Pair<Int, Int>.move(move: Move): Pair<Int, Int> {
     }
 }
 
+// Todo make sealed interface of just moves add enum for the coordinate points
 data class Move(val dx: Int, val dy: Int) {
     companion object {
         val up = Move(0, -1)
         val down = Move(0, 1)
         val left = Move(-1, 0)
         val right = Move(1, 0)
+        val upLeft = Move(-1, -1)
+        val upRight = Move(-1, 1)
+        val downLeft = Move(1, -1)
+        val downRight = Move(1, 1)
     }
 }
 

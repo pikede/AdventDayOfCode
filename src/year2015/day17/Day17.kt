@@ -5,14 +5,13 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day17/file.txt"))
+private const val CONTAINER_LIMIT = 150
 
 private fun main() {
     val solution = Day17Solution()
     println(solution.part1())
     println(solution.part2())
 }
-
-const val LIMIT = 150
 
 private class Day17Solution : AOCPuzzle {
     val combinations = ArrayList<ArrayList<Int>>()
@@ -29,14 +28,14 @@ private class Day17Solution : AOCPuzzle {
     }
 
     private fun buildCombinations(combinations: ArrayList<ArrayList<Int>>, level: ArrayList<Int>, start: Int = 0) {
-        if (level.sum() == LIMIT) {
+        if (level.sum() == CONTAINER_LIMIT) {
             combinations.add(ArrayList(level))
             return
         }
 
         for (index in start..containers.lastIndex) {
             val i = containers[index]
-            if (i + level.sum() <= LIMIT) {
+            if (i + level.sum() <= CONTAINER_LIMIT) {
                 level += i
                 buildCombinations(combinations, level, index + 1)
                 level.removeAt(level.lastIndex)
