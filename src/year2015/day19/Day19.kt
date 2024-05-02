@@ -16,7 +16,7 @@ private fun main() {
 
 private class Day18Solution : AOCPuzzle {
     @OptIn(ExperimentalStdlibApi::class)
-    val replacements = buildMap<String, ArrayList<String>> {
+    private val replacements = buildMap<String, ArrayList<String>> {
         quizInput.forEach { line ->
             val (origin, destination) = line.split(" => ")
             this[origin] = this.getOrDefault(origin, arrayListOf()).also { it.add(destination) }
