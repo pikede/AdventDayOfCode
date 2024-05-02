@@ -15,12 +15,7 @@ private fun main() {
 }
 
 private class Day18Solution : AOCPuzzle {
-    @OptIn(ExperimentalStdlibApi::class)
-    var initial = buildList {
-        quizInput.forEach {
-            add(it.toMutableList())
-        }
-    }.toMutableList()
+    var initial = quizInput.map { it.toMutableList() }
 
     override fun part1(): Any {
         var copy = ArrayList(initial)
@@ -93,7 +88,8 @@ private class Day18Solution : AOCPuzzle {
     }
 
     private fun countOnNeighbors(grid: ArrayList<MutableList<Char>>, row: Int, col: Int): Int {
-        val directions =  listOf(Move.up, Move.left, Move.down, Move.right, Move.downLeft, Move.downRight, Move.upRight, Move.upLeft)
+        val directions =
+            listOf(Move.up, Move.left, Move.down, Move.right, Move.downLeft, Move.downRight, Move.upRight, Move.upLeft)
         var count = 0
         for ((y, x) in directions) {
             val r = y + row
