@@ -9,13 +9,13 @@ private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/y
 private const val NUMBER_OF_STEPS = 100
 
 private fun main() {
-    val solution = Day18Solution()
+    val solution = Day18Solution
     println(solution.part1())
     println(solution.part2())
 }
 
-private class Day18Solution : AOCPuzzle {
-    var initial = quizInput.map { it.toMutableList() }
+private object Day18Solution : AOCPuzzle {
+    private val initial = quizInput.map { it.toMutableList() }
 
     override fun part1(): Any {
         var copy = ArrayList(initial)
