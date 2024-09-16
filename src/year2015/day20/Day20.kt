@@ -5,12 +5,12 @@ import AOCPuzzle
 private const val TARGET_PRESENTS = 33100000
 
 private fun main() {
-    val day18 = Day18Solution
-    println(day18.part1())
-    println(day18.part2())
+    val day20 = Day20Solution
+    println(day20.part1())
+    println(day20.part2())
 }
 
-private object Day18Solution : AOCPuzzle {
+private object Day20Solution : AOCPuzzle {
 
     override fun part1(): Any {
         return getLowestHouseNumber( 10, Int.MAX_VALUE)
