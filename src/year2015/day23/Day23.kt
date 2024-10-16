@@ -13,6 +13,8 @@ private fun main() {
 }
 
 private object Day23Solution : AOCPuzzle {
+    const val A_REGISTER = "a"
+
     override fun part1() = getFinalValueForRegisterB(aRegisterIntialValue = 0, bRegisterInitialValue = 0)
 
     override fun part2() = getFinalValueForRegisterB(aRegisterIntialValue = 1L, bRegisterInitialValue = 0L)
@@ -28,7 +30,7 @@ private object Day23Solution : AOCPuzzle {
 
             index += when (split[0]) {
                 "hlf" -> {
-                    if (currentRegister == "a") {
+                    if (currentRegister == A_REGISTER) {
                         registerA /= 2
                     } else {
                         registerB /= 2
@@ -36,7 +38,7 @@ private object Day23Solution : AOCPuzzle {
                     1
                 }
                 "tpl" -> {
-                    if (currentRegister == "a") {
+                    if (currentRegister == A_REGISTER) {
                         registerA *= 3
                     } else {
                         registerB *= 3
@@ -44,21 +46,17 @@ private object Day23Solution : AOCPuzzle {
                     1
                 }
                 "inc" -> {
-                    if (currentRegister == "a") registerA++ else registerB++
+                    if (currentRegister == A_REGISTER) registerA++ else registerB++
                     1
                 }
                 "jmp" -> currentRegister.toInt()
                 "jie" -> {  // if register is even
-                    val register = if (currentRegister == "a") registerA else registerB
-                    if (register % 2 == 0L) {
-                        split[2].toInt()
-                    } else 1
+                    val register = if (currentRegister == A_REGISTER) registerA else registerB
+                    if (register % 2 == 0L) split[2].toInt() else 1
                 }
                 "jio" -> {  // if register is 1
-                    val register = if (currentRegister == "a") registerA else registerB
-                    if (register == 1L) {
-                        split[2].toInt()
-                    } else 1
+                    val register = if (currentRegister == A_REGISTER) registerA else registerB
+                    if (register == 1L) split[2].toInt() else 1
                 }
                 else -> throw IllegalArgumentException("Invalid instruction")
             }
