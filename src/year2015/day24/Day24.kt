@@ -4,7 +4,7 @@ import AOCPuzzle
 import java.nio.file.Files
 import java.nio.file.Paths
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day23/file.txt"))
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day24/file.txt"))
 
 private fun main() {
     val day24 = Day24Solution
@@ -13,38 +13,7 @@ private fun main() {
 }
 
 private object Day24Solution : AOCPuzzle {
-    //    val allPresents = arrayListOf(1, 2, 3, 4, 5, 7, 8, 9, 10, 11) Example
-    val allPresents =
-        arrayListOf(
-            1,
-            3,
-            5,
-            11,
-            13,
-            17,
-            19,
-            23,
-            29,
-            31,
-            37,
-            41,
-            43,
-            47,
-            53,
-            59,
-            67,
-            71,
-            73,
-            79,
-            83,
-            89,
-            97,
-            101,
-            103,
-            107,
-            109,
-            113
-        )
+    val allPresents = quizInput.map { it.toInt() } as ArrayList
     val allPresentsSum: Int = allPresents.sum()
     val groups = HashSet<List<Int>>()
 
@@ -60,7 +29,7 @@ private object Day24Solution : AOCPuzzle {
 
     fun getMinimumEntanglement(): Long {
         val sortedGroups = groups.toList().sortedBy { it.size }
-        val smallestSize = sortedGroups.first().size //smallestFirst[0][0].size
+        val smallestSize = sortedGroups.first().size
         val matchingEntanglements = sortedGroups.filter { it.size == smallestSize }
         var targetEntanglement = Long.MAX_VALUE
         for (i in matchingEntanglements) {
@@ -79,8 +48,8 @@ private object Day24Solution : AOCPuzzle {
         group1: java.util.ArrayList<Int>,
         target: Int
     ) {
-        val areSumsEqual = group1.sum() == target
-        if (areSumsEqual) {
+        val isGroupSumValid = group1.sum() == target
+        if (isGroupSumValid) {
             groups += arrayListOf(group1.sortedDescending())
             return
         }
