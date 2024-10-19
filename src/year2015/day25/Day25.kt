@@ -1,16 +1,11 @@
-package year2015.day24
+package year2015.day25
 
 import AOCPuzzle
-import java.nio.file.Files
-import java.nio.file.Paths
-
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day25/file.txt"))
 
 private fun main() {
     val day25 = Day25Solution
     println(day25.part1())
 //    println(day25.part2())
-    println((33511524 * 252533L) % 33554393)
 }
 
 private object Day25Solution : AOCPuzzle {
