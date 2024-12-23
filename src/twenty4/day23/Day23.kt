@@ -7,11 +7,11 @@ import java.nio.file.Paths
 private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day23/file.txt"))
 
 private fun main() {
-    println(Day24.part1())
-    println(Day24.part2())
+    println(Day23.part1())
+    println(Day23.part2())
 }
 
-private object Day24 : AOCPuzzle {
+private object Day23 : AOCPuzzle {
     val computers = HashMap<String, MutableList<String>>()
     val threes = HashSet<HashSet<String>>()
     val parties = HashSet<HashSet<String>>()
