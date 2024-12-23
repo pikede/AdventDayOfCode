@@ -2,14 +2,17 @@ package year2015.day25
 
 import AOCPuzzle
 
+private const val row = 2981
+private const val column = 3075
+
 private fun main() {
     val day25 = Day25Solution
     println(day25.part1())
-//    println(day25.part2())
+    println(day25.part2())
 }
 
 private object Day25Solution : AOCPuzzle {
-    val grid = Array(10000) { LongArray(10000) }
+    val grid = Array(10000) { LongArray(10000) } // picked a much larger number for max row and max column
 
     override fun part1(): Any {
         var currentRow = 1
@@ -27,21 +30,8 @@ private object Day25Solution : AOCPuzzle {
             }
             currentRow++
         }
-
-//        grid.forEach { array ->
-//            array.forEach {
-//                if (it != 0L) {
-//                    print("$it, ")
-//                }
-//            }
-//            println()
-//        }
-        val row = 2981
-        val column = 3075
         return grid[row - 1][column - 1]
     }
 
-    override fun part2(): Any {
-        return 0
-    }
+    override fun part2() = 0 // no part 2
 }
