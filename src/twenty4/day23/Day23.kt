@@ -14,7 +14,7 @@ private fun main() {
 private object Day23 : AOCPuzzle {
     val computers = HashMap<String, MutableList<String>>()
     val threes = HashSet<HashSet<String>>()
-    val parties = HashSet<HashSet<String>>()
+    val parties = HashSet<Set<String>>()
 
     init {
         quizInput.forEach {
@@ -48,7 +48,7 @@ private object Day23 : AOCPuzzle {
 
     override fun part2(): Any {
         flattenAllCommonComputers()
-        val lanParty = mutableListOf<HashSet<String>>()
+        val lanParty = mutableListOf<Set<String>>()
         loop@ for (party in parties) {
             for (k in party) {
                 val except = party.toMutableList().filter { it != k }
@@ -62,14 +62,16 @@ private object Day23 : AOCPuzzle {
             ?: throw IllegalArgumentException("Invalid computers")
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun flattenAllCommonComputers() {
         for ((k, v) in computers) {
             for (i in v) {
                 val common = computers[i]?.intersect(v.toSet()) ?: continue
-                val temp = hashSetOf<String>()
-                temp.addAll(common)
-                temp.add(k)
-                temp.add(i)
+                val temp = buildSet {
+                    addAll(common)
+                    add(k)
+                    add(i)
+                }
                 parties.add(temp)
             }
         }
