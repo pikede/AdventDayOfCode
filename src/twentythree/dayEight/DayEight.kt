@@ -1,5 +1,6 @@
 package twentythree.dayEight
 
+import utils.greatestCommonDivisor
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -67,19 +68,7 @@ class Map(private val inputDirections: MutableList<String>) {
     }
 
     private fun getLCM(first: Long, second: Long): Long {
-        return (first * second) / getHCF(first, second)
-    }
-
-    // Also known as Greatest common divisor
-    private fun getHCF(first: Long, second: Long): Long {
-        var (a, b) = first to second
-        var temp: Long
-        while (b != 0L) {
-            temp = b
-            b = a % b
-            a = temp
-        }
-        return a
+        return (first * second) / greatestCommonDivisor(first.toInt(), second.toInt())
     }
 
     private fun countStepsFromStartToEnd(startingNode: String): Int {

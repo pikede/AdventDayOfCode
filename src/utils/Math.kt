@@ -21,3 +21,18 @@ fun BigInteger.lcm(value: BigInteger): BigInteger = this * value / gcd(value)
 
 /** Calculates the least common multiple (LCM) of the given [values]. */
 fun lcm(values: Iterable<BigInteger>): BigInteger = values.reduce { acc, value -> acc.lcm(value) }
+
+fun greatestCommonDivisor(a: Int, b: Int): Int {
+    return getHCF(a.toLong(), b.toLong()).toInt()
+}
+
+private fun getHCF(first: Long, second: Long): Long {
+    var (a, b) = first to second
+    var temp: Long
+    while (b != 0L) {
+        temp = b
+        b = a % b
+        a = temp
+    }
+    return a
+}
