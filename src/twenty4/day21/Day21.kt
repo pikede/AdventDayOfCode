@@ -1,3 +1,4 @@
+/*
 package twenty4.day21
 
 import gears.Direction
@@ -78,3 +79,4 @@ private fun keypadConundrum(input: List<String>): Any {
 
     return part1 to part2
 }
+*/
