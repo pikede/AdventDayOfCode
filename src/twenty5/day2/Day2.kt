@@ -8,7 +8,7 @@ private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/t
 
 private fun main() {
     println(Day2.part1()) //31839939622
-    println(Day2.part2())
+    println(Day2.part2()) //41662374059
 }
 
 private object Day2 : AOCPuzzle {
@@ -22,8 +22,8 @@ private object Day2 : AOCPuzzle {
                 val stringValue = i.toString()
                 val half = stringValue.length
                 if (half % 2 != 0) continue
-                val first = stringValue.substring(0, half/2)
-                val second = stringValue.substring(half/2)
+                val first = stringValue.substring(0, half / 2)
+                val second = stringValue.substring(half / 2)
                 if (first == second) {
                     sum += i
                 }
@@ -32,8 +32,42 @@ private object Day2 : AOCPuzzle {
         return sum
     }
 
-    override fun part2(): Int {
-        return 0
+    override fun part2(): Long {
+        var sum = 0L
+        val ids = quizInput[0].split(",")
+        ids.forEach { currentId ->
+            val (start, end) = currentId.split("-").map { it.toLong() }
+            outerLoop@ for (currentId in start..end) {
+                val stringValue = currentId.toString()
+                val charArray = stringValue.toCharArray()
+                val length = charArray.size
+                val half = stringValue.length
+                if (length == 2) {
+                    if (half % 2 != 0) continue
+                    val first = stringValue.substring(0, half / 2)
+                    val second = stringValue.substring(half / 2)
+                    if (first == second) {
+                        sum += currentId
+                        continue@outerLoop
+                    }
+                }
+
+                innerLoop@ for (halves in 2 until length) {
+                    val first = stringValue.substring(0, length / halves)
+                    var startIndex = first.length
+                    while (startIndex < length) {
+                        val endIndex = minOf(startIndex + first.length, length)
+                        if (first != stringValue.substring(startIndex, endIndex)) {
+                            continue@innerLoop
+                        }
+                        startIndex += first.length
+                    }
+                    sum += currentId
+                    continue@outerLoop
+                }
+            }
+        }
+        return sum
     }
 
 }
