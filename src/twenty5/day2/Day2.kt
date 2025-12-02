@@ -17,14 +17,14 @@ private object Day2 : AOCPuzzle {
         var sum = 0L
         val ids = quizInput[0].split(",")
         ids.forEach { currentId ->
-            val (start, end) = currentId.split("-").map { it.toLong() }
+            val (start, end) = getStartAndEndIds(currentId)
             for (i in start..end) {
                 val stringValue = i.toString()
                 val half = stringValue.length
                 if (half % 2 != 0) continue
-                val first = stringValue.substring(0, half / 2)
-                val second = stringValue.substring(half / 2)
-                if (first == second) {
+                val firstHalf = stringValue.substring(0, half / 2)
+                val secondHalf = stringValue.substring(half / 2)
+                if (firstHalf == secondHalf) {
                     sum += i
                 }
             }
@@ -35,42 +35,48 @@ private object Day2 : AOCPuzzle {
     override fun part2(): Long {
         var sum = 0L
         val ids = quizInput[0].split(",")
-        ids.forEach { currentId ->
-            val (start, end) = currentId.split("-").map { it.toLong() }
+        ids.forEach { currentIdRange ->
+            val (start, end) = getStartAndEndIds(currentIdRange)
             outerLoop@ for (currentId in start..end) {
                 val stringValue = currentId.toString()
                 val charArray = stringValue.toCharArray()
                 val length = charArray.size
                 val half = stringValue.length
+                // handles ids that are less than 2 i.e. 0 -> 99
                 if (length == 2) {
                     if (half % 2 != 0) continue
-                    val first = stringValue.substring(0, half / 2)
-                    val second = stringValue.substring(half / 2)
-                    if (first == second) {
+                    val firstHalf = stringValue.substring(0, half / 2)
+                    val secondHalf = stringValue.substring(half / 2)
+                    if (firstHalf == secondHalf) {
                         sum += currentId
                         continue@outerLoop
                     }
+                } else {
+                    // handles ids that are greater than 2 in length i.e. 100 -> Long.MAX_VALUE
+                    sum += getValidId(currentId, length)
                 }
 
-                innerLoop@ for (halves in 2 until length) {
-                    val first = stringValue.substring(0, length / halves)
-                    var startIndex = first.length
-                    while (startIndex < length) {
-                        val endIndex = minOf(startIndex + first.length, length)
-                        if (first != stringValue.substring(startIndex, endIndex)) {
-                            continue@innerLoop
-                        }
-                        startIndex += first.length
-                    }
-                    sum += currentId
-                    continue@outerLoop
-                }
             }
         }
         return sum
     }
 
+    private fun getStartAndEndIds(currentIdRange: String) = currentIdRange.split("-").map { it.toLong() }
+
+    private fun getValidId(i: Long, length: Int): Long {
+        val stringValue = i.toString()
+        innerLoop@ for (halves in 2 until length) {
+            val first = stringValue.substring(0, length / halves)
+            var startIndex = first.length
+            while (startIndex < length) {
+                val endIndex = minOf(startIndex + first.length, length)
+                if (first != stringValue.substring(startIndex, endIndex)) {
+                    continue@innerLoop
+                }
+                startIndex += first.length
+            }
+            return i
+        }
+        return 0
+    }
 }
-
-
-// 11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124
