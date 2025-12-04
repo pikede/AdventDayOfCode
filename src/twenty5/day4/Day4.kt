@@ -1,4 +1,4 @@
-package twenty5.day3
+package twenty5.day4
 
 import AOCPuzzle
 import utils.Direction
