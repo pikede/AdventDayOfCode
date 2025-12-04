@@ -13,55 +13,44 @@ private fun main() {
 }
 
 private object Day4 : AOCPuzzle {
+    val removableRollsOfPaper = mutableSetOf<Pair<Int, Int>>()
+    val quizInputArr = quizInput.map { it.toCharArray() }.toMutableList()
 
     override fun part1(): Int {
-        var count = 0
-        for (r in quizInput.indices) {
-            for (c in quizInput[r].indices) {
-                if(quizInput[r][c] != '@') continue
-                var currentRollsOfPaper = 0
+        var totalAccessibleRollsOfPaper = 0
+        for (r in quizInputArr.indices) {
+            for (c in quizInputArr[r].indices) {
+                if (quizInputArr[r][c] != '@') {
+                    continue
+                }
+                var currentAccessibleRollsOfPaper = 0
                 for (direction in Direction.all8()) {
                     val newR = r + direction.y
                     val newC = c + direction.x
-                    if (newR in quizInput.indices && newC in quizInput[newR].indices && quizInput[newR][newC] == '@') {
-                        currentRollsOfPaper++
+                    if (newR in quizInputArr.indices && newC in quizInputArr[newR].indices && quizInputArr[newR][newC] == '@') {
+                        currentAccessibleRollsOfPaper++
                     }
                 }
-                if (currentRollsOfPaper < 4) count++
+                if (currentAccessibleRollsOfPaper < 4) {
+                    totalAccessibleRollsOfPaper++
+                    removableRollsOfPaper += r to c
+                }
             }
         }
-        return count
+        return totalAccessibleRollsOfPaper
     }
 
     override fun part2(): Int {
-        var count = 0
-        val toRemove = mutableSetOf<Pair<Int, Int>>()
-        val quizInputArr = quizInput.map { it.toCharArray() }.toMutableList()
-        do {
-            toRemove.forEach {
+        var count = part1()
+
+        while (removableRollsOfPaper.isNotEmpty()) {
+            removableRollsOfPaper.forEach {
                 val (r, c) = it
                 quizInputArr[r][c] = '.'
             }
-            toRemove.clear()
-            for (r in quizInputArr.indices) {
-                for (c in quizInputArr[r].indices) {
-                    if (quizInputArr[r][c] != '@') continue
-                    var currentRollsOfPaper = 0
-                    for (direction in Direction.all8()) {
-                        val newR = r + direction.y
-                        val newC = c + direction.x
-                        if (newR in quizInputArr.indices && newC in quizInputArr[newR].indices && quizInputArr[newR][newC] == '@') {
-                            currentRollsOfPaper++
-                        }
-                    }
-                    if (currentRollsOfPaper < 4) {
-                        count++
-                        toRemove += r to c
-                    }
-                }
-            }
-
-        } while (toRemove.isNotEmpty())
+            removableRollsOfPaper.clear()
+            count += part1()
+        }
         return count
     }
 }
