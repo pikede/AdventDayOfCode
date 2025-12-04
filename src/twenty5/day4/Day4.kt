@@ -16,7 +16,7 @@ private object Day4 : AOCPuzzle {
     val removableRollsOfPaper = mutableSetOf<Pair<Int, Int>>()
     val quizInputArr = quizInput.map { it.toCharArray() }.toMutableList()
 
-    override fun part1(): Int {
+    override fun part1(): Int { // time n * m | space 1
         var totalAccessibleRollsOfPaper = 0
         for (r in quizInputArr.indices) {
             for (c in quizInputArr[r].indices) {
@@ -40,17 +40,18 @@ private object Day4 : AOCPuzzle {
         return totalAccessibleRollsOfPaper
     }
 
-    override fun part2(): Int {
+    override fun part2(): Int { // time (n * m) ^ 2  | space n * m
         var count = part1()
 
-        while (removableRollsOfPaper.isNotEmpty()) {
+        do {
             removableRollsOfPaper.forEach {
                 val (r, c) = it
                 quizInputArr[r][c] = '.'
             }
             removableRollsOfPaper.clear()
             count += part1()
-        }
+        } while (removableRollsOfPaper.isNotEmpty())
+
         return count
     }
 }
