@@ -49,16 +49,16 @@ private object Day3 : AOCPuzzle {
         var remaining = n
 
         for (i in 0 until n) {
-            val c = batteries[i]
+            val currentBattery = batteries[i]
 
             // while we can remove the previous digit to get a bigger result
-            while (top >= 0 && stack[top] < c && (top + 1 + remaining - 1) >= k) {
+            while (top >= 0 && stack[top] < currentBattery && (top + 1 + remaining - 1) >= k) {
                 top--
             }
 
             // push if we still need more digits
             if (top + 1 < k) {
-                stack[++top] = c
+                stack[++top] = currentBattery
             }
 
             remaining--
