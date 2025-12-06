@@ -11,17 +11,12 @@ private fun main() {
     println(Day5.part2())   // 333892124923577
 }
 
-
 private object Day5 : AOCPuzzle {
-    private val ranges = mutableListOf<LongRange>()
-    private val ids = mutableListOf<Long>()
-
-    init {
-        getRangesAndIDs()
-    }
-
-    private fun getRangesAndIDs() {
+    override fun part1(): Int {
         var isRange = true
+        val ranges = mutableListOf<LongRange>()
+        val ids = mutableListOf<Long>()
+
         for (input in quizInput) {
             if (input.isEmpty()) {
                 isRange = false
@@ -38,33 +33,36 @@ private object Day5 : AOCPuzzle {
                 }
             }
         }
-    }
-
-    override fun part1(): Long {
-        var count = 0L
-        for (id in ids) {
-            if (ranges.any { id in it }) {
-                count++
-            }
-        }
-        return count
+        return ids.count { id -> ranges.any { longRange -> id in longRange } }
     }
 
     override fun part2(): Long {
-        return ranges
-            .distinctBy { it.first..it.last } // removes duplicate Id ranges
-            .sortedBy { it.first }  // sorts by starting range
-            .fold(emptyList<LongRange>()) { acc, nextRange -> // merges the overlapping ranges
-                val lastRange = acc.lastOrNull()
-                when {
-                    lastRange == null -> listOf(nextRange)
-                    lastRange.last < nextRange.first -> acc + listOf(nextRange)
-                    else -> {
-                        acc.dropLast(1) + listOf(lastRange.first..maxOf(lastRange.last, nextRange.last))
-                    }
-                }
-            }.fold(0L) { acc, next -> // using fold here as a workaround for sumBy
-                acc + next.last - next.first + 1
+        return quizInput
+            .takeWhile { it.isNotEmpty() } // stops at the empty line before the actual ids are
+            .map { it.convertsInputLineToLongRange() } // creates the ranges
+            .sortedBy { it.start }  // sorts by starting range
+            .mergeOverLappingRange()
+            .fold(0L) { acc, next -> // using fold here as a workaround for sumBy
+                acc + (next.endInclusive - next.start) + 1
             }
     }
+
+    private fun <T : Comparable<T>> List<ClosedRange<T>>.mergeOverLappingRange(): List<ClosedRange<T>> =
+        this.sortedBy { it.start } // sorts the ranges by start point
+            .fold(emptyList<ClosedRange<T>>()) { acc, nextRange -> // merges the overlapping ranges
+                val lastRange = acc.lastOrNull()
+                when {
+                    lastRange == null -> acc + nextRange // first one i.e. acc is empty
+                    lastRange.endInclusive < nextRange.start -> acc + nextRange // no overlap
+                    else -> {
+                        // merges overlap
+                        acc.dropLast(1) + listOf(lastRange.start..maxOf(lastRange.endInclusive, nextRange.endInclusive))
+                    }
+                }
+            }
+
+    private fun String.convertsInputLineToLongRange(): ClosedRange<Long> = this.split("-")
+        .map(String::toLong)
+        .let { it.first()..it.last() }
+
 }
