@@ -10,11 +10,11 @@ private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/t
 
 private fun main() {
     println(Day7.part1())   // 1678
-    println(Day7.part2())
+    println(Day7.part2())   // 357525737893560
 }
 
+@OptIn(ExperimentalStdlibApi::class)
 private object Day7 : AOCPuzzle {
-    @OptIn(ExperimentalStdlibApi::class)
     override fun part1(): Int {
         val grid = quizInput.map { it.toCharArray() }
 
@@ -27,7 +27,6 @@ private object Day7 : AOCPuzzle {
         var count = 0
         while (active.isNotEmpty()) {
             val size = active.size
-            println(active)
             for (i in 0 until size) {
                 val current = active.removeFirst()
                 val next = current.plus(Point(x = 0, y = 1))
@@ -43,22 +42,27 @@ private object Day7 : AOCPuzzle {
                     }
                 }
             }
-//            grid.forEach {
-//                it.forEach {
-//                    print(it)
-//                }
-//                println()
-//            }
-//            println()
-//            println()
         }
         return count
     }
 
     private fun Point.split() = listOf(this.plus(Direction.LEFT), this.plus(Direction.RIGHT))
 
-    override fun part2(): Long {
 
-        return 0
+    override fun part2(): Long {
+        val col = quizInput.first { it.contains('S') }.indexOf('S')
+        val grid2 = LongArray(quizInput.size).also { it[col] = 1 }
+
+        quizInput.filterIndexed { index, _ -> index % 2 == 0 }.forEach { line ->
+            (1..line.lastIndex).forEach { index ->
+                if (line[index] == '^') {
+                    grid2[index - 1] += grid2[index]
+                    grid2[index + 1] += grid2[index]
+                    grid2[index] = 0
+                }
+            }
+        }
+
+        return grid2.sum()
     }
 }
