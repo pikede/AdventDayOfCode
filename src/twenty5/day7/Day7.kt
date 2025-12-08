@@ -1,8 +1,6 @@
 package twenty5.day7
 
 import AOCPuzzle
-import utils.Direction
-import utils.Point
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -15,54 +13,36 @@ private fun main() {
 
 @OptIn(ExperimentalStdlibApi::class)
 private object Day7 : AOCPuzzle {
-    override fun part1(): Int {
-        val grid = quizInput.map { it.toCharArray() }
+    private val col = quizInput.first { it.contains('S') }.indexOf('S')
+    // only lines on the even indexes can have a splitter, these are the important lines
+    private val splitIndexes = quizInput.filterIndexed { index, _ -> index % 2 == 0 }
 
-        val col = grid.first { it.contains('S') }.indexOf('S')
-        val active = mutableListOf<Point>()
-        val starting = Point(y = 0, x = col)
-        active.add(starting)
-        val MAX_Y = grid.size
-        val MAX_X = grid[0].size
-        var count = 0
-        while (active.isNotEmpty()) {
-            val size = active.size
-            for (i in 0 until size) {
-                val current = active.removeFirst()
-                val next = current.plus(Point(x = 0, y = 1))
-                val isInBounds = next.x in 0 until MAX_X && next.y in 0 until MAX_Y
-                if (isInBounds) {
-                    if (next in active) continue
-                    val isSplitter = grid[next.y][next.x] == '^'
-                    if (isSplitter) {
-                        count++
-                        active += next.split()
-                    } else {
-                        active += next
-                    }
-                }
-            }
+    override fun part1(): Int {
+        val splitterColumns = mutableSetOf(col)
+        return splitIndexes.sumBy { line ->
+            (1..line.lastIndex)
+                .filter { it in splitterColumns && line[it] == '^' } // keeps only locations with a splitter
+                .onEach { i ->
+                    splitterColumns.remove(i)  // removes the splitter column from tracked columns
+                    splitterColumns.add(i - 1) // adds left to current tracked columns
+                    splitterColumns.add(i + 1) // adds right to current tracked columns
+                }.count()
         }
-        return count
     }
 
-    private fun Point.split() = listOf(this.plus(Direction.LEFT), this.plus(Direction.RIGHT))
-
-
     override fun part2(): Long {
-        val col = quizInput.first { it.contains('S') }.indexOf('S')
-        val grid2 = LongArray(quizInput.size).also { it[col] = 1 }
+        val particleTimelines = LongArray(quizInput.size).also { it[col] = 1 }
 
-        quizInput.filterIndexed { index, _ -> index % 2 == 0 }.forEach { line ->
-            (1..line.lastIndex).forEach { index ->
-                if (line[index] == '^') {
-                    grid2[index - 1] += grid2[index]
-                    grid2[index + 1] += grid2[index]
-                    grid2[index] = 0
+        splitIndexes.forEach { line ->
+            // starting from index 1 as a splitter isn't be the first on the line
+            for (i in 1..line.lastIndex)
+                if (line[i] == '^') { // if splitter
+                    particleTimelines[i - 1] += particleTimelines[i] // add possible timelines to timeline on left
+                    particleTimelines[i + 1] += particleTimelines[i] // add possible timelines to timeline on right
+                    particleTimelines[i] = 0  // remove accumulated timelines
                 }
-            }
         }
 
-        return grid2.sum()
+        return particleTimelines.sum()
     }
 }
