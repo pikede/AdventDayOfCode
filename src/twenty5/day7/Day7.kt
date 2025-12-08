@@ -14,6 +14,7 @@ private fun main() {
 @OptIn(ExperimentalStdlibApi::class)
 private object Day7 : AOCPuzzle {
     private val col = quizInput.first { it.contains('S') }.indexOf('S')
+
     // only lines on the even indexes can have a splitter, these are the important lines
     private val splitIndexes = quizInput.filterIndexed { index, _ -> index % 2 == 0 }
 
@@ -35,11 +36,12 @@ private object Day7 : AOCPuzzle {
 
         splitIndexes.forEach { line ->
             // starting from index 1 as a splitter isn't be the first on the line
-            for (i in 1..line.lastIndex)
-                if (line[i] == '^') { // if splitter
-                    particleTimelines[i - 1] += particleTimelines[i] // add possible timelines to timeline on left
-                    particleTimelines[i + 1] += particleTimelines[i] // add possible timelines to timeline on right
-                    particleTimelines[i] = 0  // remove accumulated timelines
+            (1..line.lastIndex)
+                .filter { line[it] == '^' } // filters for only indexes with a splitter
+                .onEach { i ->
+                    particleTimelines[i - 1] += particleTimelines[i] // accumulates timelines on left of the splitter index
+                    particleTimelines[i + 1] += particleTimelines[i] // accumulates timelines on right of the splitter index
+                    particleTimelines[i] = 0  // removes accumulated timelines
                 }
         }
 
