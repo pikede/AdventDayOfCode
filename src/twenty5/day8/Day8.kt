@@ -6,7 +6,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.math.abs
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty5/day8/file.txt"))
 
@@ -19,7 +18,10 @@ private object Day8 : AOCPuzzle {
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun part1(): Any {
-        val points = quizInput.map { Point3D.of(it) }
+        val points = quizInput.map { it.split(",").map { it.toInt() } }.map {
+            val (x, y, z) = it
+            Point3D(x, y, z)
+        }
         val distances = (0..points.lastIndex).flatMap { i ->
             (i + 1..points.lastIndex).map { j ->
                 points[i].distance(points[j]) to (i to j)
@@ -33,7 +35,10 @@ private object Day8 : AOCPuzzle {
     }
 
     override fun part2(): Any {
-        val points = quizInput.map { Point3D.of(it) }
+        val points = quizInput.map { it.split(",").map { it.toInt() } }.map {
+            val (x, y, z) = it
+            Point3D(x, y, z)
+        }
         val distances = (0..points.lastIndex).flatMap { i ->
             (i + 1..points.lastIndex).map { j ->
                 points[i].distance(points[j]) to (i to j)
@@ -48,7 +53,7 @@ private object Day8 : AOCPuzzle {
         }
     }
 
-} // too low 18888
+}
 
 private class DSU(points: List<Point3D>) {
     val root = IntArray(points.size) { it }
@@ -77,52 +82,8 @@ private class DSU(points: List<Point3D>) {
     }
 }
 
-//data class DSU(val points: List<Point3d>) {
-//    private val parent = IntArray(points.size) { it }
-//    private val size = IntArray(points.size) { 1 }
-//
-//    fun clustersRoots() = parent.indices.map { findParent(it) }.toSet()
-//    fun clustersSizes() = clustersRoots().map { r -> size[r] }
-//
-//    private fun findParent(x: Int): Int {
-//        if (parent[x] != x) {
-//            parent[x] = findParent(parent[x])
-//        }
-//        return parent[x]
-//    }
-//
-//    fun union(x: Int, y: Int): Boolean {
-//        var xParent = findParent(x)
-//        var yParent = findParent(y)
-//
-//        if (xParent == yParent) return false
-//
-//        if (size[xParent] < size[yParent]) {
-//            val temp = xParent;
-//            xParent = yParent;
-//            yParent = temp
-//        }
-//
-//        parent[yParent] = xParent
-//        size[xParent] += size[yParent]
-//
-//        return true
-//    }
-//}
 
-data class Point3d(val x: Int, val y: Int, val z: Int) {
-
-    fun distance(other: Point3d): Double {
-        val x = this.x - other.x
-        val y = this.y - other.y
-        val z = this.z - other.z
-
-        return sqrt((x * x).toDouble() + (y * y).toDouble() + (z * z).toDouble())
-    }
-}
-
-
-data class Point3D(var x: Int, var y: Int, var z: Int) : Comparable<Point3D> {
+data class Point3D(val x: Int, val y: Int, val z: Int) : Comparable<Point3D> {
     constructor(x: Number, y: Number, z: Number) : this(x.toInt(), y.toInt(), z.toInt())
 
     val up: Point3D get() = Point3D(x, y, z + 1)
@@ -154,12 +115,6 @@ data class Point3D(var x: Int, var y: Int, var z: Int) : Comparable<Point3D> {
         return neighbors
     }
 
-    infix fun manhattanDistance(other: Point3D) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)
-    infix fun distance(other: Point3D) = sqrt(
-        abs((x - other.x)).toDouble().pow(2) + abs((y - other.y)).toDouble().pow(2) + abs((z - other.z)).toDouble()
-            .pow(2)
-    )
-
     operator fun plus(other: Point3D) = Point3D(x + other.x, y + other.y, z + other.z)
     operator fun plus(other: Int) = Point3D(x + other, y + other, z + other)
     operator fun minus(other: Point3D) = Point3D(x - other.x, y - other.y, z - other.z)
@@ -170,14 +125,25 @@ data class Point3D(var x: Int, var y: Int, var z: Int) : Comparable<Point3D> {
     operator fun div(other: Point3D) = Point3D(x / other.x, y / other.y, z / other.z)
     override operator fun compareTo(other: Point3D) = compareValuesBy(this, other, Point3D::x, Point3D::y, Point3D::z)
 
+    infix fun manhattanDistance(other: Point3D) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)
+    infix fun distance(other: Point3D): Double {
+        return abs((x - other.x)).toDouble().pow(2) + abs((y - other.y)).toDouble()
+            .pow(2) + abs((z - other.z)).toDouble()
+            .pow(2)
+    }
 
     override fun toString() = "$x-$y-$z"
 
     companion object {
         val ZERO = Point3D(0, 0, 0)
-        fun of(input: String): Point3D {
-            val (x, y, z) = input.split(',', '-', ' ').map { it.trim().toInt() }
-            return Point3D(x, y, z)
+        val ORIGIN = ZERO
+        fun from(line: String): Point3D {
+            return line.split(",")
+                .map { it.toInt() }
+                .let {
+                    val (x, y, z) = it
+                    Point3D(x, y, z)
+                }
         }
     }
 }
