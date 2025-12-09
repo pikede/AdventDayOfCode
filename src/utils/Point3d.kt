@@ -2,6 +2,7 @@ package utils
 
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 data class Point3D(val x: Int, val y: Int, val z: Int) : Comparable<Point3D> {
     constructor(x: Number, y: Number, z: Number) : this(x.toInt(), y.toInt(), z.toInt())
@@ -47,9 +48,9 @@ data class Point3D(val x: Int, val y: Int, val z: Int) : Comparable<Point3D> {
 
     infix fun manhattanDistance(other: Point3D) = abs(x - other.x) + abs(y - other.y) + abs(z - other.z)
     infix fun distance(other: Point3D): Double {
-        return abs((x - other.x)).toDouble().pow(2) + abs((y - other.y)).toDouble()
+        return sqrt(abs((x - other.x)).toDouble().pow(2) + abs((y - other.y)).toDouble()
             .pow(2) + abs((z - other.z)).toDouble()
-            .pow(2)
+            .pow(2))
     }
 
     override fun toString() = "$x-$y-$z"
