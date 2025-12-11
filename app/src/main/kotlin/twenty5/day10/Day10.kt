@@ -1,17 +1,17 @@
 package twenty5.day10
 
 import AOCPuzzle
+import com.microsoft.z3.*
 import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.math.min
 
 private typealias Buttons = MutableList<Int>
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty5/day10/file.txt"))
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("/Users/prince/Desktop/AdventDayOfCode2020/app/src/main/kotlin/twenty5/day10/file.txt"))
 
 private fun main() {
     println(Day10.part1())  //  514
-    println(Day10.part2())
+    println(Day10.part2())  // 21824
 }
 
 private object Day10 : AOCPuzzle {
@@ -26,7 +26,7 @@ private object Day10 : AOCPuzzle {
             val buttonPresses = mutableListOf<Buttons>()
             val counts = mutableListOf<Int>(Int.MAX_VALUE)
             getFewestButtonPresses(
-                it.availableButtons,
+                it.buttons,
                 it.indicators,
                 buttonPresses,
                 String(it.emptyIndicators),
@@ -81,16 +81,66 @@ private object Day10 : AOCPuzzle {
     }
 
     override fun part2(): Any {
-        return 0L
+        return requirements.fold(0L) { acc, joltageRequirements -> acc + joltageRequirements.enableVoltages() }
     }
 
     private data class JoltageRequirements(
         val indicators: String,
-        val availableButtons: List<Buttons>,
-        val joltages: List<Int>
+        val buttons: List<Buttons>,
+        val voltages: List<Int>
     ) {
         val emptyIndicators = CharArray(indicators.length) { '.' }
 
+
+        fun enableVoltages(): Int {
+            return Context().use { ctx ->
+                val opt = ctx.mkOptimize()
+
+                fun intVariableOf(name: String) = ctx.mkIntConst(name)
+
+                fun intValueOf(value: Int) = ctx.mkInt(value)
+
+                infix fun IntExpr.gte(t: IntExpr) = ctx.mkGe(this, t)
+
+                operator fun ArithExpr<IntSort>.plus(t: IntExpr) = ctx.mkAdd(this, t)
+
+                infix fun ArithExpr<IntSort>.equalTo(t: IntExpr) = ctx.mkEq(this, t)
+
+                fun List<IntExpr>.sum() = ctx.mkAdd(*this.toTypedArray())
+
+                val ZERO = intValueOf(0)
+
+                val affectedJoltages = mutableMapOf<Int, MutableList<IntExpr>>()
+                val buttonVariables = this.buttons.mapIndexed { index, schematic ->
+                    // create button variable
+                    intVariableOf(index.toString()).also { buttonVariable ->
+                        // track the joltages if affects
+                        schematic.forEach { affectedIndex ->
+                            affectedJoltages.computeIfAbsent(affectedIndex) { _ -> mutableListOf() }.add(buttonVariable)
+                        }
+                        // add it to the optimizer
+                        opt.Add(buttonVariable gte ZERO)
+                    }
+                }
+
+                affectedJoltages.forEach { (voltageIndex, buttonsAffecting) ->
+                    val targetValue = intValueOf(voltages[voltageIndex])
+                    val sumOfButtonPresses = buttonsAffecting.sum()
+                    opt.Add(sumOfButtonPresses equalTo targetValue)
+                }
+
+                opt.MkMinimize(buttonVariables.sum())
+
+                val status = opt.Check()
+
+                if (status == Status.SATISFIABLE) {
+                    val model = opt.getModel()
+                    ((model.evaluate(buttonVariables.sum(), true) as IntNum).int)
+                } else {
+                    throw IllegalStateException("No Solution Found")
+                }
+            }
+        }
         companion object {
             fun from(input: String): JoltageRequirements {
                 val first = input.indexOf(']')

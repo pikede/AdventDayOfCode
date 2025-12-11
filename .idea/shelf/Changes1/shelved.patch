@@ -1,0 +1,2025 @@
+Index: src/twenty5/day10/Day10.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package twenty5.day10\n\nimport AOCPuzzle\nimport java.nio.file.Files\nimport java.nio.file.Paths\nimport kotlin.math.min\n\nprivate typealias Buttons = MutableList<Int>\n\nprivate val quizInput: MutableList<String> = Files.readAllLines(Paths.get(\"src/twenty5/day10/file.txt\"))\n\nprivate fun main() {\n    println(Day10.part1())  //  514\n    println(Day10.part2())\n}\n\nprivate object Day10 : AOCPuzzle {\n\n    private val requirements = quizInput.map {\n        JoltageRequirements.from(it)\n    }\n\n    override fun part1(): Any {\n        val minCounts = mutableListOf<Int>()\n        requirements.forEach {\n            val buttonPresses = mutableListOf<Buttons>()\n            val counts = mutableListOf<Int>(Int.MAX_VALUE)\n            getFewestButtonPresses(\n                it.availableButtons,\n                it.indicators,\n                buttonPresses,\n                String(it.emptyIndicators),\n                counts,\n                0\n            )\n            val min = counts.min() ?: Int.MIN_VALUE\n            minCounts += min\n        }\n        println(minCounts)\n        return minCounts.sum()\n    }\n\n    @OptIn(ExperimentalStdlibApi::class)\n    private fun getFewestButtonPresses(\n        availableButtons: List<Buttons>,\n        targetIndicator: String,\n        pressedButtons: MutableList<Buttons>,\n        currentIndicator: String,\n        counts: MutableList<Int>,\n        count: Int\n    ) {\n        if (counts[0] == 1) return\n        if (counts.min()!! <= count) return\n        if (currentIndicator == targetIndicator) {\n            counts[0] = minOf(count, counts[0])\n            return\n        }\n        if (pressedButtons.size > 10) return\n\n        for (i in availableButtons) {\n            val next = currentIndicator.applyButtons(i)\n            pressedButtons.add(i)\n            getFewestButtonPresses(\n                availableButtons,\n                targetIndicator,\n                pressedButtons,\n                next,\n                counts,\n                count + 1\n            )\n            pressedButtons.removeLast()\n        }\n    }\n\n    private fun String.applyButtons(buttons: List<Int>): String {\n        val arr = this.toCharArray()\n        for (i in buttons) {\n            arr[i] = if (this[i] == '.') '#' else '.'\n        }\n        return String(arr)\n    }\n\n    override fun part2(): Any {\n        return 0L\n    }\n\n    private data class JoltageRequirements(\n        val indicators: String,\n        val availableButtons: List<Buttons>,\n        val joltages: List<Int>\n    ) {\n        val emptyIndicators = CharArray(indicators.length) { '.' }\n\n        companion object {\n            fun from(input: String): JoltageRequirements {\n                val first = input.indexOf(']')\n                val last = input.indexOf(\"{\")\n                val indicator = input.substring(1, first)\n                val joltage = input.substring(last + 1).replace(\"}\", \"\").trim().split(\",\").map { it.toInt() }\n                val buttons = input.substring(first + 1, last).split(\" \")\n                    .map {\n                        it.drop(1).dropLast(1)\n                            .split(\",\")\n                            .filter { it.isNotEmpty() }\n                            .map { it.toInt() } as Buttons\n                    }\n                    .filter { it.isNotEmpty() }\n                return JoltageRequirements(indicator, buttons, joltage)\n            }\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/twenty5/day10/Day10.kt b/src/twenty5/day10/Day10.kt
+--- a/src/twenty5/day10/Day10.kt	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ b/src/twenty5/day10/Day10.kt	(date 1765427873546)
+@@ -4,6 +4,7 @@
+ import java.nio.file.Files
+ import java.nio.file.Paths
+ import kotlin.math.min
++import org.jacop.core.*
+ 
+ private typealias Buttons = MutableList<Int>
+ 
+Index: .idea/.gitignore
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,4 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+-.idea/
+\ No newline at end of file
+Index: AdventDayOfCode2020.iml
+===================================================================
+diff --git a/AdventDayOfCode2020.iml b/AdventDayOfCode2020.iml
+deleted file mode 100644
+--- a/AdventDayOfCode2020.iml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="FacetManager">
+-    <facet type="kotlin-language" name="Kotlin">
+-      <configuration version="5" useProjectSettings="false">
+-        <compilerSettings>
+-          <option name="additionalArguments" value="-version -opt-in=kotlin.RequiresOptIn" />
+-        </compilerSettings>
+-      </configuration>
+-    </facet>
+-  </component>
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+-    </content>
+-    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+-    <orderEntry type="library" name="jetbrains.kotlinx.coroutines.core" level="project" />
+-    <orderEntry type="library" name="json" level="project" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: .idea/aws.xml
+===================================================================
+diff --git a/.idea/aws.xml b/.idea/aws.xml
+deleted file mode 100644
+--- a/.idea/aws.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,17 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="accountSettings">
+-    <option name="activeProfile" value="profile:default" />
+-    <option name="activeRegion" value="us-east-1" />
+-    <option name="recentlyUsedProfiles">
+-      <list>
+-        <option value="profile:default" />
+-      </list>
+-    </option>
+-    <option name="recentlyUsedRegions">
+-      <list>
+-        <option value="us-east-1" />
+-      </list>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/codeStyles/codeStyleConfig.xml
+===================================================================
+diff --git a/.idea/codeStyles/codeStyleConfig.xml b/.idea/codeStyles/codeStyleConfig.xml
+deleted file mode 100644
+--- a/.idea/codeStyles/codeStyleConfig.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,5 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <state>
+-    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+-  </state>
+-</component>
+\ No newline at end of file
+Index: .idea/caches/deviceStreaming.xml
+===================================================================
+diff --git a/.idea/caches/deviceStreaming.xml b/.idea/caches/deviceStreaming.xml
+deleted file mode 100644
+--- a/.idea/caches/deviceStreaming.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,340 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="DeviceStreaming">
+-    <option name="deviceSelectionList">
+-      <list>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="27" />
+-          <option name="brand" value="DOCOMO" />
+-          <option name="codename" value="F01L" />
+-          <option name="id" value="F01L" />
+-          <option name="manufacturer" value="FUJITSU" />
+-          <option name="name" value="F-01L" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1280" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="OPPO" />
+-          <option name="codename" value="OP573DL1" />
+-          <option name="id" value="OP573DL1" />
+-          <option name="manufacturer" value="OPPO" />
+-          <option name="name" value="CPH2557" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="28" />
+-          <option name="brand" value="DOCOMO" />
+-          <option name="codename" value="SH-01L" />
+-          <option name="id" value="SH-01L" />
+-          <option name="manufacturer" value="SHARP" />
+-          <option name="name" value="AQUOS sense2 SH-01L" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2160" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="Lenovo" />
+-          <option name="codename" value="TB370FU" />
+-          <option name="id" value="TB370FU" />
+-          <option name="manufacturer" value="Lenovo" />
+-          <option name="name" value="Tab P12" />
+-          <option name="screenDensity" value="340" />
+-          <option name="screenX" value="1840" />
+-          <option name="screenY" value="2944" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="31" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="a51" />
+-          <option name="id" value="a51" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy A51" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="akita" />
+-          <option name="id" value="akita" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="b0q" />
+-          <option name="id" value="b0q" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S22 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3088" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="32" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="bluejay" />
+-          <option name="id" value="bluejay" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 6a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="caiman" />
+-          <option name="id" value="caiman" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="960" />
+-          <option name="screenY" value="2142" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="comet" />
+-          <option name="id" value="comet" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro Fold" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="2076" />
+-          <option name="screenY" value="2152" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="29" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="crownqlteue" />
+-          <option name="id" value="crownqlteue" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Note9" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2220" />
+-          <option name="screenY" value="1080" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="dm3q" />
+-          <option name="id" value="dm3q" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S23 Ultra" />
+-          <option name="screenDensity" value="600" />
+-          <option name="screenX" value="1440" />
+-          <option name="screenY" value="3088" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="e1q" />
+-          <option name="id" value="e1q" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy S24" />
+-          <option name="screenDensity" value="480" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix" />
+-          <option name="id" value="felix" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix" />
+-          <option name="id" value="felix" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="felix_camera" />
+-          <option name="id" value="felix_camera" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Fold (Camera-enabled)" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="2208" />
+-          <option name="screenY" value="1840" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="gts8uwifi" />
+-          <option name="id" value="gts8uwifi" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Tab S8 Ultra" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="1848" />
+-          <option name="screenY" value="2960" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="husky" />
+-          <option name="id" value="husky" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8 Pro" />
+-          <option name="screenDensity" value="390" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="motorola" />
+-          <option name="codename" value="java" />
+-          <option name="id" value="java" />
+-          <option name="manufacturer" value="Motorola" />
+-          <option name="name" value="G20" />
+-          <option name="screenDensity" value="280" />
+-          <option name="screenX" value="720" />
+-          <option name="screenY" value="1600" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="komodo" />
+-          <option name="id" value="komodo" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9 Pro XL" />
+-          <option name="screenDensity" value="360" />
+-          <option name="screenX" value="1008" />
+-          <option name="screenY" value="2244" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="lynx" />
+-          <option name="id" value="lynx" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 7a" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="31" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="oriole" />
+-          <option name="id" value="oriole" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 6" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="panther" />
+-          <option name="id" value="panther" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 7" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="q5q" />
+-          <option name="id" value="q5q" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Fold5" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1812" />
+-          <option name="screenY" value="2176" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="samsung" />
+-          <option name="codename" value="q6q" />
+-          <option name="id" value="q6q" />
+-          <option name="manufacturer" value="Samsung" />
+-          <option name="name" value="Galaxy Z Fold6" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1856" />
+-          <option name="screenY" value="2160" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="r11" />
+-          <option name="id" value="r11" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Watch" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="384" />
+-          <option name="screenY" value="384" />
+-          <option name="type" value="WEAR_OS" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="30" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="redfin" />
+-          <option name="id" value="redfin" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 5" />
+-          <option name="screenDensity" value="440" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2340" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="shiba" />
+-          <option name="id" value="shiba" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 8" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2400" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="33" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tangorpro" />
+-          <option name="id" value="tangorpro" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel Tablet" />
+-          <option name="screenDensity" value="320" />
+-          <option name="screenX" value="1600" />
+-          <option name="screenY" value="2560" />
+-        </PersistentDeviceSelectionData>
+-        <PersistentDeviceSelectionData>
+-          <option name="api" value="34" />
+-          <option name="brand" value="google" />
+-          <option name="codename" value="tokay" />
+-          <option name="id" value="tokay" />
+-          <option name="manufacturer" value="Google" />
+-          <option name="name" value="Pixel 9" />
+-          <option name="screenDensity" value="420" />
+-          <option name="screenX" value="1080" />
+-          <option name="screenY" value="2424" />
+-        </PersistentDeviceSelectionData>
+-      </list>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/libraries/jetbrains_kotlinx_coroutines_core.xml
+===================================================================
+diff --git a/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml b/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml
+deleted file mode 100644
+--- a/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,22 +0,0 @@
+-<component name="libraryTable">
+-  <library name="jetbrains.kotlinx.coroutines.core" type="repository">
+-    <properties maven-id="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0" />
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0-javadoc.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-javadoc.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0-sources.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0-sources.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/" />
+-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/json.xml
+===================================================================
+diff --git a/.idea/libraries/json.xml b/.idea/libraries/json.xml
+deleted file mode 100644
+--- a/.idea/libraries/json.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,14 +0,0 @@
+-<component name="libraryTable">
+-  <library name="json" type="repository">
+-    <properties maven-id="org.json:json:20240303" />
+-    <CLASSES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303.jar!/" />
+-    </CLASSES>
+-    <JAVADOC>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303-javadoc.jar!/" />
+-    </JAVADOC>
+-    <SOURCES>
+-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/libraries/KotlinJavaRuntime.xml
+===================================================================
+diff --git a/.idea/libraries/KotlinJavaRuntime.xml b/.idea/libraries/KotlinJavaRuntime.xml
+deleted file mode 100644
+--- a/.idea/libraries/KotlinJavaRuntime.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,19 +0,0 @@
+-<component name="libraryTable">
+-  <library name="KotlinJavaRuntime">
+-    <CLASSES>
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-test.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8.jar!/" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES>
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-sources.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect-sources.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-test-sources.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-sources.jar!/" />
+-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-sources.jar!/" />
+-    </SOURCES>
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/AdventDayOfCode2020.iml" filepath="$PROJECT_DIR$/AdventDayOfCode2020.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/codeStyles/Project.xml
+===================================================================
+diff --git a/.idea/codeStyles/Project.xml b/.idea/codeStyles/Project.xml
+deleted file mode 100644
+--- a/.idea/codeStyles/Project.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,10 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <code_scheme name="Project" version="173">
+-    <JetCodeStyleSettings>
+-      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
+-    </JetCodeStyleSettings>
+-    <codeStyleSettings language="kotlin">
+-      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
+-    </codeStyleSettings>
+-  </code_scheme>
+-</component>
+\ No newline at end of file
+Index: .idea/studiobot.xml
+===================================================================
+diff --git a/.idea/studiobot.xml b/.idea/studiobot.xml
+deleted file mode 100644
+--- a/.idea/studiobot.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="StudioBotProjectSettings">
+-    <option name="shareContext" value="OptedOut" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+new file mode 100644
+--- /dev/null	(date 1765427869229)
++++ b/.idea/gradle.xml	(date 1765427869229)
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++          </set>
++        </option>
++        <option name="resolveExternalAnnotations" value="true" />
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1765427869227)
++++ b/.idea/compiler.xml	(date 1765427869227)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="23" />
++  </component>
++</project>
+\ No newline at end of file
+Index: gradlew
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew b/gradlew
+new file mode 100644
+--- /dev/null	(date 1765427869247)
++++ b/gradlew	(date 1765427869247)
+@@ -0,0 +1,252 @@
++#!/bin/sh
++
++#
++# Copyright © 2015-2021 the original authors.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      https://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++# SPDX-License-Identifier: Apache-2.0
++#
++
++##############################################################################
++#
++#   Gradle start up script for POSIX generated by Gradle.
++#
++#   Important for running:
++#
++#   (1) You need a POSIX-compliant shell to run this script. If your /bin/sh is
++#       noncompliant, but you have some other compliant shell such as ksh or
++#       bash, then to run this script, type that shell name before the whole
++#       command line, like:
++#
++#           ksh Gradle
++#
++#       Busybox and similar reduced shells will NOT work, because this script
++#       requires all of these POSIX shell features:
++#         * functions;
++#         * expansions «$var», «${var}», «${var:-default}», «${var+SET}»,
++#           «${var#prefix}», «${var%suffix}», and «$( cmd )»;
++#         * compound commands having a testable exit status, especially «case»;
++#         * various built-in commands including «command», «set», and «ulimit».
++#
++#   Important for patching:
++#
++#   (2) This script targets any POSIX shell, so it avoids extensions provided
++#       by Bash, Ksh, etc; in particular arrays are avoided.
++#
++#       The "traditional" practice of packing multiple parameters into a
++#       space-separated string is a well documented source of bugs and security
++#       problems, so this is (mostly) avoided, by progressively accumulating
++#       options in "$@", and eventually passing that to Java.
++#
++#       Where the inherited environment variables (DEFAULT_JVM_OPTS, JAVA_OPTS,
++#       and GRADLE_OPTS) rely on word-splitting, this is performed explicitly;
++#       see the in-line comments for details.
++#
++#       There are tweaks for specific operating systems such as AIX, CygWin,
++#       Darwin, MinGW, and NonStop.
++#
++#   (3) This script is generated from the Groovy template
++#       https://github.com/gradle/gradle/blob/HEAD/platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt
++#       within the Gradle project.
++#
++#       You can find Gradle at https://github.com/gradle/gradle/.
++#
++##############################################################################
++
++# Attempt to set APP_HOME
++
++# Resolve links: $0 may be a link
++app_path=$0
++
++# Need this for daisy-chained symlinks.
++while
++    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
++    [ -h "$app_path" ]
++do
++    ls=$( ls -ld "$app_path" )
++    link=${ls#*' -> '}
++    case $link in             #(
++      /*)   app_path=$link ;; #(
++      *)    app_path=$APP_HOME$link ;;
++    esac
++done
++
++# This is normally unused
++# shellcheck disable=SC2034
++APP_BASE_NAME=${0##*/}
++# Discard cd standard output in case $CDPATH is set (https://github.com/gradle/gradle/issues/25036)
++APP_HOME=$( cd -P "${APP_HOME:-./}" > /dev/null && printf '%s
++' "$PWD" ) || exit
++
++# Use the maximum available, or set MAX_FD != -1 to use that value.
++MAX_FD=maximum
++
++warn () {
++    echo "$*"
++} >&2
++
++die () {
++    echo
++    echo "$*"
++    echo
++    exit 1
++} >&2
++
++# OS specific support (must be 'true' or 'false').
++cygwin=false
++msys=false
++darwin=false
++nonstop=false
++case "$( uname )" in                #(
++  CYGWIN* )         cygwin=true  ;; #(
++  Darwin* )         darwin=true  ;; #(
++  MSYS* | MINGW* )  msys=true    ;; #(
++  NONSTOP* )        nonstop=true ;;
++esac
++
++CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
++
++
++# Determine the Java command to use to start the JVM.
++if [ -n "$JAVA_HOME" ] ; then
++    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
++        # IBM's JDK on AIX uses strange locations for the executables
++        JAVACMD=$JAVA_HOME/jre/sh/java
++    else
++        JAVACMD=$JAVA_HOME/bin/java
++    fi
++    if [ ! -x "$JAVACMD" ] ; then
++        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++    fi
++else
++    JAVACMD=java
++    if ! command -v java >/dev/null 2>&1
++    then
++        die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++    fi
++fi
++
++# Increase the maximum file descriptors if we can.
++if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
++    case $MAX_FD in #(
++      max*)
++        # In POSIX sh, ulimit -H is undefined. That's why the result is checked to see if it worked.
++        # shellcheck disable=SC2039,SC3045
++        MAX_FD=$( ulimit -H -n ) ||
++            warn "Could not query maximum file descriptor limit"
++    esac
++    case $MAX_FD in  #(
++      '' | soft) :;; #(
++      *)
++        # In POSIX sh, ulimit -n is undefined. That's why the result is checked to see if it worked.
++        # shellcheck disable=SC2039,SC3045
++        ulimit -n "$MAX_FD" ||
++            warn "Could not set maximum file descriptor limit to $MAX_FD"
++    esac
++fi
++
++# Collect all arguments for the java command, stacking in reverse order:
++#   * args from the command line
++#   * the main class name
++#   * -classpath
++#   * -D...appname settings
++#   * --module-path (only if needed)
++#   * DEFAULT_JVM_OPTS, JAVA_OPTS, and GRADLE_OPTS environment variables.
++
++# For Cygwin or MSYS, switch paths to Windows format before running java
++if "$cygwin" || "$msys" ; then
++    APP_HOME=$( cygpath --path --mixed "$APP_HOME" )
++    CLASSPATH=$( cygpath --path --mixed "$CLASSPATH" )
++
++    JAVACMD=$( cygpath --unix "$JAVACMD" )
++
++    # Now convert the arguments - kludge to limit ourselves to /bin/sh
++    for arg do
++        if
++            case $arg in                                #(
++              -*)   false ;;                            # don't mess with options #(
++              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
++                    [ -e "$t" ] ;;                      #(
++              *)    false ;;
++            esac
++        then
++            arg=$( cygpath --path --ignore --mixed "$arg" )
++        fi
++        # Roll the args list around exactly as many times as the number of
++        # args, so each arg winds up back in the position where it started, but
++        # possibly modified.
++        #
++        # NB: a `for` loop captures its iteration list before it begins, so
++        # changing the positional parameters here affects neither the number of
++        # iterations, nor the values presented in `arg`.
++        shift                   # remove old arg
++        set -- "$@" "$arg"      # push replacement arg
++    done
++fi
++
++
++# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
++
++# Collect all arguments for the java command:
++#   * DEFAULT_JVM_OPTS, JAVA_OPTS, JAVA_OPTS, and optsEnvironmentVar are not allowed to contain shell fragments,
++#     and any embedded shellness will be escaped.
++#   * For example: A user cannot expect ${Hostname} to be expanded, as it is an environment variable and will be
++#     treated as '${Hostname}' itself on the command line.
++
++set -- \
++        "-Dorg.gradle.appname=$APP_BASE_NAME" \
++        -classpath "$CLASSPATH" \
++        org.gradle.wrapper.GradleWrapperMain \
++        "$@"
++
++# Stop when "xargs" is not available.
++if ! command -v xargs >/dev/null 2>&1
++then
++    die "xargs is not available"
++fi
++
++# Use "xargs" to parse quoted args.
++#
++# With -n1 it outputs one arg per line, with the quotes and backslashes removed.
++#
++# In Bash we could simply go:
++#
++#   readarray ARGS < <( xargs -n1 <<<"$var" ) &&
++#   set -- "${ARGS[@]}" "$@"
++#
++# but POSIX shell has neither arrays nor command substitution, so instead we
++# post-process each arg (as a line of input to sed) to backslash-escape any
++# character that might be a shell metacharacter, then use eval to reverse
++# that process (while maintaining the separation between arguments), and wrap
++# the whole thing up as a single "set" statement.
++#
++# This will of course break if any of these variables contains a newline or
++# an unmatched quote.
++#
++
++eval "set -- $(
++        printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
++        xargs -n1 |
++        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
++        tr '\n' ' '
++    )" '"$@"'
++
++exec "$JAVACMD" "$@"
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+new file mode 100644
+--- /dev/null	(date 1765427869245)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1765427869245)
+@@ -0,0 +1,8 @@
++distributionBase=GRADLE_USER_HOME
++distributionPath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.10-bin.zip
++networkTimeout=10000
++validateDistributionUrl=true
++zipStoreBase=GRADLE_USER_HOME
++zipStorePath=wrapper/dists
++org.gradle.caching=true
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1765427869231)
++++ b/.idea/jarRepositories.xml	(date 1765427869231)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenRepo" />
++      <option name="name" value="MavenRepo" />
++      <option name="url" value="https://repo.maven.apache.org/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.gradle b/settings.gradle
+new file mode 100644
+--- /dev/null	(date 1765427873564)
++++ b/settings.gradle	(date 1765427873564)
+@@ -0,0 +1,1 @@
++rootProject.name = 'AdventDayOfCode2020'
+\ No newline at end of file
+Index: .idea/kotlinc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"Kotlin2JvmCompilerArguments\">\n    <option name=\"jvmTarget\" value=\"1.8\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/kotlinc.xml b/.idea/kotlinc.xml
+--- a/.idea/kotlinc.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ b/.idea/kotlinc.xml	(date 1765427873559)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="Kotlin2JvmCompilerArguments">
+-    <option name="jvmTarget" value="1.8" />
++  <component name="KotlinJpsPluginSettings">
++    <option name="version" value="1.9.23" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+new file mode 100644
+--- /dev/null	(date 1765427334592)
++++ b/.idea/workspace.xml	(date 1765427334592)
+@@ -0,0 +1,147 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
++  <component name="ChangeListManager">
++    <list default="true" id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/libraries/json.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/studiobot.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/AdventDayOfCode2020.iml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/twenty5/day10/Day10.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/twenty5/day10/Day10.kt" afterDir="false" />
++    </list>
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="ExternalProjectsData">
++    <projectState path="$PROJECT_DIR$">
++      <ProjectState />
++    </projectState>
++  </component>
++  <component name="ExternalProjectsManager">
++    <system id="GRADLE">
++      <state>
++        <task path="$PROJECT_DIR$">
++          <activation />
++        </task>
++        <projects_view>
++          <tree_state>
++            <expand>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="AdventDayOfCode2020" type="f1a62948:ProjectNode" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="AdventDayOfCode2020" type="f1a62948:ProjectNode" />
++                <item name="Tasks" type="e4a08cd1:TasksNode" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="AdventDayOfCode2020" type="f1a62948:ProjectNode" />
++                <item name="Tasks" type="e4a08cd1:TasksNode" />
++                <item name="build" type="c8890929:TasksNode$1" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="AdventDayOfCode2020" type="f1a62948:ProjectNode" />
++                <item name="Tasks" type="e4a08cd1:TasksNode" />
++                <item name="build setup" type="c8890929:TasksNode$1" />
++              </path>
++            </expand>
++            <select />
++          </tree_state>
++        </projects_view>
++      </state>
++    </system>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 1
++}</component>
++  <component name="ProjectId" id="36gRtDOGP8j4frDlw7pCJsmtB2g" />
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Gradle.AdventDayOfCode2020 [build].executor": "Run",
++    "Gradle.Build AdventDayOfCode2020.executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "git-widget-placeholder": "2025-day-9",
++    "kotlin-language-version-configured": "true",
++    "project.structure.last.edited": "Global Libraries",
++    "project.structure.proportion": "0.0",
++    "project.structure.side.proportion": "0.2",
++    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
++  }
++}]]></component>
++  <component name="RunManager">
++    <configuration name="AdventDayOfCode2020 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
++      <ExternalSystemSettings>
++        <option name="executionName" />
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="externalSystemIdString" value="GRADLE" />
++        <option name="scriptParameters" value="" />
++        <option name="taskDescriptions">
++          <list />
++        </option>
++        <option name="taskNames">
++          <list>
++            <option value="build" />
++          </list>
++        </option>
++        <option name="vmOptions" />
++      </ExternalSystemSettings>
++      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
++      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
++      <DebugAllEnabled>false</DebugAllEnabled>
++      <RunAsTest>false</RunAsTest>
++      <method v="2" />
++    </configuration>
++    <configuration default="true" type="JetRunConfigurationType">
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
++      <option name="filePath" />
++      <method v="2" />
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Gradle.AdventDayOfCode2020 [build]" />
++      </list>
++    </recent_temporary>
++  </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
++  <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="" />
++      <created>1765426440720</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1765426440720</updated>
++    </task>
++    <servers />
++  </component>
++</project>
+\ No newline at end of file
+Index: build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle.kts b/build.gradle.kts
+new file mode 100644
+--- /dev/null	(date 1765427873561)
++++ b/build.gradle.kts	(date 1765427873561)
+@@ -0,0 +1,29 @@
++plugins {
++    kotlin("jvm") version "1.9.23"
++    application
++}
++
++repositories {
++    mavenCentral()
++}
++
++dependencies {
++    // Add your dependencies here, for example:
++    implementation(kotlin("stdlib-jdk8"))
++    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
++    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
++    implementation("org.jacop:jacop:4.10.0")
++}
++
++//application {
++//    mainClass.set("com.yourpackage.MainKt") // Replace with your main class/file
++//}
++tasks.register<JavaExec>("runSolver") {
++    group = "application"
++    mainClass.set("src.twenty5.day10.Day10.kt")
++    classpath = sourceSets["main"].runtimeClasspath
++}
++
++kotlin {
++    jvmToolchain(23)          // or 11/21 depending on your JDK
++}
+\ No newline at end of file
+Index: gradlew.bat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew.bat b/gradlew.bat
+new file mode 100644
+--- /dev/null	(date 1765427869249)
++++ b/gradlew.bat	(date 1765427869249)
+@@ -0,0 +1,94 @@
++@rem
++@rem Copyright 2015 the original author or authors.
++@rem
++@rem Licensed under the Apache License, Version 2.0 (the "License");
++@rem you may not use this file except in compliance with the License.
++@rem You may obtain a copy of the License at
++@rem
++@rem      https://www.apache.org/licenses/LICENSE-2.0
++@rem
++@rem Unless required by applicable law or agreed to in writing, software
++@rem distributed under the License is distributed on an "AS IS" BASIS,
++@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++@rem See the License for the specific language governing permissions and
++@rem limitations under the License.
++@rem
++@rem SPDX-License-Identifier: Apache-2.0
++@rem
++
++@if "%DEBUG%"=="" @echo off
++@rem ##########################################################################
++@rem
++@rem  Gradle startup script for Windows
++@rem
++@rem ##########################################################################
++
++@rem Set local scope for the variables with windows NT shell
++if "%OS%"=="Windows_NT" setlocal
++
++set DIRNAME=%~dp0
++if "%DIRNAME%"=="" set DIRNAME=.
++@rem This is normally unused
++set APP_BASE_NAME=%~n0
++set APP_HOME=%DIRNAME%
++
++@rem Resolve any "." and ".." in APP_HOME to make it shorter.
++for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
++
++@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
++
++@rem Find java.exe
++if defined JAVA_HOME goto findJavaFromJavaHome
++
++set JAVA_EXE=java.exe
++%JAVA_EXE% -version >NUL 2>&1
++if %ERRORLEVEL% equ 0 goto execute
++
++echo. 1>&2
++echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH. 1>&2
++echo. 1>&2
++echo Please set the JAVA_HOME variable in your environment to match the 1>&2
++echo location of your Java installation. 1>&2
++
++goto fail
++
++:findJavaFromJavaHome
++set JAVA_HOME=%JAVA_HOME:"=%
++set JAVA_EXE=%JAVA_HOME%/bin/java.exe
++
++if exist "%JAVA_EXE%" goto execute
++
++echo. 1>&2
++echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME% 1>&2
++echo. 1>&2
++echo Please set the JAVA_HOME variable in your environment to match the 1>&2
++echo location of your Java installation. 1>&2
++
++goto fail
++
++:execute
++@rem Setup the command line
++
++set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
++
++
++@rem Execute Gradle
++"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %*
++
++:end
++@rem End local scope for the variables with windows NT shell
++if %ERRORLEVEL% equ 0 goto mainEnd
++
++:fail
++rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
++rem the _cmd.exe /c_ return code!
++set EXIT_CODE=%ERRORLEVEL%
++if %EXIT_CODE% equ 0 set EXIT_CODE=1
++if not ""=="%GRADLE_EXIT_CONSOLE%" exit %EXIT_CODE%
++exit /b %EXIT_CODE%
++
++:mainEnd
++if "%OS%"=="Windows_NT" endlocal
++
++:omega
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"VcsDirectoryMappings\">\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ b/.idea/vcs.xml	(date 1765427873563)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++    <mapping directory="" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/shelf/Changes/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Changes/shelved.patch b/.idea/shelf/Changes/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1765427859674)
++++ b/.idea/shelf/Changes/shelved.patch	(date 1765427859674)
+@@ -0,0 +1,698 @@
++Index: src/twenty5/day10/Day10.kt
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package twenty5.day10\n\nimport AOCPuzzle\nimport java.nio.file.Files\nimport java.nio.file.Paths\nimport kotlin.math.min\n\nprivate typealias Buttons = MutableList<Int>\n\nprivate val quizInput: MutableList<String> = Files.readAllLines(Paths.get(\"src/twenty5/day10/file.txt\"))\n\nprivate fun main() {\n    println(Day10.part1())  //  514\n    println(Day10.part2())\n}\n\nprivate object Day10 : AOCPuzzle {\n\n    private val requirements = quizInput.map {\n        JoltageRequirements.from(it)\n    }\n\n    override fun part1(): Any {\n        val minCounts = mutableListOf<Int>()\n        requirements.forEach {\n            val buttonPresses = mutableListOf<Buttons>()\n            val counts = mutableListOf<Int>(Int.MAX_VALUE)\n            getFewestButtonPresses(\n                it.availableButtons,\n                it.indicators,\n                buttonPresses,\n                String(it.emptyIndicators),\n                counts,\n                0\n            )\n            val min = counts.min() ?: Int.MIN_VALUE\n            minCounts += min\n        }\n        println(minCounts)\n        return minCounts.sum()\n    }\n\n    @OptIn(ExperimentalStdlibApi::class)\n    private fun getFewestButtonPresses(\n        availableButtons: List<Buttons>,\n        targetIndicator: String,\n        pressedButtons: MutableList<Buttons>,\n        currentIndicator: String,\n        counts: MutableList<Int>,\n        count: Int\n    ) {\n        if (counts[0] == 1) return\n        if (counts.min()!! <= count) return\n        if (currentIndicator == targetIndicator) {\n            counts[0] = minOf(count, counts[0])\n            return\n        }\n        if (pressedButtons.size > 10) return\n\n        for (i in availableButtons) {\n            val next = currentIndicator.applyButtons(i)\n            pressedButtons.add(i)\n            getFewestButtonPresses(\n                availableButtons,\n                targetIndicator,\n                pressedButtons,\n                next,\n                counts,\n                count + 1\n            )\n            pressedButtons.removeLast()\n        }\n    }\n\n    private fun String.applyButtons(buttons: List<Int>): String {\n        val arr = this.toCharArray()\n        for (i in buttons) {\n            arr[i] = if (this[i] == '.') '#' else '.'\n        }\n        return String(arr)\n    }\n\n    override fun part2(): Any {\n        return 0L\n    }\n\n    private data class JoltageRequirements(\n        val indicators: String,\n        val availableButtons: List<Buttons>,\n        val joltages: List<Int>\n    ) {\n        val emptyIndicators = CharArray(indicators.length) { '.' }\n\n        companion object {\n            fun from(input: String): JoltageRequirements {\n                val first = input.indexOf(']')\n                val last = input.indexOf(\"{\")\n                val indicator = input.substring(1, first)\n                val joltage = input.substring(last + 1).replace(\"}\", \"\").trim().split(\",\").map { it.toInt() }\n                val buttons = input.substring(first + 1, last).split(\" \")\n                    .map {\n                        it.drop(1).dropLast(1)\n                            .split(\",\")\n                            .filter { it.isNotEmpty() }\n                            .map { it.toInt() } as Buttons\n                    }\n                    .filter { it.isNotEmpty() }\n                return JoltageRequirements(indicator, buttons, joltage)\n            }\n        }\n    }\n}\n\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/twenty5/day10/Day10.kt b/src/twenty5/day10/Day10.kt
++--- a/src/twenty5/day10/Day10.kt	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ b/src/twenty5/day10/Day10.kt	(date 1765426592866)
++@@ -4,6 +4,7 @@
++ import java.nio.file.Files
++ import java.nio.file.Paths
++ import kotlin.math.min
+++import org.jacop.core.*
++ 
++ private typealias Buttons = MutableList<Int>
++ 
++Index: .idea/.gitignore
++===================================================================
++diff --git a/.idea/.gitignore b/.idea/.gitignore
++deleted file mode 100644
++--- a/.idea/.gitignore	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,4 +0,0 @@
++-# Default ignored files
++-/shelf/
++-/workspace.xml
++-.idea/
++\ No newline at end of file
++Index: AdventDayOfCode2020.iml
++===================================================================
++diff --git a/AdventDayOfCode2020.iml b/AdventDayOfCode2020.iml
++deleted file mode 100644
++--- a/AdventDayOfCode2020.iml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,23 +0,0 @@
++-<?xml version="1.0" encoding="UTF-8"?>
++-<module type="JAVA_MODULE" version="4">
++-  <component name="FacetManager">
++-    <facet type="kotlin-language" name="Kotlin">
++-      <configuration version="5" useProjectSettings="false">
++-        <compilerSettings>
++-          <option name="additionalArguments" value="-version -opt-in=kotlin.RequiresOptIn" />
++-        </compilerSettings>
++-      </configuration>
++-    </facet>
++-  </component>
++-  <component name="NewModuleRootManager" inherit-compiler-output="true">
++-    <exclude-output />
++-    <content url="file://$MODULE_DIR$">
++-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++-    </content>
++-    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
++-    <orderEntry type="sourceFolder" forTests="false" />
++-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
++-    <orderEntry type="library" name="jetbrains.kotlinx.coroutines.core" level="project" />
++-    <orderEntry type="library" name="json" level="project" />
++-  </component>
++-</module>
++\ No newline at end of file
++Index: .idea/aws.xml
++===================================================================
++diff --git a/.idea/aws.xml b/.idea/aws.xml
++deleted file mode 100644
++--- a/.idea/aws.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,17 +0,0 @@
++-<?xml version="1.0" encoding="UTF-8"?>
++-<project version="4">
++-  <component name="accountSettings">
++-    <option name="activeProfile" value="profile:default" />
++-    <option name="activeRegion" value="us-east-1" />
++-    <option name="recentlyUsedProfiles">
++-      <list>
++-        <option value="profile:default" />
++-      </list>
++-    </option>
++-    <option name="recentlyUsedRegions">
++-      <list>
++-        <option value="us-east-1" />
++-      </list>
++-    </option>
++-  </component>
++-</project>
++\ No newline at end of file
++Index: .idea/codeStyles/codeStyleConfig.xml
++===================================================================
++diff --git a/.idea/codeStyles/codeStyleConfig.xml b/.idea/codeStyles/codeStyleConfig.xml
++deleted file mode 100644
++--- a/.idea/codeStyles/codeStyleConfig.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,5 +0,0 @@
++-<component name="ProjectCodeStyleConfiguration">
++-  <state>
++-    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
++-  </state>
++-</component>
++\ No newline at end of file
++Index: .idea/caches/deviceStreaming.xml
++===================================================================
++diff --git a/.idea/caches/deviceStreaming.xml b/.idea/caches/deviceStreaming.xml
++deleted file mode 100644
++--- a/.idea/caches/deviceStreaming.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,340 +0,0 @@
++-<?xml version="1.0" encoding="UTF-8"?>
++-<project version="4">
++-  <component name="DeviceStreaming">
++-    <option name="deviceSelectionList">
++-      <list>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="27" />
++-          <option name="brand" value="DOCOMO" />
++-          <option name="codename" value="F01L" />
++-          <option name="id" value="F01L" />
++-          <option name="manufacturer" value="FUJITSU" />
++-          <option name="name" value="F-01L" />
++-          <option name="screenDensity" value="360" />
++-          <option name="screenX" value="720" />
++-          <option name="screenY" value="1280" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="OPPO" />
++-          <option name="codename" value="OP573DL1" />
++-          <option name="id" value="OP573DL1" />
++-          <option name="manufacturer" value="OPPO" />
++-          <option name="name" value="CPH2557" />
++-          <option name="screenDensity" value="480" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="28" />
++-          <option name="brand" value="DOCOMO" />
++-          <option name="codename" value="SH-01L" />
++-          <option name="id" value="SH-01L" />
++-          <option name="manufacturer" value="SHARP" />
++-          <option name="name" value="AQUOS sense2 SH-01L" />
++-          <option name="screenDensity" value="480" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2160" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="Lenovo" />
++-          <option name="codename" value="TB370FU" />
++-          <option name="id" value="TB370FU" />
++-          <option name="manufacturer" value="Lenovo" />
++-          <option name="name" value="Tab P12" />
++-          <option name="screenDensity" value="340" />
++-          <option name="screenX" value="1840" />
++-          <option name="screenY" value="2944" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="31" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="a51" />
++-          <option name="id" value="a51" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy A51" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="akita" />
++-          <option name="id" value="akita" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 8a" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="b0q" />
++-          <option name="id" value="b0q" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy S22 Ultra" />
++-          <option name="screenDensity" value="600" />
++-          <option name="screenX" value="1440" />
++-          <option name="screenY" value="3088" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="32" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="bluejay" />
++-          <option name="id" value="bluejay" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 6a" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="caiman" />
++-          <option name="id" value="caiman" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 9 Pro" />
++-          <option name="screenDensity" value="360" />
++-          <option name="screenX" value="960" />
++-          <option name="screenY" value="2142" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="comet" />
++-          <option name="id" value="comet" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 9 Pro Fold" />
++-          <option name="screenDensity" value="390" />
++-          <option name="screenX" value="2076" />
++-          <option name="screenY" value="2152" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="29" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="crownqlteue" />
++-          <option name="id" value="crownqlteue" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy Note9" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="2220" />
++-          <option name="screenY" value="1080" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="dm3q" />
++-          <option name="id" value="dm3q" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy S23 Ultra" />
++-          <option name="screenDensity" value="600" />
++-          <option name="screenX" value="1440" />
++-          <option name="screenY" value="3088" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="e1q" />
++-          <option name="id" value="e1q" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy S24" />
++-          <option name="screenDensity" value="480" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2340" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="felix" />
++-          <option name="id" value="felix" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel Fold" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="2208" />
++-          <option name="screenY" value="1840" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="felix" />
++-          <option name="id" value="felix" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel Fold" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="2208" />
++-          <option name="screenY" value="1840" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="felix_camera" />
++-          <option name="id" value="felix_camera" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel Fold (Camera-enabled)" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="2208" />
++-          <option name="screenY" value="1840" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="gts8uwifi" />
++-          <option name="id" value="gts8uwifi" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy Tab S8 Ultra" />
++-          <option name="screenDensity" value="320" />
++-          <option name="screenX" value="1848" />
++-          <option name="screenY" value="2960" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="husky" />
++-          <option name="id" value="husky" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 8 Pro" />
++-          <option name="screenDensity" value="390" />
++-          <option name="screenX" value="1008" />
++-          <option name="screenY" value="2244" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="30" />
++-          <option name="brand" value="motorola" />
++-          <option name="codename" value="java" />
++-          <option name="id" value="java" />
++-          <option name="manufacturer" value="Motorola" />
++-          <option name="name" value="G20" />
++-          <option name="screenDensity" value="280" />
++-          <option name="screenX" value="720" />
++-          <option name="screenY" value="1600" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="komodo" />
++-          <option name="id" value="komodo" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 9 Pro XL" />
++-          <option name="screenDensity" value="360" />
++-          <option name="screenX" value="1008" />
++-          <option name="screenY" value="2244" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="lynx" />
++-          <option name="id" value="lynx" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 7a" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="31" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="oriole" />
++-          <option name="id" value="oriole" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 6" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="panther" />
++-          <option name="id" value="panther" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 7" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="q5q" />
++-          <option name="id" value="q5q" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy Z Fold5" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1812" />
++-          <option name="screenY" value="2176" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="samsung" />
++-          <option name="codename" value="q6q" />
++-          <option name="id" value="q6q" />
++-          <option name="manufacturer" value="Samsung" />
++-          <option name="name" value="Galaxy Z Fold6" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1856" />
++-          <option name="screenY" value="2160" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="30" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="r11" />
++-          <option name="id" value="r11" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel Watch" />
++-          <option name="screenDensity" value="320" />
++-          <option name="screenX" value="384" />
++-          <option name="screenY" value="384" />
++-          <option name="type" value="WEAR_OS" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="30" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="redfin" />
++-          <option name="id" value="redfin" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 5" />
++-          <option name="screenDensity" value="440" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2340" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="shiba" />
++-          <option name="id" value="shiba" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 8" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2400" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="33" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="tangorpro" />
++-          <option name="id" value="tangorpro" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel Tablet" />
++-          <option name="screenDensity" value="320" />
++-          <option name="screenX" value="1600" />
++-          <option name="screenY" value="2560" />
++-        </PersistentDeviceSelectionData>
++-        <PersistentDeviceSelectionData>
++-          <option name="api" value="34" />
++-          <option name="brand" value="google" />
++-          <option name="codename" value="tokay" />
++-          <option name="id" value="tokay" />
++-          <option name="manufacturer" value="Google" />
++-          <option name="name" value="Pixel 9" />
++-          <option name="screenDensity" value="420" />
++-          <option name="screenX" value="1080" />
++-          <option name="screenY" value="2424" />
++-        </PersistentDeviceSelectionData>
++-      </list>
++-    </option>
++-  </component>
++-</project>
++\ No newline at end of file
++Index: .idea/libraries/jetbrains_kotlinx_coroutines_core.xml
++===================================================================
++diff --git a/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml b/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml
++deleted file mode 100644
++--- a/.idea/libraries/jetbrains_kotlinx_coroutines_core.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,22 +0,0 @@
++-<component name="libraryTable">
++-  <library name="jetbrains.kotlinx.coroutines.core" type="repository">
++-    <properties maven-id="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0" />
++-    <CLASSES>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21.jar!/" />
++-    </CLASSES>
++-    <JAVADOC>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0-javadoc.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-javadoc.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21-javadoc.jar!/" />
++-    </JAVADOC>
++-    <SOURCES>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.8.0/kotlinx-coroutines-core-1.8.0-sources.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.8.0/kotlinx-coroutines-core-jvm-1.8.0-sources.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0-sources.jar!/" />
++-      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.9.21/kotlin-stdlib-1.9.21-sources.jar!/" />
++-    </SOURCES>
++-  </library>
++-</component>
++\ No newline at end of file
++Index: .idea/libraries/json.xml
++===================================================================
++diff --git a/.idea/libraries/json.xml b/.idea/libraries/json.xml
++deleted file mode 100644
++--- a/.idea/libraries/json.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,14 +0,0 @@
++-<component name="libraryTable">
++-  <library name="json" type="repository">
++-    <properties maven-id="org.json:json:20240303" />
++-    <CLASSES>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303.jar!/" />
++-    </CLASSES>
++-    <JAVADOC>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303-javadoc.jar!/" />
++-    </JAVADOC>
++-    <SOURCES>
++-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20240303/json-20240303-sources.jar!/" />
++-    </SOURCES>
++-  </library>
++-</component>
++\ No newline at end of file
++Index: .idea/libraries/KotlinJavaRuntime.xml
++===================================================================
++diff --git a/.idea/libraries/KotlinJavaRuntime.xml b/.idea/libraries/KotlinJavaRuntime.xml
++deleted file mode 100644
++--- a/.idea/libraries/KotlinJavaRuntime.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,19 +0,0 @@
++-<component name="libraryTable">
++-  <library name="KotlinJavaRuntime">
++-    <CLASSES>
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-test.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8.jar!/" />
++-    </CLASSES>
++-    <JAVADOC />
++-    <SOURCES>
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-sources.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect-sources.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-test-sources.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk7-sources.jar!/" />
++-      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jdk8-sources.jar!/" />
++-    </SOURCES>
++-  </library>
++-</component>
++\ No newline at end of file
++Index: .idea/modules.xml
++===================================================================
++diff --git a/.idea/modules.xml b/.idea/modules.xml
++deleted file mode 100644
++--- a/.idea/modules.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,8 +0,0 @@
++-<?xml version="1.0" encoding="UTF-8"?>
++-<project version="4">
++-  <component name="ProjectModuleManager">
++-    <modules>
++-      <module fileurl="file://$PROJECT_DIR$/AdventDayOfCode2020.iml" filepath="$PROJECT_DIR$/AdventDayOfCode2020.iml" />
++-    </modules>
++-  </component>
++-</project>
++\ No newline at end of file
++Index: .idea/codeStyles/Project.xml
++===================================================================
++diff --git a/.idea/codeStyles/Project.xml b/.idea/codeStyles/Project.xml
++deleted file mode 100644
++--- a/.idea/codeStyles/Project.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,10 +0,0 @@
++-<component name="ProjectCodeStyleConfiguration">
++-  <code_scheme name="Project" version="173">
++-    <JetCodeStyleSettings>
++-      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
++-    </JetCodeStyleSettings>
++-    <codeStyleSettings language="kotlin">
++-      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
++-    </codeStyleSettings>
++-  </code_scheme>
++-</component>
++\ No newline at end of file
++Index: .idea/studiobot.xml
++===================================================================
++diff --git a/.idea/studiobot.xml b/.idea/studiobot.xml
++deleted file mode 100644
++--- a/.idea/studiobot.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ /dev/null	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++@@ -1,6 +0,0 @@
++-<?xml version="1.0" encoding="UTF-8"?>
++-<project version="4">
++-  <component name="StudioBotProjectSettings">
++-    <option name="shareContext" value="OptedOut" />
++-  </component>
++-</project>
++\ No newline at end of file
++Index: .idea/misc.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"true\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/misc.xml b/.idea/misc.xml
++--- a/.idea/misc.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ b/.idea/misc.xml	(date 1765427150984)
++@@ -1,6 +1,19 @@
++ <?xml version="1.0" encoding="UTF-8"?>
++ <project version="4">
++-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true">
++-    <output url="file://$PROJECT_DIR$/out" />
+++  <component name="ExternalStorageConfigurationManager" enabled="true" />
+++  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
+++  <component name="accountSettings">
+++    <option name="activeProfile" value="profile:default" />
+++    <option name="activeRegion" value="us-east-1" />
+++    <option name="recentlyUsedProfiles">
+++      <list>
+++        <option value="profile:default" />
+++      </list>
+++    </option>
+++    <option name="recentlyUsedRegions">
+++      <list>
+++        <option value="us-east-1" />
+++      </list>
+++    </option>
++   </component>
++ </project>
++\ No newline at end of file
++Index: .idea/kotlinc.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"Kotlin2JvmCompilerArguments\">\n    <option name=\"jvmTarget\" value=\"1.8\" />\n  </component>\n</project>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/kotlinc.xml b/.idea/kotlinc.xml
++--- a/.idea/kotlinc.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ b/.idea/kotlinc.xml	(date 1765427150987)
++@@ -1,6 +1,6 @@
++ <?xml version="1.0" encoding="UTF-8"?>
++ <project version="4">
++-  <component name="Kotlin2JvmCompilerArguments">
++-    <option name="jvmTarget" value="1.8" />
+++  <component name="KotlinJpsPluginSettings">
+++    <option name="version" value="1.9.23" />
++   </component>
++ </project>
++\ No newline at end of file
++Index: build.gradle.kts
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/build.gradle.kts b/build.gradle.kts
++new file mode 100644
++--- /dev/null	(date 1765427637088)
+++++ b/build.gradle.kts	(date 1765427637088)
++@@ -0,0 +1,29 @@
+++plugins {
+++    kotlin("jvm") version "1.9.23"
+++    application
+++}
+++
+++repositories {
+++    mavenCentral()
+++}
+++
+++dependencies {
+++    // Add your dependencies here, for example:
+++    implementation(kotlin("stdlib-jdk8"))
+++    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+++    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+++    implementation("org.jacop:jacop:4.10.0")
+++}
+++
+++//application {
+++//    mainClass.set("com.yourpackage.MainKt") // Replace with your main class/file
+++//}
+++tasks.register<JavaExec>("runSolver") {
+++    group = "application"
+++    mainClass.set("src.twenty5.day10.Day10.kt")
+++    classpath = sourceSets["main"].runtimeClasspath
+++}
+++
+++kotlin {
+++    jvmToolchain(23)          // or 11/21 depending on your JDK
+++}
++\ No newline at end of file
++Index: .idea/vcs.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"VcsDirectoryMappings\">\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\n  </component>\n</project>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/vcs.xml b/.idea/vcs.xml
++--- a/.idea/vcs.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
+++++ b/.idea/vcs.xml	(date 1765427150986)
++@@ -1,6 +1,6 @@
++ <?xml version="1.0" encoding="UTF-8"?>
++ <project version="4">
++   <component name="VcsDirectoryMappings">
++-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+++    <mapping directory="" vcs="Git" />
++   </component>
++ </project>
++\ No newline at end of file
++Index: settings.gradle
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/settings.gradle b/settings.gradle
++new file mode 100644
++--- /dev/null	(date 1765426894252)
+++++ b/settings.gradle	(date 1765426894252)
++@@ -0,0 +1,1 @@
+++rootProject.name = 'AdventDayOfCode2020'
++\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"true\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 7259cbc8332655809d6a6c428229bd04ebb215c5)
++++ b/.idea/misc.xml	(date 1765427873557)
+@@ -1,6 +1,19 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true">
+-    <output url="file://$PROJECT_DIR$/out" />
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
++  <component name="accountSettings">
++    <option name="activeProfile" value="profile:default" />
++    <option name="activeRegion" value="us-east-1" />
++    <option name="recentlyUsedProfiles">
++      <list>
++        <option value="profile:default" />
++      </list>
++    </option>
++    <option name="recentlyUsedRegions">
++      <list>
++        <option value="us-east-1" />
++      </list>
++    </option>
+   </component>
+ </project>
+\ No newline at end of file

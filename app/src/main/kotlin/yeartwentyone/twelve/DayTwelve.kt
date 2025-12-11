@@ -2,6 +2,10 @@ package yeartwentyone.twelve
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 fun main() {
     val input = Files.readAllLines(Paths.get("src/yeartwentyone/twelve/file.txt")) as ArrayList<String>
@@ -113,7 +117,7 @@ class Path {
     ) {
         this.visitedSmallCaves.addAll(path.visitedSmallCaves)
 
-        if (lastVisited.toLowerCase() == lastVisited) {
+        if (lastVisited.lowercase() == lastVisited) {
             this.visitedSmallCaves.add(lastVisited)
         }
 
@@ -129,7 +133,7 @@ class Path {
         multiCave: String = ""
     ) {
         this.visitedSmallCaves.addAll(visitedSmallCaves)
-        if (lastVisited.toLowerCase() == lastVisited) {
+        if (lastVisited.lowercase() == lastVisited) {
             this.visitedSmallCaves.add(lastVisited)
         }
         this.lastVisited = lastVisited
@@ -152,7 +156,7 @@ class Path {
     fun getVisitedSmallCaves() = visitedSmallCaves
 
     fun haveBeenAt(cave: String): Boolean {
-        if (cave.toLowerCase() == cave) {
+        if (cave.lowercase() == cave) {
             return visitedSmallCaves.contains(cave)
         }
         return false
@@ -168,7 +172,7 @@ class Path {
     private fun getPathStr() = pathString
 
     fun haveBeenAtPartTwo(cave: String): Boolean {
-        if (cave.toLowerCase() == cave) {
+        if (cave.lowercase() == cave) {
             if (multiCave.isEmpty() && "end" != cave && cave != "start" && visitedSmallCaves.contains(cave)) {
                 foundMultiCave = cave
                 return false
