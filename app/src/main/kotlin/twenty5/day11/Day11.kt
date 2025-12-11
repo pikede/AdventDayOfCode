@@ -6,7 +6,7 @@ import org.aoc.utils.readInput
 private val quizInput: List<String> = readInput("twenty5/day11/file")
 
 private fun main() {
-    println(Day11.part1())
+    println(Day11.part1()) // 786
     println(Day11.part2())
 }
 
