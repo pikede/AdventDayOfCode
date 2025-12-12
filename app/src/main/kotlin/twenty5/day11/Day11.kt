@@ -7,13 +7,12 @@ private val quizInput: List<String> = readInput("twenty5/day11/file")
 
 private fun main() {
     println(Day11.part1()) // 786
-    println(Day11.part2())
+    println(Day11.part2()) // 495845045016588
 }
 
 private object Day11 : AOCPuzzle {
-    val cache = mutableMapOf<Pair<String, Set<String>>, Long>()
-
-    val reactors = buildMap {
+    private const val TARGET_REACTOR_OUT = "out"
+    private val reactors = buildMap {
         quizInput.map {
             val reactors = it.replace(":", "").split(" ")
             val origin = reactors.first()
@@ -29,7 +28,7 @@ private object Day11 : AOCPuzzle {
             val size = q.size
             for (i in 0 until size) {
                 val node = q.removeFirst()
-                if (node == "out") {
+                if (node == TARGET_REACTOR_OUT) {
                     count++
                     continue
                 }
@@ -57,7 +56,7 @@ private object Day11 : AOCPuzzle {
     ): Long {
 
         return memo.getOrPut(current to reachedPath) {
-            if (current == "out") {
+            if (current == TARGET_REACTOR_OUT) {
                 if (required == reachedPath) 1L else 0L
             } else {
                 reactors[current]!!.sumOf { next ->
