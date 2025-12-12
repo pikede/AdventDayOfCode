@@ -11,6 +11,8 @@ private fun main() {
 }
 
 private object Day11 : AOCPuzzle {
+    val cache = mutableMapOf<Pair<String, Set<String>>, Long>()
+
     val reactors = buildMap {
         quizInput.map {
             val reactors = it.replace(":", "").split(" ")
@@ -22,7 +24,6 @@ private object Day11 : AOCPuzzle {
 
     override fun part1(): Any {
         val q = mutableListOf("you")
-        val visited = mutableSetOf<String>()
         var count = 0
         while (q.isNotEmpty()) {
             val size = q.size
@@ -32,20 +33,38 @@ private object Day11 : AOCPuzzle {
                     count++
                     continue
                 }
-//                if (node in visited) continue
-//                visited += node
                 val next = reactors[node]!!
-                next.onEach {
-                     q += it
-                }
+                next.onEach { q += it }
             }
-            println(q)
         }
         return count
     }
 
     override fun part2(): Any {
-        return 0
+        return buildPaths(
+            current = "svr",
+            required = setOf("fft", "dac"),
+            reachedPath = setOf(),
+            memo = mutableMapOf()
+        )
+    }
+
+    private fun buildPaths(
+        current: String,
+        required: Set<String>,
+        reachedPath: Set<String>,
+        memo: MutableMap<Pair<String, Set<String>>, Long>
+    ): Long {
+
+        return memo.getOrPut(current to reachedPath) {
+            if (current == "out") {
+                if (required == reachedPath) 1L else 0L
+            } else {
+                reactors[current]!!.sumOf { next ->
+                    buildPaths(next, required, if (next in required) reachedPath + next else reachedPath, memo)
+                }
+            }
+        }
     }
 }
 
