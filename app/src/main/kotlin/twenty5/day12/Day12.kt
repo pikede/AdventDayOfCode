@@ -11,24 +11,29 @@ private fun main() {
 }
 
 private object Day12 : AOCPuzzle {
-    val shapes = quizInput.chunked(5).take(6).map {
-        val shape = it.drop(1).dropLast(1) // drops 0: and empty space
-        Shape(shape)
-    }
+    private val shapes = quizInput
+        .chunked(5) // takes every group of 5 lines
+        .take(6) // there's only 0..5 the rest is the regions
+        .map {
+            val shape = it.drop(1).dropLast(1) // drops 0: and empty space
+            Shape(shape)
+        }
 
-    val regions = quizInput.filter { it.any { it == 'x' } }.map {
-        val (size, qty) = it.split(":")
-        val (x, y) = size.split("x").map { it.toInt() }
-        val quantity = qty.split(" ").filterNot { it.isEmpty() }.map { it.toInt() }
-        Regions(x, y, quantity)
-    }
+    private val regions = quizInput
+        .filter { line -> line.any { it == 'x' } } // looks for only lines that are have the multiplier sign
+        .map {
+            val (size, qty) = it.split(":")
+            val (width, length) = size.split("x").map { widthLength -> widthLength.toInt() }
+            val validQuantity = qty.split(" ").filterNot { it.isEmpty() }.map { it.toInt() }
+            Regions(width, length, validQuantity)
+        }
 
     override fun part1(): Any {
         return regions.count { region ->
             var spaceLeft = region.area
-            region.quantities.forEachIndexed { index, i ->
-                if (i != 0) {
-                    val spaceConsumed = shapes[index].spaceConsumed * i
+            region.quantities.forEachIndexed { index, shapesCount ->
+                if (shapesCount != 0) {
+                    val spaceConsumed = shapes[index].spaceConsumed * shapesCount
                     spaceLeft -= spaceConsumed
                 }
             }
@@ -40,11 +45,11 @@ private object Day12 : AOCPuzzle {
         return 0
     }
 
-    data class Regions(val width: Int, val length: Int, val quantities: List<Int>) {
+    private data class Regions(val width: Int, val length: Int, val quantities: List<Int>) {
         val area = width * length
     }
 
-    data class Shape(val shape: List<String>) {
+    private data class Shape(val shape: List<String>) {
         val spaceConsumed = shape.sumOf { line -> line.count { it == '#' } }
     }
 }
