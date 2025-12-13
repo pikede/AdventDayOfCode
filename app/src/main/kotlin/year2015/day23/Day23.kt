@@ -3,7 +3,7 @@ package year2015.day23
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("src/year2015/day23/file")
+private val quizInput= readInput("year2015/day23/file")
 
 private fun main() {
     val day23 = Day23Solution

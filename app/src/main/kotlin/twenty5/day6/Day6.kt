@@ -111,7 +111,7 @@ private object Day6 : AOCPuzzle {
                 .joinToString("")
         }
 
-    /*  @OptIn(ExperimentalStdlibApi::class)
+    /*  
       override fun part2(): Long {
           val numbers = quizInput
               .takeWhile { !it.hasSign() }

@@ -2,7 +2,7 @@ package twenty4.day25
 
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("twenty4/day25/file")
+private val quizInput = readInput("twenty4/day25/file")
 val locks = mutableListOf<Grid>()
 val keys = mutableListOf<Grid>()
 private fun main() {

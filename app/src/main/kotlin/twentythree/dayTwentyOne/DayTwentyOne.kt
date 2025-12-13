@@ -38,7 +38,7 @@ private class Pedometer(val map: MutableList<String>) {
         return isValid(next, grid) && grid[next.first][next.second] == '.'
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     fun getNextPositions(current: Pair<Int, Int>): Set<Pair<Int, Int>> {
         return buildSet {
             add(current.move(Move.up))

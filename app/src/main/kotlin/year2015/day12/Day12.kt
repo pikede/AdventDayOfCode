@@ -6,7 +6,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day12/file").toMutableList()
+private val questionInput= readInput("year2015/day12/file").toMutableList()
 
 fun main() {
     val solution = Day12Solution(questionInput)

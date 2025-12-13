@@ -3,7 +3,7 @@ package year2015.day9
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day9/file").toMutableList()
+private val questionInput= readInput("year2015/day9/file").toMutableList()
 
 fun main() {
     val solution = Day9Solution(questionInput)
@@ -15,7 +15,7 @@ private class Day9Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     val costs = HashMap<String, HashMap<String, Int>>()
     val paths = ArrayList<Path>()
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     val allLocations = buildSet {
         puzzleInput.forEach { distances ->
             val (origin, _, destination, _, cost) = distances.split(" ")
@@ -72,7 +72,7 @@ private data class Path(val visitedLocations: ArrayList<String> = arrayListOf(),
         visitedLocations += cityName
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     fun removeLastVisitedCity() {
         visitedLocations.removeLast()
     }

@@ -1,9 +1,9 @@
 package twenty4.day24
 
-import utils.maxOf
 import org.aoc.utils.readInput
+import utils.maxOf
 
-private val quizInput= readInput("twenty4/day24/file")
+private val quizInput = readInput("twenty4/day24/file")
 
 private fun main() {
     println(crossedWires(quizInput))
@@ -15,13 +15,13 @@ private fun crossedWires(input: List<String>): Any {
 
     var isCommand = false
     for (i in input) {
-        if(i.isEmpty()){
+        if (i.isEmpty()) {
             isCommand = true
             continue
         }
-        if(isCommand){
+        if (isCommand) {
             commands += i.split(" ")
-        } else{
+        } else {
             val (x, y) = i.split(": ")
             regs[x] = y.toInt()
         }

@@ -1,10 +1,10 @@
 package twenty4.day20
 
+import org.aoc.utils.readInput
 import utils.Direction
 import utils.Point
-import org.aoc.utils.readInput
 
-private val quizInput= readInput("twenty4/day20/file")
+private val quizInput = readInput("twenty4/day20/file")
 
 private fun main() {
     println(raceCondition(quizInput))
@@ -37,7 +37,7 @@ private fun raceCondition(input: List<String>): Any {
     val (distStart, score0) = find(start, end) // start, end
     val (distEnd, _) = find(end, start)
 
-//    fun cheats(threshold: Int, saveSeconds: Int) = grid.all()
+    //    fun cheats(threshold: Int, saveSeconds: Int) = grid.all()
 //        .filter { (p, v) -> v != '#' && p in distStart }
 //        .sumOf { (pos, _) ->
 //            pos.allManhattan(threshold)
@@ -85,8 +85,11 @@ class Grid<T> private constructor(private var grid: MutableList<MutableList<T>>)
     fun deepHashCode() = data().toTypedArray().contentDeepHashCode()
 
     companion object {
-        fun <T> of(input: List<String>, mapper: (Char) -> T) = Grid(input.map { row -> row.map(mapper).toMutableList() }.toMutableList())
-        fun <T> of(cols: Int, rows: Int, v: T) = Grid(Array(rows) { mutableListOf<T>().apply { repeat(cols) { add(v) } } }.toMutableList())
+        fun <T> of(input: List<String>, mapper: (Char) -> T) =
+            Grid(input.map { row -> row.map(mapper).toMutableList() }.toMutableList())
+
+        fun <T> of(cols: Int, rows: Int, v: T) =
+            Grid(Array(rows) { mutableListOf<T>().apply { repeat(cols) { add(v) } } }.toMutableList())
     }
 
     fun rotate2D(): Grid<T> {

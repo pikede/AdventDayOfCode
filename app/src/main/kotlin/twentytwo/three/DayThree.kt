@@ -2,7 +2,7 @@ package twentytwo.three
 
 import org.aoc.utils.readInput
 
-private val input= readInput("src/twentytwo/three/file")
+private val input= readInput("twentytwo/three/file")
 
 fun main() {
     println(partA())  // 8233

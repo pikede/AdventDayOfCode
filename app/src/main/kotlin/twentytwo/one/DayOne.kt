@@ -3,7 +3,7 @@ package twentytwo.one
 import org.aoc.utils.readInput
 import java.util.*
 
-val input= readInput("src/twentytwo/one/file")
+val input= readInput("twentytwo/one/file")
 
 fun main() {
     partOne()  // 69310

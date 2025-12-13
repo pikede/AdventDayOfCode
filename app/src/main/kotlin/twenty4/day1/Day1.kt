@@ -4,7 +4,7 @@ import AOCPuzzle
 import org.aoc.utils.readInput
 import kotlin.math.abs
 
-private val quizInput= readInput("twenty4/day1/file")
+private val quizInput = readInput("twenty4/day1/file")
 
 private fun main() {
     val day1 = Day1

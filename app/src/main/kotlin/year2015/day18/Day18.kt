@@ -4,7 +4,7 @@ import AOCPuzzle
 import utils.Move
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("src/year2015/day18/file")
+private val quizInput= readInput("year2015/day18/file")
 private const val NUMBER_OF_STEPS = 100
 
 private fun main() {

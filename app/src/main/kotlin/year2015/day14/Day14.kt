@@ -3,7 +3,7 @@ package year2015.day14
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day14/file")
+private val questionInput= readInput("year2015/day14/file")
 private const val RaceTimeLimit = 2503
 
 private fun main() {
@@ -61,7 +61,7 @@ private class Day14Solution : AOCPuzzle {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private fun getReindeers() = buildList {
         questionInput.forEach {
             val reindeer = it.split(" ")

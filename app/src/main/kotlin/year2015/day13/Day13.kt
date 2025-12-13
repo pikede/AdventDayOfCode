@@ -3,7 +3,7 @@ package year2015.day13
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day13/file").toMutableList()
+private val questionInput= readInput("year2015/day13/file").toMutableList()
 
 fun main() {
     val solution = Day13Solution(questionInput)
@@ -14,7 +14,7 @@ fun main() {
 private class Day13Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
     private val scores = HashMap<String, HashMap<String, Int>>()
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private val names = buildSet {
         puzzleInput.forEach {
             val candidates = it.replace(".", "").split(" ")

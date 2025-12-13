@@ -3,8 +3,8 @@ package year2015.day16
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val giftsFromOtherAunts= readInput("src/year2015/day16/file")
-private val originalSueGift= readInput("src/year2015/day16/limits.")
+private val giftsFromOtherAunts= readInput("year2015/day16/file")
+private val originalSueGift= readInput("year2015/day16/limits")
 private const val CATS = "cats"
 private const val TREES = "trees"
 private const val GOLDFISH = "goldfish"
@@ -19,7 +19,7 @@ private fun main() {
 private class Day16Solution : AOCPuzzle {
     val giftType = HashSet<String>()
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     val gifts = buildList {
         giftsFromOtherAunts.forEach { giftLine ->
             val originalGift = giftLine.replace("Sue ", "")
