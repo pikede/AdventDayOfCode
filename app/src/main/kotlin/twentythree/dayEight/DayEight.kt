@@ -1,9 +1,10 @@
 package twentythree.dayEight
 
 import utils.greatestCommonDivisor
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayEight/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayEight/file.txt"))
 
 private fun main() {
     val map = Map(input)

@@ -1,8 +1,9 @@
 package twentythree.dayFive
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayFive/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFive/file.txt"))
 
 private fun main() {
     val farm = Farm(input)

@@ -1,8 +1,9 @@
 package twentythree.daySeven
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/daySeven/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daySeven/file.txt"))
 
 private fun main() {
     val camelGame = CamelGame(input)

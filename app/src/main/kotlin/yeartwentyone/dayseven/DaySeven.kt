@@ -1,10 +1,11 @@
 package yeartwentyone.dayseven
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.abs
 
 fun main() {
-    val input = readInput("yeartwentyone/dayseven/file") as ArrayList<String>
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayseven/file.txt")) as ArrayList<String>
     println(Crabs(input).partOne())   //  344297
     println(Crabs(input).partTwo())   //  97164301
 }

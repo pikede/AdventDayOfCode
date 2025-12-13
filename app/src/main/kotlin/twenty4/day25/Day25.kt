@@ -1,8 +1,9 @@
 package twenty4.day25
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val quizInput= readInput("twenty4/day25/file")
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day25/file.txt"))
 val locks = mutableListOf<Grid>()
 val keys = mutableListOf<Grid>()
 private fun main() {

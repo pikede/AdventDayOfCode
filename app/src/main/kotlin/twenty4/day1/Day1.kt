@@ -1,10 +1,11 @@
 package twenty4.day1
 
 import AOCPuzzle
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.abs
 
-private val quizInput= readInput("twenty4/day1/file")
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day1/file.txt"))
 
 private fun main() {
     val day1 = Day1

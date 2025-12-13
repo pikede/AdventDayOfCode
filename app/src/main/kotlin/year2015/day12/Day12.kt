@@ -4,9 +4,10 @@ import AOCPuzzle
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val questionInput= readInput("src/year2015/day12/file").toMutableList()
+private val questionInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day12/file.txt"))
 
 fun main() {
     val solution = Day12Solution(questionInput)

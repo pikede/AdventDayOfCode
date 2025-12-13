@@ -1,9 +1,10 @@
 package yeartwenty.daysix
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun main() {
-    val input = readInput("yeartwenty/daySix/file")
+    val input = Files.readAllLines(Paths.get("src/yeartwenty/daySix/file.txt"))
     println(getNumberOfValidAnswers(input))    // ANS 6583
     println(getNumberOfYesAnswers(input))      // ANS 3290
 }
