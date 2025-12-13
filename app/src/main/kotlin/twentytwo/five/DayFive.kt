@@ -2,7 +2,7 @@ package twentytwo.five
 
 import org.aoc.utils.readInput
 
-val input= readInput("src/twentytwo/five/file")
+val input= readInput("twentytwo/five/file")
 
 fun main() {
     solution()  // A: DHBJQJCCW   B: WJVRLSJJT
@@ -47,7 +47,7 @@ fun solution() {
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+
 fun movePositionsB(cnt: Int, from: Int, to: Int, map: HashMap<Int, MutableList<Char>>) {
     var temp = '*'
     val curr = mutableListOf<Char>()
@@ -66,7 +66,7 @@ fun movePositionsB(cnt: Int, from: Int, to: Int, map: HashMap<Int, MutableList<C
 
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+
 fun movePositions(cnt: Int, from: Int, to: Int, map: HashMap<Int, MutableList<Char>>) {
     var temp = '*'
 

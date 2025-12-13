@@ -3,7 +3,7 @@ package year2015.day17
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("src/year2015/day17/file")
+private val quizInput= readInput("year2015/day17/file")
 private const val CONTAINER_LIMIT = 150
 
 private fun main() {
@@ -15,7 +15,7 @@ private fun main() {
 private class Day17Solution : AOCPuzzle {
     val combinations = ArrayList<ArrayList<Int>>()
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     val containers = buildList {
         quizInput.forEach {
             add(it.toInt())

@@ -5,7 +5,7 @@ import org.aoc.utils.readInput
 
 private val input= readInput("twentythree/dayTwentyThree/file").toMutableList()
 
-@OptIn(ExperimentalStdlibApi::class)
+
 val slopes = buildList {
     for (r in input.indices) {
         for (c in input[r].indices) {
@@ -80,7 +80,7 @@ private class Walker(val input: MutableList<String>) {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private fun getNext(node: Pair<Int, Int>): List<Pair<Int, Int>> {
         val (y, x) = node
         return buildList {
@@ -150,7 +150,7 @@ private class Walker(val input: MutableList<String>) {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private fun getNextWithoutSlope(node: Pair<Int, Int>): List<Pair<Int, Int>> {
         return buildList {
             add(node.moveUp())

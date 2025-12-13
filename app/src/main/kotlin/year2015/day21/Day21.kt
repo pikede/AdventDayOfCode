@@ -3,7 +3,7 @@ package year2015.day21
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("src/year2015/day21/file")
+private val quizInput= readInput("year2015/day21/file")
 private val boss = Player().apply {
     quizInput.map {
         val (attribute, amount) = it.split(": ")
@@ -22,7 +22,7 @@ private fun main() {
 }
 
 private object Day21Solution : AOCPuzzle {
-    @OptIn(ExperimentalStdlibApi::class)
+    
     override fun part1(): Any {
         var leastGoldSpent = Int.MAX_VALUE
         for (weapon in weaponsList) {
@@ -108,7 +108,7 @@ private data class ShopItem(
     val armor: Int = 0
 )
 
-@OptIn(ExperimentalStdlibApi::class)
+
 private val weaponsList = buildList {
     add(ShopItem("Dagger", 8, 4, 0))
     add(ShopItem("Shortsword", 10, 5, 0))
@@ -117,7 +117,7 @@ private val weaponsList = buildList {
     add(ShopItem("Greataxe", 74, 8, 0))
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+
 private val armorsList = buildList {
     add(ShopItem("Leather", 13, 0, 1))
     add(ShopItem("Chainmail", 31, 0, 2))
@@ -127,7 +127,7 @@ private val armorsList = buildList {
     add(ShopItem("Empty", 0, 0, 0))
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+
 private val ringsList = buildList {
     add(ShopItem("Damage +1", 25, 1, 0))
     add(ShopItem("Damage +2", 50, 2, 0))

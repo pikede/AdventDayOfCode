@@ -29,7 +29,7 @@ class CrucibleHeatCalculator(private val inputCrucibles: MutableList<String>) {
         return path.cost
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private fun Node.next(movesPerStraightLine: IntRange): List<Pair<Node, Int>> {
         val moves = when (prevMove) {
             Move.left, Move.right -> listOf(Move.up, Move.down)

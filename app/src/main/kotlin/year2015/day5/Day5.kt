@@ -4,7 +4,7 @@ import AOCPuzzle
 import twentythree.dayTwentyFive.locations
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day5/file").toMutableList()
+private val questionInput= readInput("year2015/day5/file").toMutableList()
 
 fun main() {
     val solution = Day5Solution(questionInput)
@@ -26,7 +26,7 @@ private class Day5Solution(private val puzzleInput: MutableList<String>) : AOCPu
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
+
 private fun String.hasPairWithoutOverlap(): Boolean {
     if (this.length <= 2) {
         return false

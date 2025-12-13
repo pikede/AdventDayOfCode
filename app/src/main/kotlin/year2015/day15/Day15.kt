@@ -3,7 +3,7 @@ package year2015.day15
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day15/file")
+private val questionInput= readInput("year2015/day15/file")
 
 private fun main() {
     val solution = Day15Solution()
@@ -12,7 +12,7 @@ private fun main() {
 }
 
 private class Day15Solution : AOCPuzzle {
-    @OptIn(ExperimentalStdlibApi::class)
+    
     val ingredients = buildList {
         questionInput.forEach {
             val (name, properties) = it.split(": ")
@@ -23,7 +23,7 @@ private class Day15Solution : AOCPuzzle {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     val mixes get() = buildList {
         for (i in 0..100) {
             for (j in 0..100 - i) {

@@ -3,7 +3,7 @@ package twenty4.day23
 import AOCPuzzle
 import org.aoc.utils.readInput
 
-private val quizInput= readInput("twenty4/day23/file")
+private val quizInput = readInput("twenty4/day23/file")
 
 private fun main() {
     println(Day23.part1()) // 1110
@@ -61,7 +61,7 @@ private object Day23 : AOCPuzzle {
             ?: throw IllegalArgumentException("Invalid computers")
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     private fun flattenAllCommonComputers() {
         for ((k, v) in computers) {
             for (i in v) {

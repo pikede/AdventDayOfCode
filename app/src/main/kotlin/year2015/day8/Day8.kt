@@ -4,7 +4,7 @@ import AOCPuzzle
 import org.aoc.utils.readInput
 import java.util.*
 
-private val questionInput= readInput("src/year2015/day8/file").toMutableList()
+private val questionInput = readInput("year2015/day8/file").toMutableList()
 
 fun main() {
     val solution = Day8Solution(questionInput)
@@ -30,6 +30,7 @@ private class Day8Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
                         stack.push(this[i])
                         i++
                     }
+
                     'x' -> {
                         stack.push(this[i])
                         i += 3
@@ -67,6 +68,7 @@ private class Day8Solution(val puzzleInput: MutableList<String>) : AOCPuzzle {
                         stack.push(this[i])
                         i++
                     }
+
                     'x' -> {
                         stack.push(this[i])
                         stack.push(this[i + 1])

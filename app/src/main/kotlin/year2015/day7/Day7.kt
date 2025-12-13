@@ -4,7 +4,7 @@ import AOCPuzzle
 import org.aoc.utils.readInput
 import java.util.function.IntBinaryOperator
 
-private val questionInput= readInput("src/year2015/day7/file").toMutableList()
+private val questionInput= readInput("year2015/day7/file").toMutableList()
 
 fun main() {
     val solution = Day7Solution(questionInput)

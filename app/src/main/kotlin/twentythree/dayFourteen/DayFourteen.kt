@@ -34,7 +34,7 @@ class RockTilt(private val input: MutableList<String>) {
         return getRockLoadSum(grid)
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
+    
     fun getRockLoadSumAfterBillionCycles(): Int {
         val cache = mutableMapOf<List<String>, Int>()
         var grid = rocks.toList()

@@ -5,7 +5,7 @@ import utils.Point2D
 import utils.getMoveByArrowDirection
 import org.aoc.utils.readInput
 
-private val questionInput= readInput("src/year2015/day3/file").toMutableList()
+private val questionInput= readInput("year2015/day3/file").toMutableList()
 
 fun main() {
     val solution = Day3Solution(questionInput)
