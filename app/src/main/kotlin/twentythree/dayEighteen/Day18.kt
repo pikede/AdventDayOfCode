@@ -2,14 +2,13 @@ package twentythree.dayEighteen
 
 import utils.*
 import java.lang.Math.abs
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayEighteen/file.txt"))
+private val input= readInput("twentythree/dayEighteen/file")
 
 fun main() {
-    println(part1(input))
-    println(part2(input))
+    println(part1(input))  // 67891
+    println(part2(input))  // 94116351948493
 }
 
 fun part1(input: List<String>): Long {
@@ -70,7 +69,7 @@ fun shoelaceDig(digs: List<DigLine>): Long {
         .let { abs(it / 2) }
 
     // Include the outline of the shape, off by 1 because of corners
-    val outline = digs.sumBy { it.steps } / 2 + 1
+    val outline = digs.sumOf { it.steps } / 2 + 1
 
     return shoelace + outline
 }

@@ -1,9 +1,8 @@
 package twentythree.daythree
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daythree/file.txt"))
+private val input= readInput("twentythree/daythree/file").toMutableList()
 
 fun main() {
     val partChecker = PartChecker(input) // doesn't count space complexity for input

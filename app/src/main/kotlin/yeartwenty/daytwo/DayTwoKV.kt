@@ -1,14 +1,13 @@
 package yeartwenty.daytwo
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 const val dash = '-'
 const val colon = ':'
 const val space = ' '
 
 fun main() {
-    val listOfPasswords = Files.readAllLines(Paths.get("src/yeartwenty/daytwo/file.txt"))
+    val listOfPasswords = readInput("yeartwenty/daytwo/file")
 
     println(getNumberOfValidPasswordsPartOne(listOfPasswords))   // ANS=> 622
     println(getNumberOfValidPasswordsPartTwo(listOfPasswords))   // ANS => 263

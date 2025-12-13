@@ -1,10 +1,9 @@
 package twentythree.dayThirteen
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import kotlin.text.StringBuilder
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayThirteen/file.txt"))
+private val input= readInput("twentythree/dayThirteen/file").toMutableList()
 
 private fun main() {
     val patternNotes = PatternNotes(input)

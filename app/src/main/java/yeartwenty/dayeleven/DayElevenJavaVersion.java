@@ -9,7 +9,7 @@ import java.util.List;
 public class DayElevenJavaVersion {
 
     public static void main(String[] args) throws IOException {
-        List<String> textFile = Files.readAllLines(Paths.get("src/yeartwenty/dayeleven/file.txt"));
+        List<String> textFile = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/dayeleven/file.txt"));
         System.out.println(new SeatingSystemJava(textFile).partOne());  // ANS 2316
         System.out.println(new SeatingSystemJava(textFile).partTwo());  // ANS 2128
     }

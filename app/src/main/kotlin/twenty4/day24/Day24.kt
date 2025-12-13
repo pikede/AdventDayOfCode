@@ -1,10 +1,9 @@
 package twenty4.day24
 
 import utils.maxOf
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day24/file.txt"))
+private val quizInput= readInput("twenty4/day24/file")
 
 private fun main() {
     println(crossedWires(quizInput))

@@ -1,10 +1,9 @@
 package twentythree.dayTwentyFive
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import java.util.LinkedList
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwentyFive/file.txt"))
+private val input= readInput("twentythree/dayTwentyFive/file")
 val destinations = input.map { it.split(": ") }.associate { (origin, destinations) ->
     origin to destinations.split(" ").map { it.trim() }.filter { it.isNotEmpty() }.toMutableSet()
 }.toMutableMap()

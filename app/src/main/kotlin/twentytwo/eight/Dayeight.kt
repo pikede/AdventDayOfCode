@@ -1,9 +1,8 @@
 package twentytwo.eight
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-val input = Files.readAllLines(Paths.get("src/twentytwo/eight/file.txt"))
+val input = readInput("twentytwo/eight/file")
 
 fun main() {
     println(partA())  //1688
