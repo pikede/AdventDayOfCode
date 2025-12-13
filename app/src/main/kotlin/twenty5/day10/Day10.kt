@@ -2,12 +2,11 @@ package twenty5.day10
 
 import AOCPuzzle
 import com.microsoft.z3.*
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 private typealias Buttons = MutableList<Int>
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("/Users/prince/Desktop/AdventDayOfCode2020/app/src/main/kotlin/twenty5/day10/file.txt"))
+private val quizInput = readInput("twenty5/day10/file")
 
 private fun main() {
     println(Day10.part1())  //  514

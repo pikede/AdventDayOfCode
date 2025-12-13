@@ -1,10 +1,11 @@
 package twenty5.day1
 
 import AOCPuzzle
+import org.aoc.utils.readInput
 import java.nio.file.Files
 import java.nio.file.Paths
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty5/day1/file.txt"))
+private val quizInput= readInput("twenty5/day1/file")
 
 private fun main() {
     println(Day1.part1()) // 1158

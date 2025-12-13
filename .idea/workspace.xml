@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="" />
+    <list default="true" id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day10/Day10.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day10/Day10.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day3/Day3.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day3/Day3.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day4/Day4.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day4/Day4.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day5/Day5.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day5/Day5.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day7/Day7.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day7/Day7.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day8/Day8.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day8/Day8.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day9/Day9.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day9/Day9.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/twentythree/daySeventeen/DaySeventeen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/kotlin/twentythree/daySeventeen/DaySeventeen.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,6 +93,12 @@
     "Kotlin.Day10Kt.executor": "Run",
     "Kotlin.Day11Kt.executor": "Run",
     "Kotlin.Day12Kt.executor": "Run",
+    "Kotlin.Day5Kt.executor": "Run",
+    "Kotlin.Day6Kt.executor": "Run",
+    "Kotlin.Day7Kt.executor": "Run",
+    "Kotlin.Day8Kt.executor": "Run",
+    "Kotlin.Day9Kt.executor": "Run",
+    "Kotlin.DaySeventeenKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "2025-day-9",
@@ -103,67 +119,37 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.Day12Kt">
-    <configuration name="AdventDayOfCode2020 [check]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="check" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="AdventDayOfCode2020 [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="run" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="Day10Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="twenty5.day10.Day10Kt" />
+  <component name="RunManager" selected="Kotlin.Day1Kt">
+    <configuration name="Day1Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty5.day1.Day1Kt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day11Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="twenty5.day11.Day11Kt" />
+    <configuration name="Day4Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty5.day4.Day4Kt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day12Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="twenty5.day12.Day12Kt" />
+    <configuration name="Day5Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty5.day5.Day5Kt" />
+      <module name="AdventDayOfCode2020.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Day6Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty5.day6.Day6Kt" />
+      <module name="AdventDayOfCode2020.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Day7Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty5.day7.Day7Kt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -180,11 +166,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.Day12Kt" />
-        <item itemvalue="Kotlin.Day11Kt" />
-        <item itemvalue="Kotlin.Day10Kt" />
-        <item itemvalue="Gradle.AdventDayOfCode2020 [run]" />
-        <item itemvalue="Gradle.AdventDayOfCode2020 [check]" />
+        <item itemvalue="Kotlin.Day1Kt" />
+        <item itemvalue="Kotlin.Day7Kt" />
+        <item itemvalue="Kotlin.Day6Kt" />
+        <item itemvalue="Kotlin.Day5Kt" />
+        <item itemvalue="Kotlin.Day4Kt" />
       </list>
     </recent_temporary>
   </component>

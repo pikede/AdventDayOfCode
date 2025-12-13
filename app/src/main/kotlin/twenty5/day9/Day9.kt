@@ -1,17 +1,14 @@
 package twenty5.day9
 
 import AOCPuzzle
+import org.aoc.utils.readInput
 import utils.Point2D
-import utils.Point3D
 import utils.maxOf
-import utils.runningFold
-import java.nio.file.Files
-import java.nio.file.Paths
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty5/day9/file.txt"))
+private val quizInput = readInput("twenty5/day9/file")
 
 private fun main() {
     println(Day9.part1()) // 4776487744

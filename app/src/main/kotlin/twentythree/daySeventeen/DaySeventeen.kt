@@ -1,5 +1,6 @@
 package twentythree.daySeventeen
 
+import org.aoc.utils.readInput
 import utils.Move
 import utils.Point2D
 import utils.aStarSearch
@@ -7,7 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daySeventeen/file.txt"))
+private val input = readInput("twentythree/daySeventeen/file").toMutableList()
 
 private fun main() {
     val crucibleHeatCalculator = CrucibleHeatCalculator(input)
