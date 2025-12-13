@@ -1,9 +1,23 @@
 package yeartwenty.dayone
 
-import org.aoc.utils.readInput
+import java.lang.StringBuilder
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun main() {
-    val listOfReports = readInput("yeartwenty/dayone/file").map { it.toInt() }
+    val listOfReports = mutableListOf<Int>()
+    val content = String(Files.readAllBytes(Paths.get("src/yeartwenty/dayone/file.txt")))
+    val number = StringBuilder()
+
+    for (i in content.indices) {
+        if (Character.getNumericValue(content[i]) != -1) {
+            number.append(content[i])
+        } else {
+            listOfReports.add(Integer.valueOf(number.toString()))
+            number.clear()
+        }
+    }
+
     println(get2020ReportRepair(listOfReports, 2020))                // 471019
     println(get2020ReportRepairVariationTwo(listOfReports, 2020))    // 471019
     println(get2020ReportRepairPart2(listOfReports, 2020))           // ANS => 103927824

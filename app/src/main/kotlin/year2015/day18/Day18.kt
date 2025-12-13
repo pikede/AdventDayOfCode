@@ -2,9 +2,10 @@ package year2015.day18
 
 import AOCPuzzle
 import utils.Move
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val quizInput= readInput("src/year2015/day18/file")
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day18/file.txt"))
 private const val NUMBER_OF_STEPS = 100
 
 private fun main() {

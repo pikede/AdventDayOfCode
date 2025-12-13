@@ -3,10 +3,11 @@ package twentythree.dayTwentyOne
 import utils.Move
 import utils.isValid
 import utils.move
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 
-private val input= readInput("twentythree/dayTwentyOne/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwentyOne/file.txt"))
 private fun main() {
     val pedometer = Pedometer(input)
     println(pedometer.part1(64))

@@ -23,7 +23,7 @@ private object Day10 : AOCPuzzle {
         val minCounts = mutableListOf<Int>()
         requirements.forEach {
             val buttonPresses = mutableListOf<Buttons>()
-            val counts = mutableListOf(Int.MAX_VALUE)
+            val counts = mutableListOf<Int>(Int.MAX_VALUE)
             getFewestButtonPresses(
                 it.buttons,
                 it.indicators,
@@ -32,13 +32,14 @@ private object Day10 : AOCPuzzle {
                 counts,
                 0
             )
-            val min = counts.min()
+            val min = counts.min() ?: Int.MIN_VALUE
             minCounts += min
         }
         println(minCounts)
         return minCounts.sum()
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getFewestButtonPresses(
         availableButtons: List<Buttons>,
         targetIndicator: String,
@@ -48,7 +49,7 @@ private object Day10 : AOCPuzzle {
         count: Int
     ) {
         if (counts[0] == 1) return
-        if (counts.min() <= count) return
+        if (counts.min()!! <= count) return
         if (currentIndicator == targetIndicator) {
             counts[0] = minOf(count, counts[0])
             return
@@ -132,7 +133,7 @@ private object Day10 : AOCPuzzle {
                 val status = opt.Check()
 
                 if (status == Status.SATISFIABLE) {
-                    val model = opt.model
+                    val model = opt.getModel()
                     ((model.evaluate(buttonVariables.sum(), true) as IntNum).int)
                 } else {
                     throw IllegalStateException("No Solution Found")

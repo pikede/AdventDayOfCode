@@ -1,8 +1,9 @@
 package twentythree.dayTwo
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayTwo/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwo/file.txt"))
 
 fun main() {
     val game = BallGame(input)

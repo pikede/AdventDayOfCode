@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DayThree {
     public static void main(String[] args) throws IOException {
-        List<String> path = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/daythree/file.txt"));
+        List<String> path = Files.readAllLines(Paths.get("src/yeartwenty/daythree/file.txt"));
 
         System.out.println(getNumberOfTreesEncountered(path, 3, 1));    // ANS=>  272
         System.out.println(getNumberOfTreesEncounteredPartOneVariation2(path, 3, 1));    // ANS=>  272

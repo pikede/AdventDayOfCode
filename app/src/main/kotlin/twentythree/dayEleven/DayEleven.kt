@@ -1,10 +1,11 @@
 package twentythree.dayEleven
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.collections.HashSet
 import kotlin.math.abs
 
-private val input= readInput("twentythree/dayEleven/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayEleven/file.txt"))
 
 private fun main() {
     val cosmicGrid = CosmicGrid(input)

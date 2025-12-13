@@ -1,9 +1,10 @@
 package year2015.day21
 
 import AOCPuzzle
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val quizInput= readInput("src/year2015/day21/file")
+private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day21/file.txt"))
 private val boss = Player().apply {
     quizInput.map {
         val (attribute, amount) = it.split(": ")

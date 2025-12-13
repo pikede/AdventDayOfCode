@@ -1,21 +1,22 @@
 package twentythree.dayFifteen
 
 import utils.zipWithIndex
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayFifteen/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFifteen/file.txt"))
 
 private fun main() {
     val asciiCalculator = AsciiCalculator(input)
-    println(asciiCalculator.calculateHashSum())   // 516070
-    println(asciiCalculator.calculateFocusSum())  // 244981
+    println(asciiCalculator.calculateHashSum())
+    println(asciiCalculator.calculateFocusSum())
 }
 
-class AsciiCalculator(lensesInput: MutableList<String>) {
+class AsciiCalculator(lenseInput: MutableList<String>) {
     private val sequence = ArrayList<String>()
 
     init {
-        sequence.addAll(lensesInput[0].split(","))
+        sequence.addAll(lenseInput[0].split(","))
     }
 
     fun calculateHashSum(): Int {
@@ -71,5 +72,5 @@ class Box {
 }
 
 private fun getHash(currentString: String): Int {
-    return currentString.fold(0) { acc, current -> ((acc + current.code) * 17) % 256 }
+    return currentString.fold(0) { acc, current -> ((acc + current.toInt()) * 17) % 256 }
 }

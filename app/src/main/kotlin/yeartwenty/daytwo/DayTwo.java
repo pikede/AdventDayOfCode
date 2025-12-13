@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DayTwo {
     public static void main(String[] args) throws IOException {
-        List<String> str = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/daytwo/file.txt"));
+        List<String> str = Files.readAllLines(Paths.get("src/yeartwenty/daytwo/file.txt"));
 
         System.out.println(getNumberOfValidPasswordsPartOne(str)); // ANS => 622
         System.out.println(getNumberOfValidPasswordsPartTwo(str)); // ANS => 263

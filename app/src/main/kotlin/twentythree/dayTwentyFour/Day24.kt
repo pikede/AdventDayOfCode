@@ -1,8 +1,9 @@
 package twentythree.dayTwentyFour
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayTwentyFour/file")
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwentyFour/file.txt"))
 
 val stones = input.map {
     val temp = it.split(" @ ", ", ").map { it.trim().toDouble() }
