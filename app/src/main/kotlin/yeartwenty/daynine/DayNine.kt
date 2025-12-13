@@ -1,10 +1,9 @@
 package yeartwenty.daynine
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwenty/daynine/file.txt"))
+    val input = readInput("yeartwenty/daynine/file")
     val target = XMASData(input).getExceptionNumber()
     println(target)   //ANS -> 88311122
     println(XMASData(input).getEncryptionWeakness(target))    // ANS  ->  13549369

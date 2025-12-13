@@ -1,10 +1,9 @@
 package yeartwentyone.dayten
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayten/file.txt"))
+    val input = readInput("yeartwentyone/dayten/file")
     val solution = SyntaxScoring(input as ArrayList)
     println(solution.partOne())   //  318099
     println(solution.partTwo())   //  2389738699

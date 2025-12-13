@@ -10,7 +10,6 @@ private fun main() {
     println(Day7.part2())   // 357525737893560
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 private object Day7 : AOCPuzzle {
     private val col = quizInput.first { it.contains('S') }.indexOf('S')
 
@@ -19,7 +18,7 @@ private object Day7 : AOCPuzzle {
 
     override fun part1(): Int {
         val splitterColumns = mutableSetOf(col)
-        return splitIndexes.sumBy { line ->
+        return splitIndexes.sumOf { line ->
             (1..line.lastIndex)
                 .filter { it in splitterColumns && line[it] == '^' } // keeps only locations with a splitter
                 .onEach { i ->

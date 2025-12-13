@@ -2,11 +2,10 @@ package twentythree.dayTwenty
 
 import utils.lcm
 import utils.transpose
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import java.util.*
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwenty/file.txt"))
+private val input= readInput("twentythree/dayTwenty/file")
 
 fun main() {
     println(part1(input))

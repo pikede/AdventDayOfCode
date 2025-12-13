@@ -12,7 +12,7 @@ public class DayOne {
         List<Integer> listOfReports = new ArrayList<>();
 
         String content;
-        content = new String(Files.readAllBytes(Paths.get("src/yeartwenty/dayone/file.txt")));
+        content = new String(Files.readAllBytes(Paths.get("app/src/main/kotlin/yeartwenty/dayone/file.txt")));
 
         StringBuilder number = new StringBuilder();
 

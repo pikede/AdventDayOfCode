@@ -1,10 +1,9 @@
 package yeartwenty.dayeleven
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwenty/dayeleven/file.txt"))
+    val input = readInput("yeartwenty/dayeleven/file")
     println(SeatingSystem(input).getNumberOfOccupiedSeats())   // ANS 2316
     println(SeatingSystem(input).partTwo())     // ANS 2128
 }

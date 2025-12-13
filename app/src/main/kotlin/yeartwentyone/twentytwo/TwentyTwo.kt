@@ -1,10 +1,9 @@
 package yeartwentyone.twentytwo
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/twentytwo/file.txt")) as ArrayList<String>
+    val input = readInput("yeartwentyone/twentytwo/file") as ArrayList<String>
 
     Reactor(input)
 }

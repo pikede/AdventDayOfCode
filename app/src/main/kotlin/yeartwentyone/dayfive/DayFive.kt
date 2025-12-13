@@ -1,10 +1,9 @@
 package yeartwentyone.dayfive
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayfive/file.txt")) as ArrayList<String>
+    val input = readInput("yeartwentyone/dayfive/file") as ArrayList<String>
     val solution = HydrothermalVenture(input)
     println(solution.partOne())  //  7438
     println(solution.partTwo())  //  21406
