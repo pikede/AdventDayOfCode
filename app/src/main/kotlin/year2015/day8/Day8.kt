@@ -1,10 +1,11 @@
 package year2015.day8
 
 import AOCPuzzle
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 
-private val questionInput= readInput("src/year2015/day8/file").toMutableList()
+private val questionInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day8/file.txt"))
 
 fun main() {
     val solution = Day8Solution(questionInput)

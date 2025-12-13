@@ -1,9 +1,10 @@
 package twentytwo.nine
 
 import java.lang.Exception
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-val rawInput = readInput("twentytwo/nine/file")
+val rawInput = Files.readAllLines(Paths.get("src/twentytwo/nine/file.txt"))
 
 fun main() {
     var input = mutableListOf<Instruction>()

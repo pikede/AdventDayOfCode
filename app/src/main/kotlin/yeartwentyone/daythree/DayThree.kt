@@ -1,10 +1,11 @@
 package yeartwentyone.daythree
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.pow
 
 fun main() {
-    val input = readInput("yeartwentyone/daythree/file")
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/daythree/file.txt"))
     val p1 = GammaEpsilon(input as ArrayList<String>)
     println(p1.partOne())     // 4118544
     println(p1.partTwo())     // 3832770

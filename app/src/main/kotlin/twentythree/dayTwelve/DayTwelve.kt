@@ -1,8 +1,9 @@
 package twentythree.dayTwelve
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayTwelve/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwelve/file.txt"))
 
 private fun main() {
     val calculator = PermutationCalculator(input)

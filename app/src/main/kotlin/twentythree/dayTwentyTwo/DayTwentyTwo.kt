@@ -1,10 +1,11 @@
 package twentythree.dayTwentyTwo
 
 import utils.maxOf
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 
-private val input= readInput("twentythree/dayTwentyTwo/file")
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwentyTwo/file.txt"))
 
 fun main() {
     println(part1(input))

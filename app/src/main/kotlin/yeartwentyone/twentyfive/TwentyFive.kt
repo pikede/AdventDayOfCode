@@ -1,9 +1,10 @@
 package yeartwentyone.twentyfive
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun main() {
-    val input = readInput("yeartwentyone/twentyfive/file") as ArrayList<String>
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/twentyfive/file.txt")) as ArrayList<String>
     SeaCucumbers(input)
 }
 

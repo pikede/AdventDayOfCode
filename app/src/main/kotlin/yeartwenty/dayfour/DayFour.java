@@ -8,7 +8,7 @@ import java.util.List;
 public class DayFour {
 
     public static void main(String[] args) throws IOException {
-        List<String> inputFile = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/dayfour/file.txt"));
+        List<String> inputFile = Files.readAllLines(Paths.get("src/yeartwenty/dayfour/file.txt"));
         System.out.println(cntValidPassports(inputFile));   // ANS -> 202
 //        System.out.println(cntValidPassportsPartTwo(inputFile));
     }

@@ -1,9 +1,10 @@
 package yeartwentyone.daynine
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun main() {
-    val input = readInput("yeartwentyone/daynine/file")
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/daynine/file.txt"))
     val solution = SmokeBasin(input as ArrayList<String>)
     println(solution.partOne())   // 564
     println(solution.partTwo())   // 1038240

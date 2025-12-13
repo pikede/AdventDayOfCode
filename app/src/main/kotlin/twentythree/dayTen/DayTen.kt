@@ -1,12 +1,13 @@
 package twentythree.dayTen
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 import kotlin.math.ceil
 
-private val input= readInput("twentythree/dayTen/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTen/file.txt"))
 
 fun main() {
     val maze = PipeMaze(input)

@@ -1,8 +1,9 @@
 package twentythree.dayNineteen
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayNineteen/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayNineteen/file.txt"))
 
 private fun main() {
     val calculator = WorkflowCalculator(input)

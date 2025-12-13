@@ -1,8 +1,9 @@
 package twentytwo.five
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-val input= readInput("src/twentytwo/five/file")
+val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentytwo/five/file.txt"))
 
 fun main() {
     solution()  // A: DHBJQJCCW   B: WJVRLSJJT

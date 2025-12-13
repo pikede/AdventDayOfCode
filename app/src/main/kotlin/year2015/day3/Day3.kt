@@ -3,9 +3,10 @@ package year2015.day3
 import AOCPuzzle
 import utils.Point2D
 import utils.getMoveByArrowDirection
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val questionInput= readInput("src/year2015/day3/file").toMutableList()
+private val questionInput: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day3/file.txt"))
 
 fun main() {
     val solution = Day3Solution(questionInput)

@@ -1,9 +1,10 @@
 package twentythree.dayTwentyThree
 
 import utils.*
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 
-private val input= readInput("twentythree/dayTwentyThree/file").toMutableList()
+private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayTwentyThree/file.txt"))
 
 @OptIn(ExperimentalStdlibApi::class)
 val slopes = buildList {

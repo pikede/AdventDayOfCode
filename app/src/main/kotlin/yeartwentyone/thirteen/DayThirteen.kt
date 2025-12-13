@@ -1,10 +1,11 @@
 package yeartwentyone.thirteen
 
-import org.aoc.utils.readInput
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.abs
 
 fun main() {
-    val input = readInput("yeartwentyone/thirteen/file") as ArrayList<String>
+    val input = Files.readAllLines(Paths.get("src/yeartwentyone/thirteen/file.txt")) as ArrayList<String>
     println(Fold(input).partOne())  //  810
     Fold(input).partTwo()  //  HLBUBGFR
 }

@@ -25,6 +25,7 @@ private object Day8 : AOCPuzzle {
         }
     }.sortedBy { it.first }
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun part1V1(): Any {
         return DSU(points).let { du ->
             distances.take(1000).forEach { (_, p) -> du.union(p.first, p.second) }
@@ -32,6 +33,7 @@ private object Day8 : AOCPuzzle {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     override fun part1(): Any {
         val n = 1000
         val distances = (0..points.lastIndex).flatMap { i ->
