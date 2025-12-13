@@ -7,10 +7,9 @@ import gears.Point
 import gears.puzzle
 import utils.Direction
 import utils.Point
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day21/file.txt"))
+private val quizInput= readInput("twenty4/day21/file")
 
 fun main() {
     keypadConundrum(quizInput)

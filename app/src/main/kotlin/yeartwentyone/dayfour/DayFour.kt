@@ -1,10 +1,9 @@
 package yeartwentyone.dayfour
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayfour/file.txt")) as ArrayList<String>
+    val input = readInput("yeartwentyone/dayfour/file") as ArrayList<String>
     val two = ArrayList(input)
 
     println(Bingo(input).partOne())   // 34506

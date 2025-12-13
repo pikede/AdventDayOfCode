@@ -1,11 +1,10 @@
 package year2015.day16
 
 import AOCPuzzle
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val giftsFromOtherAunts: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/file.txt"))
-private val originalSueGift: MutableList<String> = Files.readAllLines(Paths.get("src/year2015/day16/limits.txt"))
+private val giftsFromOtherAunts= readInput("src/year2015/day16/file")
+private val originalSueGift= readInput("src/year2015/day16/limits.")
 private const val CATS = "cats"
 private const val TREES = "trees"
 private const val GOLDFISH = "goldfish"

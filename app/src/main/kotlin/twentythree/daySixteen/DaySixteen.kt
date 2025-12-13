@@ -1,10 +1,9 @@
 package twentythree.daySixteen
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import java.util.*
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/daySixteen/file.txt"))
+private val input= readInput("twentythree/daySixteen/file").toMutableList()
 
 private fun main() {
     val beamSplitter = BeamEnergizeCounter(input)

@@ -1,11 +1,10 @@
 package yeartwenty.daythree
 
 import java.math.BigInteger
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val path = Files.readAllLines(Paths.get("src/yeartwenty/daythree/file.txt"))
+    val path = readInput("yeartwenty/daythree/file")
     println(getNumberOfTreesEncountered(path, moveRightBy = 3, moveDownBy = 1)) // ANS=>  272
     println(getNumberOfTreesEncounteredPart2BigDecimal(treePath = path))        // ANS=> 3898725600
     println(getNumberOfTreesEncounteredPart2Long(treePath = path))              // ANS=> 3898725600

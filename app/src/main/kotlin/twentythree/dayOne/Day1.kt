@@ -1,9 +1,8 @@
 package twentythree.dayOne
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayOne/file.txt"))
+private val input= readInput("twentythree/dayOne/file").toMutableList()
 
 fun main() {
     println(calibrationOne(input))

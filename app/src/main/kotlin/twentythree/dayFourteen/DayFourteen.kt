@@ -1,10 +1,9 @@
 package twentythree.dayFourteen
 
 import utils.printGrid
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFourteen/file.txt"))
+private val input= readInput("twentythree/dayFourteen/file").toMutableList()
 
 fun main() {
     val rockTilt = RockTilt(input)

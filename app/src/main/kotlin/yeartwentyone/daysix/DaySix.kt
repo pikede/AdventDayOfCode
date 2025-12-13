@@ -1,11 +1,10 @@
 package yeartwentyone.daysix
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
 
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/daysix/file.txt")) as ArrayList<String>
+    val input = readInput("yeartwentyone/daysix/file") as ArrayList<String>
     println(LanternFish(input).partOne())  //  345387
     println(LanternFish(input).partTwo())  //  1574445493136
 }

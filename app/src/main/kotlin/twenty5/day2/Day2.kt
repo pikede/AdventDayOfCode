@@ -2,8 +2,7 @@ package twenty5.day2
 
 import AOCPuzzle
 import org.aoc.utils.readInput
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 private val quizInput = readInput("twenty5/day2/file")
 

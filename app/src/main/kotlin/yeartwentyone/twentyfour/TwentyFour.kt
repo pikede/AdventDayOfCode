@@ -1,13 +1,12 @@
 package yeartwentyone.twentyfour
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/twentyfour/file.txt")) as ArrayList<String>
+    val input = readInput("yeartwentyone/twentyfour/file") as ArrayList<String>
 
 
     val comparator = Comparator { a: IntArray, b: IntArray -> a[0] - b[0] }
