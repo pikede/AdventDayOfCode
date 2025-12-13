@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +125,7 @@
     "Kotlin.DayeightKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "update-gitignore",
+    "git-widget-placeholder": "adds-workspace",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/prince/Desktop/AdventDayOfCode2020/app/src/main/java",
     "project.structure.last.edited": "Global Libraries",
@@ -155,7 +156,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.DayFifteenKt">
+  <component name="RunManager" selected="Application.DayFour">
     <configuration name="DayElevenJavaVersion" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="yeartwenty.dayeleven.DayElevenJavaVersion" />
       <module name="AdventDayOfCode2020.app.main" />
@@ -195,8 +196,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day20Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="twenty4.day20.Day20Kt" />
+    <configuration name="DayEightKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twentythree.dayEight.DayEightKt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -220,11 +221,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.DayEightKt" />
         <item itemvalue="Kotlin.DayFifteenKt" />
         <item itemvalue="Application.DayNineJava" />
         <item itemvalue="Application.DayFour" />
         <item itemvalue="Application.DayElevenJavaVersion" />
-        <item itemvalue="Kotlin.Day20Kt" />
       </list>
     </recent_temporary>
   </component>
