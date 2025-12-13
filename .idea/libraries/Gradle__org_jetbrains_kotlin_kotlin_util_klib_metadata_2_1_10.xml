@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.kotlin:kotlin-util-klib-metadata:2.1.10" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.kotlin" artifactId="kotlin-util-klib-metadata" version="2.1.10" baseVersion="2.1.10" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-klib-metadata/2.1.10/3cbf1aad1a5bf3718f9cf86d39cbbdad6dc51414/kotlin-util-klib-metadata-2.1.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-klib-metadata/2.1.10/4510768280d329b9d904d2d8d290276c2c95b102/kotlin-util-klib-metadata-2.1.10-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

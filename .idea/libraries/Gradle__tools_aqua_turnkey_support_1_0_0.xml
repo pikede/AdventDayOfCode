@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: tools.aqua:turnkey-support:1.0.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="tools.aqua" artifactId="turnkey-support" version="1.0.0" baseVersion="1.0.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tools.aqua/turnkey-support/1.0.0/88ca748d9078147647ad2f23dd51c67f0798e965/turnkey-support-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
