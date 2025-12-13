@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AdventDayOfCode2020.iml" filepath="$PROJECT_DIR$/.idea/modules/AdventDayOfCode2020.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.test.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AdventDayOfCode2020.app.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/buildSrc/AdventDayOfCode2020.buildSrc.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/AdventDayOfCode2020.utils.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AdventDayOfCode2020.iml" filepath="$PROJECT_DIR$/AdventDayOfCode2020.iml" />
     </modules>
   </component>
 </project>
