@@ -104,9 +104,7 @@ private class DSU(points: List<Point3D>) {
         if (rootX == rootY) return false
 
         if (size[rootX] < size[rootY]) {
-            val temp = rootX
-            rootX = rootY
-            rootY = temp
+            val temp = rootX; rootX = rootY; rootY = temp
         }
 
         root[rootY] = rootX
