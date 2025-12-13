@@ -9,7 +9,6 @@ import java.util.List;
 public class DayNineJava {
     public static void main(String[] args) throws IOException {
         List<String> inputFile = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/daynine/file.txt"));
-
         ExceptionNumber exceptionNumberObj = new ExceptionNumber(inputFile);
         int exceptionNumber = exceptionNumberObj.getExceptionNumber();
         System.out.println(exceptionNumber);   // ANS -> 88311122
