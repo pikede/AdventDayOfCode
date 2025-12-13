@@ -1,13 +1,12 @@
 package yeartwentyone.fourteen
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/fourteen/file.txt")) as ArrayList
+    val input = readInput("yeartwentyone/fourteen/file") as ArrayList
     println(Polymers(input).partOne())  // 2740
     println(Polymers(input).partTwo())  // 2959788056211
 }

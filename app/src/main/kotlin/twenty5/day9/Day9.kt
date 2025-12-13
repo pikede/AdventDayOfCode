@@ -24,7 +24,6 @@ private object Day9 : AOCPuzzle {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     val cornerPairs = buildList {
         (0..points.lastIndex).flatMap { i ->
             (i + 1..points.lastIndex).map { j ->

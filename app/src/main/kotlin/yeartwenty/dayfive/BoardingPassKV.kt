@@ -1,13 +1,12 @@
 package yeartwenty.dayfive
 
 import java.lang.StringBuilder
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import kotlin.math.floor
 import kotlin.math.pow
 
 fun main() {
-    val textFile = Files.readAllLines(Paths.get("src/yeartwenty/dayfive/file.txt"))
+    val textFile = readInput("yeartwenty/dayfive/file")
     println(getMaxBoardingPassSeatId(textFile))    // ANS:  883
     println(getMaxBoardingPassSeatIdVariationTwo(textFile))    // ANS:  883
     println(getMissingBoardingSeatPartTwo(textFile))    // ANS:  532

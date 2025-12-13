@@ -1,9 +1,8 @@
 package twentytwo.seven
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-val input = Files.readAllLines(Paths.get("src/twentytwo/seven/file.txt"))
+val input = readInput("twentytwo/seven/file")
 // TODO comeback
 
 fun main() {
