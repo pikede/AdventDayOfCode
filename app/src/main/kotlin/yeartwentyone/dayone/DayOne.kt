@@ -1,10 +1,9 @@
 package yeartwentyone.dayone
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/dayone/file.txt"))
+    val input = readInput("yeartwentyone/dayone/file")
     println(partOne(input))   // 1548
     println(partTwo(input))   // 1589
 }

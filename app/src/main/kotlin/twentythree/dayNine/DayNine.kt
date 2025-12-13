@@ -1,9 +1,8 @@
 package twentythree.dayNine
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayNine/file.txt"))
+private val input= readInput("twentythree/dayNine/file").toMutableList()
 
 private fun main() {
     val sequenceCalculator = SequenceCalculator(input)

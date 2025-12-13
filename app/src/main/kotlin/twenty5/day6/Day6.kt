@@ -33,7 +33,7 @@ private object Day6 : AOCPuzzle {
         return total
     }
 
-   override fun part2(): Long {
+    override fun part2(): Long {
         val splits: List<IntRange> =
             quizInput
                 .last()
@@ -111,61 +111,61 @@ private object Day6 : AOCPuzzle {
                 .joinToString("")
         }
 
-  /*  @OptIn(ExperimentalStdlibApi::class)
-    override fun part2(): Long {
-        val numbers = quizInput
-            .takeWhile { !it.hasSign() }
-            .map {
-                it.split(" ")
-                    .filter { it.isNotEmpty() }
-                    .map { it.toInt() }
-            }
-        val signs = quizInput.first { it.hasSign() }.split(" ").filter { it.isNotEmpty() }
+    /*  @OptIn(ExperimentalStdlibApi::class)
+      override fun part2(): Long {
+          val numbers = quizInput
+              .takeWhile { !it.hasSign() }
+              .map {
+                  it.split(" ")
+                      .filter { it.isNotEmpty() }
+                      .map { it.toInt() }
+              }
+          val signs = quizInput.first { it.hasSign() }.split(" ").filter { it.isNotEmpty() }
 
-        var total = 0L
-        signs.forEachIndexed { index, sign ->
-            var currentTotal = if (sign == "+") 0L else 1L
+          var total = 0L
+          signs.forEachIndexed { index, sign ->
+              var currentTotal = if (sign == "+") 0L else 1L
 
-            when {
-                sign == "+" -> {
-                    val column = buildList {
-                        numbers.forEach { add(it[index].toString().reversed().toInt()) }
-                    }
-                    val max = column.maxBy { it.toString().length }?.toString()?.length ?: throw Exception("Invalid 1")
-                    val array = MutableList(max) { 0 }
-                    for (i in column.map { it.toString() }) {
-                        var position = max - 1
-                        for (j in i.indices.reversed()) {
-                            array[position] = (array[position] * 10) + (i[j] - '0')
-                            position--
-                        }
-                    }
-                    print(array)
-                    array.onEach { currentTotal += it }
-                    currentTotal = array.sum().toLong()
-                }
+              when {
+                  sign == "+" -> {
+                      val column = buildList {
+                          numbers.forEach { add(it[index].toString().reversed().toInt()) }
+                      }
+                      val max = column.maxBy { it.toString().length }?.toString()?.length ?: throw Exception("Invalid 1")
+                      val array = MutableList(max) { 0 }
+                      for (i in column.map { it.toString() }) {
+                          var position = max - 1
+                          for (j in i.indices.reversed()) {
+                              array[position] = (array[position] * 10) + (i[j] - '0')
+                              position--
+                          }
+                      }
+                      print(array)
+                      array.onEach { currentTotal += it }
+                      currentTotal = array.sum().toLong()
+                  }
 
-                else -> {
-                    val column = buildList {
-                        numbers.forEach { add(it[index]) }
-                    }
+                  else -> {
+                      val column = buildList {
+                          numbers.forEach { add(it[index]) }
+                      }
 
-                    val max = column.maxBy { it.toString().length }?.toString()?.length ?: throw Exception("Invalid 1")
-                    val array = MutableList(max) { 0 }
-                    for (i in column.map { it.toString() }) {
-                        for ((position, j) in i.indices.withIndex()) {
-                            array[position] = (array[position] * 10) + (i[j] - '0')
-                        }
-                    }
-                    array.filter { it > 0 }.onEach { currentTotal *= it }
-                }
-            }
-            println(" ===> $currentTotal   $sign")
-            total += currentTotal
-        }
-        return total
-    } // too high 11648318079248
-        */
+                      val max = column.maxBy { it.toString().length }?.toString()?.length ?: throw Exception("Invalid 1")
+                      val array = MutableList(max) { 0 }
+                      for (i in column.map { it.toString() }) {
+                          for ((position, j) in i.indices.withIndex()) {
+                              array[position] = (array[position] * 10) + (i[j] - '0')
+                          }
+                      }
+                      array.filter { it > 0 }.onEach { currentTotal *= it }
+                  }
+              }
+              println(" ===> $currentTotal   $sign")
+              total += currentTotal
+          }
+          return total
+      } // too high 11648318079248
+          */
 
     private fun String.hasSign() = '+' in this || '*' in this
 }

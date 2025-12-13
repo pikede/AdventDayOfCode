@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BinaryBoarding {
     public static void main(String[] args) throws IOException {
-        List<String> textFile = Files.readAllLines(Paths.get("src/yeartwenty/dayfive/file.txt"));
+        List<String> textFile = Files.readAllLines(Paths.get("app/src/main/kotlin/yeartwenty/dayfive/file.txt"));
         System.out.println(getMaxBoardingPassSeatId(textFile));  // ANS: 883
         System.out.println(getMaxBoardingPassSeatIdVariationTwo(textFile));    // ANS: 883
 

@@ -1,9 +1,8 @@
 package twentytwo.three
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentytwo/three/file.txt"))
+private val input= readInput("src/twentytwo/three/file")
 
 fun main() {
     println(partA())  // 8233

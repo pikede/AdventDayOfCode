@@ -1,11 +1,10 @@
 package yeartwentyone.sixteen
 
 import java.math.BigInteger
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val input = Files.readAllLines(Paths.get("src/yeartwentyone/sixteen/file.txt")) as ArrayList
+    val input = readInput("yeartwentyone/sixteen/file") as ArrayList
     println(Decoder(input))
 }
 

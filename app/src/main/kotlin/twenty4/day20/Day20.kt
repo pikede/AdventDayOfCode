@@ -2,16 +2,14 @@ package twenty4.day20
 
 import utils.Direction
 import utils.Point
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
-private val quizInput: MutableList<String> = Files.readAllLines(Paths.get("src/twenty4/day20/file.txt"))
+private val quizInput= readInput("twenty4/day20/file")
 
 private fun main() {
     println(raceCondition(quizInput))
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 private fun raceCondition(input: List<String>): Any {
 
     val grid = Grid.of(input) { it }

@@ -1,10 +1,9 @@
 package twentythree.dayFour
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 import kotlin.math.pow
 
-private val input: MutableList<String> = Files.readAllLines(Paths.get("src/twentythree/dayFour/file.txt"))
+private val input= readInput("twentythree/dayFour/file").toMutableList()
 
 fun main() {
     val scratchCards = ScratchCards(input)

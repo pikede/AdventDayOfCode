@@ -1,10 +1,9 @@
 package yeartwenty.dayfour
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.aoc.utils.readInput
 
 fun main() {
-    val passportLists = Files.readAllLines(Paths.get("src/yeartwenty/dayfour/file.txt"))
+    val passportLists = readInput("yeartwenty/dayfour/file")
     println(getNumValidPassportsPart1(passportLists))   // ANS: 202
     println(getNumValidPassportsPart2(passportLists))   // ANS: 137
 }
