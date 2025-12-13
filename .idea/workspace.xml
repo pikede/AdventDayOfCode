@@ -4,15 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9880db31-104d-4d09-a263-a2f43d696543" name="Changes" comment="" />
+    <list default="true" id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -55,79 +65,178 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="36gRtDOGP8j4frDlw7pCJsmtB2g" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.AdventDayOfCode2020 [build].executor": "Run",
+    "Gradle.AdventDayOfCode2020 [check].executor": "Run",
+    "Gradle.AdventDayOfCode2020 [run].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:DayThree.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.day3.DayThree.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.dayeleven.DayElevenJavaVersion.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.dayfive.BinaryBoarding.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.dayfour.DayFour.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.daynine.DayNineJava.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.dayone.DayOne.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.daythree.DayThree.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.daytwo.DayTwo.main()].executor": "Run",
+    "Gradle.AdventDayOfCode2020:app [:app:yeartwenty.fifteen.TurnNumbers.main()].executor": "Run",
     "Gradle.Build AdventDayOfCode2020.executor": "Run",
     "Kotlin.Day10Kt.executor": "Run",
     "Kotlin.Day11Kt.executor": "Run",
     "Kotlin.Day12Kt.executor": "Run",
-    "Kotlin.Day14Kt.executor": "Run",
-    "Kotlin.Day15Kt.executor": "Run",
-    "Kotlin.Day16Kt.executor": "Run",
-    "Kotlin.Day17Kt.executor": "Run",
     "Kotlin.Day18Kt.executor": "Run",
     "Kotlin.Day1Kt.executor": "Run",
     "Kotlin.Day20Kt.executor": "Run",
-    "Kotlin.Day21Kt.executor": "Run",
+    "Kotlin.Day23Kt.executor": "Run",
+    "Kotlin.Day2Kt.executor": "Run",
+    "Kotlin.Day3Kt.executor": "Run",
+    "Kotlin.Day4Kt.executor": "Run",
+    "Kotlin.Day5Kt.executor": "Run",
+    "Kotlin.Day6Kt.executor": "Run",
+    "Kotlin.Day7Kt.executor": "Run",
     "Kotlin.Day8Kt.executor": "Run",
+    "Kotlin.Day9Kt.executor": "Run",
     "Kotlin.DayEightKt.executor": "Run",
     "Kotlin.DayFifteenKt.executor": "Run",
-    "Kotlin.DayFiveKt.executor": "Run",
-    "Kotlin.DayOneKt.executor": "Run",
-    "Kotlin.DayThreeKt.executor": "Run",
-    "git-widget-placeholder": "removes-some-idea-files"
+    "Kotlin.DayFourKt.executor": "Run",
+    "Kotlin.DayOneKVKt.executor": "Run",
+    "Kotlin.DaySeventeenKt.executor": "Run",
+    "Kotlin.DayThreeKTKt.executor": "Run",
+    "Kotlin.DayTwelveKt.executor": "Run",
+    "Kotlin.DayeightKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "update-gitignore",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/prince/Desktop/AdventDayOfCode2020/app/src/main/java",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
-  <component name="RunManager" selected="Kotlin.Day18Kt">
-    <configuration name="Day11Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="year2015.day11.Day11Kt" />
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/java" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/app/src/main/kotlin/twenty5/day11" />
+      <recent name="$PROJECT_DIR$/app/src/main/kotlin" />
+      <recent name="$PROJECT_DIR$/gradle" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/java/yeartwenty/day3" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="yeartwenty.daynine" />
+      <recent name="yeartwenty.dayfour" />
+      <recent name="yeartwenty.dayeleven" />
+      <recent name="yeartwenty.dayfive" />
+      <recent name="yeartwenty.dayone" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.DayFifteenKt">
+    <configuration name="DayElevenJavaVersion" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="yeartwenty.dayeleven.DayElevenJavaVersion" />
+      <module name="AdventDayOfCode2020.app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="yeartwenty.dayeleven.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DayFour" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="yeartwenty.dayfour.DayFour" />
+      <module name="AdventDayOfCode2020.app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="yeartwenty.dayfour.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DayNineJava" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="yeartwenty.daynine.DayNineJava" />
+      <module name="AdventDayOfCode2020.app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="yeartwenty.daynine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Day20Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twenty4.day20.Day20Kt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day12Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="year2015.day12.Day12Kt" />
+    <configuration name="DayFifteenKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="twentythree.dayFifteen.DayFifteenKt" />
       <module name="AdventDayOfCode2020.app.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day14Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="year2015.day14.Day14Kt" />
-      <module name="AdventDayOfCode2020.app.main" />
+    <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Day15Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="year2015.day15.Day15Kt" />
-      <module name="AdventDayOfCode2020.app.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Day18Kt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="year2015.day18.Day18Kt" />
-      <module name="AdventDayOfCode2020.app.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.Day18Kt" />
-        <item itemvalue="Kotlin.Day15Kt" />
-        <item itemvalue="Kotlin.Day14Kt" />
-        <item itemvalue="Kotlin.Day12Kt" />
-        <item itemvalue="Kotlin.Day11Kt" />
+        <item itemvalue="Kotlin.DayFifteenKt" />
+        <item itemvalue="Application.DayNineJava" />
+        <item itemvalue="Application.DayFour" />
+        <item itemvalue="Application.DayElevenJavaVersion" />
+        <item itemvalue="Kotlin.Day20Kt" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0315546e-fef6-45c3-9511-14a4f1ef4f7b" name="Changes" comment="" />
+      <created>1765426440720</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765426440720</updated>
+    </task>
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
